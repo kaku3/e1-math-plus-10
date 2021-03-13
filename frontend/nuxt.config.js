@@ -13,7 +13,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - frontend',
+    titleTemplate: '%s - 足し算10',
     title: 'frontend',
     meta: [
       { charset: 'utf-8' },
@@ -44,8 +44,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // // https://go.nuxtjs.dev/pwa
-    // '@nuxtjs/pwa',
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
     'nuxt-webfontloader'
@@ -59,12 +59,12 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
-  // // PWA module configuration: https://go.nuxtjs.dev/pwa
-  // pwa: {
-  //   manifest: {
-  //     lang: 'en',
-  //   },
-  // },
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      lang: 'en',
+    },
+  },
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
