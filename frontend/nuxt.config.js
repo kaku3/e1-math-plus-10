@@ -4,6 +4,10 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  router: {
+    base: '/e1-math-plus-10/frontend/dist/'
+  },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -40,8 +44,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // // https://go.nuxtjs.dev/pwa
-    // '@nuxtjs/pwa',
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
     'nuxt-webfontloader'
