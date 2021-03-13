@@ -143,7 +143,7 @@ export default Vue.extend({
   props: {
     'gameMode': {
       type: String,
-      default: ''
+      default: 'modeEndress'
     },
     'questionCount': {
       type: Number,
@@ -171,7 +171,6 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.gameMode)
     this.startGame();
   },
   destroyed() {
