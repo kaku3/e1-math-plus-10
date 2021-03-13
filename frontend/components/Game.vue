@@ -1,34 +1,38 @@
 <template>
   <div class="game">
     <v-card>
-      <v-card-text v-if="isTitle" class="green lighten-5">
-        <v-row class="text-center">
+      <v-card-text class="green lighten-4">
+        <v-row class="score-container">
+          <v-col cols="auto" class="label">じかん</v-col>
+          <v-col cols="auto" class="value">{{getDisplayTime()}}</v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto" class="label">スコア</v-col>
+          <v-col cols="auto" class="value">{{score}}</v-col>
+          <v-slide-y-reverse-transition>
+            <v-col
+              v-if="showAnswerEffect"
+              cols="auto"
+              class="effect orange--text"
+            >
+              {{effects.answer}}
+            </v-col>
+          </v-slide-y-reverse-transition>
+        </v-row>
+      </v-card-text>
+      <v-card-text v-if="isEnd" class="green lighten-5">
+        <v-row class="ex-canvas text-center">
           <v-col align-self="center">
             <v-btn
               x-large
               color="blue"
               dark
               @click="startGame()">
-              はじめる
+              もういちど
             </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-text v-else-if="isGame" class="green lighten-5">
-        <v-row class="score-container">
-          <v-spacer></v-spacer>
-          <v-scroll-x-transition>
-            <v-col
-              v-if="showAddScoreEffect"
-              cols="auto"
-              class="effect orange--text"
-            >
-              +{{addedScore}}
-            </v-col>
-          </v-scroll-x-transition>
-          <v-col cols="auto" class="label">スコア</v-col>
-          <v-col cols="auto" class="value">{{score}}</v-col>
-        </v-row>
         <v-row class="ex-canvas">
           <v-col class="blue-grey--text" align-self="center">
             {{question}}
@@ -47,7 +51,7 @@
           </v-col>
         </v-row>
         <v-progress-linear
-          v-modal="time"
+          v-model="progress"
           color="blue darken-2"
           height="8"
         >
@@ -78,7 +82,7 @@
 <style lang="scss" scoped>
 
 .ex-canvas {
-  height: 30vh;
+  height: 20vh;
 }
 .ex-canvas > * {
   padding: .25rem;
@@ -123,67 +127,131 @@
 <script lang="ts">
 import Vue from 'vue'
 
+const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
+const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
+const ANSWER_TIME_LEVELUP_TIME = 1000
+const ANSWER_TIME_MIN = 3000
+
 function answered(v: number) {
   return v !== 0 ? v : ''
 }
 
 export default Vue.extend({
+  props: {
+    'gameMode': {
+      type: String,
+      default: ''
+    },
+    'questionCount': {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
-      mode: "title",
+      mode: "",
       score: 0,
       question: 0,
       answer: 0,
-      time: 100,
-      startTime: 0,
-      addedScore: 0,
-      addScoreEffectTimerId: -1
+      startTime: 0, // endress : 1問あたりの時間
+      answerTime: 0,  // endress : 1問あたりの時間
+      gameStartTime: 0,
+      gameTime: 0,
+      penaltyTime: 0,
+      gameTimerId: -1,
+      progress: 0,
+      effects: {
+        answer: '',
+        answerTimerId: -1
+      }
     }
+  },
+  mounted() {
+    console.log(this.gameMode)
+    this.startGame();
+  },
+  destroyed() {
+    console.log("destroyed")
+    this.endGame()
   },
   methods: {
     startGame() {
+      const self = this
       this.score = 0
       this.mode = 'game'
+      this.gameStartTime = (new Date()).getTime()
       this.next()
+      this.gameTimerId = window.setInterval(function() {
+        self.gameTime = (new Date()).getTime() - self.gameStartTime
+        if(self.updateProgress()) {
+          self.endGame()
+        }
+      }, 200)
+    },
+    endGame() {
+      this.mode = 'end'
+      window.clearInterval(this.gameTimerId)
+      this.gameTimerId = -1
     },
     next() {
-      this.question = Math.floor((Math.random() * 8)) + 1
+      this.question = (this.question * 3 + Math.floor(Math.random() * 100)) % 9 + 1
       this.answer = 0
-      this.startTime = Date.now().valueOf()
+      this.startTime = (new Date()).getTime()
+      this.anserTime = ANSWER_TIME_DEFAULT - Math.floor(this.score / ANSWER_TIME_LEVELUP_COUNT) * ANSWER_TIME_LEVELUP_TIME
+      this.answerTime = Math.max(this.answerTime, ANSWER_TIME_MIN)
     },
     onAnswer(v: number) {
       if(this.question + v === 10) {
-        this.addScore()
+        this.score += 1
+        this.updateProgress()
+        this.answerEffect('o')
+        if(this.gameMode === 'modeSprint') {
+          if(this.score === this.questionCount) {
+            this.endGame()
+            return
+          }
+        }
         this.next()
       } else {
         this.answer = v
+        this.penaltyTime += 1000
+        this.answerTime -= 1000
+        this.answerEffect('x')
       }
     },
-    addScore() {
-      const score = 100 - Math.floor((Date.now().valueOf() - this.startTime) / 100)
-      if(score <= 0) {
-        return
+    answerEffect(answer: string) {
+      this.effects.answer = answer
+      if(this.effects.answerTimerId != -1) {
+        window.clearTimeout(this.answerTimerId)
       }
-
-      this.addedScore = score
-      this.score += score
-      if(this.addScoreEffectTimerId != -1) {
-        window.clearTimeout(this.addScoreEffectTimerId)
-      }
-      this.addScoreEffectTimerId = window.setTimeout(() => {
-        this.addScoreEffectTimerId = -1
+      this.effects.answerTimerId = window.setTimeout(() => {
+        this.effects.answerTimerId = -1
       }, 1000)
-    }
+    },
+    getDisplayTime(): number {
+      return Math.floor((this.gameTime  + this.penaltyTime) / 1000)
+    },
+    updateProgress(): boolean {
+      if(this.gameMode === 'modeEndress') {
+        let time = this.answerTime - ((new Date()).getTime() -this.startTime)
+        time = Math.max(time, 0)
+        this.progress = (time * 100) / this.answerTime
+        return time === 0
+      } else {
+        this.progress = (this.score * 100) / this.questionCount
+      }
+      return false
+    },
   },
   computed: {
-    isTitle(): boolean {
-      return this.mode === 'title'
+    isEnd(): boolean {
+      return this.mode === 'end'
     },
     isGame(): boolean {
       return this.mode === 'game'
     },
-    showAddScoreEffect(): boolean {
-      return this.addScoreEffectTimerId != -1
+    showAnswerEffect(): boolean {
+      return this.effects.answerTimerId != -1
     }
   },
   filters: {
