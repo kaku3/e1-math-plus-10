@@ -6,8 +6,8 @@
           <v-col cols="auto" class="label">じかん</v-col>
           <v-col cols="auto" class="value">{{getDisplayTime()}}</v-col>
           <v-spacer></v-spacer>
-          <v-col cols="auto" class="label">スコア</v-col>
-          <v-col cols="auto" class="value">{{score}}</v-col>
+          <v-col cols="auto" class="label">とくてん</v-col>
+          <v-col cols="auto" class="value">{{displayScore}}</v-col>
           <v-slide-y-reverse-transition>
             <v-col
               v-if="showAnswerEffect"
@@ -82,7 +82,7 @@
 <style lang="scss" scoped>
 
 .ex-canvas {
-  height: 20vh;
+  height: 16vh;
 }
 .ex-canvas > * {
   padding: .25rem;
@@ -129,8 +129,8 @@ import Vue from 'vue'
 
 const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
-const ANSWER_TIME_LEVELUP_TIME = 2000
-const ANSWER_TIME_MIN = 3000
+const ANSWER_TIME_LEVELUP_TIME = 3000
+const ANSWER_TIME_MIN = 1500
 
 function answered(v: number) {
   return v !== 0 ? v : ''
@@ -151,6 +151,7 @@ export default Vue.extend({
     return {
       mode: "",
       score: 0,
+      score2: 0,
       question: 0,
       answer: 0,
       startTime: 0, // endress : 1問あたりの時間
@@ -178,6 +179,7 @@ export default Vue.extend({
     startGame() {
       const self = this
       this.score = 0
+      this.score2 = 0
       this.mode = 'game'
       this.gameStartTime = (new Date()).getTime()
       this.next()
@@ -207,6 +209,11 @@ export default Vue.extend({
 
       if(this.question + v === 10) {
         this.score += 1
+        if(this.gameMode === 'modeEndress') {
+          let time = this.answerTime - ((new Date()).getTime() -this.startTime)
+          time = Math.max(time, 0)
+          this.score2 += Math.floor(time / 100)
+        }
         this.updateProgress()
         this.answerEffect('o')
         if(this.gameMode === 'modeSprint') {
@@ -253,6 +260,9 @@ export default Vue.extend({
     },
     isGame(): boolean {
       return this.mode === 'game'
+    },
+    displayScore(): number {
+      return this.gameMode === 'modeSprint' ? this.score : this.score2
     },
     showAnswerEffect(): boolean {
       return this.effects.answerTimerId != -1

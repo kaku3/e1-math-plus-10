@@ -29,7 +29,7 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
-    <v-main>
+    <v-main class="grey lighten-2">
       <v-container>
         <nuxt />
       </v-container>
