@@ -127,6 +127,9 @@
 <script lang="ts">
 import Vue from 'vue'
 
+import seAnswerOk from '~/assets/se/answer-ok.mp3'
+import seAnswerNg from '~/assets/se/answer-ng.mp3'
+
 const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
 const ANSWER_TIME_LEVELUP_TIME = 3000
@@ -216,6 +219,8 @@ export default Vue.extend({
         }
         this.updateProgress()
         this.answerEffect('o')
+        const se = new Audio(seAnswerOk)
+        se.play()
         if(this.gameMode === 'modeSprint') {
           if(this.score === this.questionCount) {
             this.endGame()
@@ -228,6 +233,8 @@ export default Vue.extend({
         this.penaltyTime += 1000
         this.answerTime -= 1000
         this.answerEffect('x')
+        const se = new Audio(seAnswerNg)
+        se.play()
       }
     },
     answerEffect(answer: string) {
