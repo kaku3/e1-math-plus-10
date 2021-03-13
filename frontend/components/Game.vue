@@ -129,7 +129,7 @@ import Vue from 'vue'
 
 const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
-const ANSWER_TIME_LEVELUP_TIME = 1000
+const ANSWER_TIME_LEVELUP_TIME = 2000
 const ANSWER_TIME_MIN = 3000
 
 function answered(v: number) {
@@ -201,6 +201,10 @@ export default Vue.extend({
       this.answerTime = Math.max(this.answerTime, ANSWER_TIME_MIN)
     },
     onAnswer(v: number) {
+      if(this.mode !== 'game') {
+        return
+      }
+
       if(this.question + v === 10) {
         this.score += 1
         this.updateProgress()
