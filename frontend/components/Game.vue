@@ -197,7 +197,7 @@ export default Vue.extend({
       this.question = (this.question * 3 + Math.floor(Math.random() * 100)) % 9 + 1
       this.answer = 0
       this.startTime = (new Date()).getTime()
-      this.anserTime = ANSWER_TIME_DEFAULT - Math.floor(this.score / ANSWER_TIME_LEVELUP_COUNT) * ANSWER_TIME_LEVELUP_TIME
+      this.answerTime = ANSWER_TIME_DEFAULT - Math.floor(this.score / ANSWER_TIME_LEVELUP_COUNT) * ANSWER_TIME_LEVELUP_TIME
       this.answerTime = Math.max(this.answerTime, ANSWER_TIME_MIN)
     },
     onAnswer(v: number) {
@@ -222,7 +222,7 @@ export default Vue.extend({
     answerEffect(answer: string) {
       this.effects.answer = answer
       if(this.effects.answerTimerId != -1) {
-        window.clearTimeout(this.answerTimerId)
+        window.clearTimeout(this.effects.answerTimerId)
       }
       this.effects.answerTimerId = window.setTimeout(() => {
         this.effects.answerTimerId = -1

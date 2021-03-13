@@ -49,14 +49,14 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
+          icon: 'mdi-playlist-edit',
           title: 'Home',
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'HiScore',
-          to: '/hiscores',
+          icon: 'mdi-calendar-blank',
+          title: '履歴',
+          to: '/histories',
         },
       ],
       miniVariant: false,

@@ -13,7 +13,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - 足し算10',
+    titleTemplate: '%s - 足し算練習帳',
     title: 'frontend',
     meta: [
       { charset: 'utf-8' },
