@@ -5,13 +5,28 @@
       <v-tab>30問モード</v-tab>
       <v-tab>たいきゅうモード</v-tab>
       <v-tab-item>
-        <HistoryChart :data="sprint10History" :options="chartOptions" />
+        <HistoryChart :data="sprint10History()" :options="chartOptions" />
+        <v-row class="mt-2 mb-2 text-center">
+          <v-col>
+            <v-btn @click="startGame('modeSprint', 10)" color="primary">はじめる</v-btn>
+          </v-col>
+        </v-row>
       </v-tab-item>
       <v-tab-item>
-        <HistoryChart :data="sprint30History" :options="chartOptions" />
+        <HistoryChart :data="sprint30History()" :options="chartOptions" />
+        <v-row class="mt-2 mb-2 text-center">
+          <v-col>
+            <v-btn @click="startGame('modeSprint', 30)" color="primary">はじめる</v-btn>
+          </v-col>
+        </v-row>
       </v-tab-item>
       <v-tab-item>
-        <HistoryChart :data="endressHistory" :options="chartOptions" />
+        <HistoryChart :data="endressHistory()" :options="chartOptions" />
+        <v-row class="mt-2 mb-2 text-center">
+          <v-col>
+            <v-btn @click="startGame('modeEndress', -1)" color="primary">はじめる</v-btn>
+          </v-col>
+        </v-row>
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -22,7 +37,7 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, GameMode } from '~/models/Score'
 
-import HistoryChart from '~/components/charts/HistoryChart'
+import HistoryChart from '~/components/charts/HistoryChart.vue'
 
 
 type HistoryDate = {
@@ -65,6 +80,10 @@ export default Vue.extend({
     console.log(this.historyDates)
   },
   methods: {
+    startGame(mode: string, count: string) {
+      this.$router.push({ name: 'game', params: { mode: mode, count: count }})
+    },
+
     termFilteredScoreEntities(mode: string): ScoreEntity[] {
       if(this.historyDates.length == 0) {
         return []
@@ -81,13 +100,59 @@ export default Vue.extend({
       const _counts = []
       const _scores = []
 
-      for(const d:HistoryDate of this.historyDates) {
+      for(const d of this.historyDates) {
         const ss = scores.filter((o:ScoreEntity) => d.time <= o.createdAt && o.createdAt < d.time1)
         _counts.push(ss.length)
         if(ss.length > 0) {
           _scores.push(
             ss.map((o:ScoreEntity) => o.score)
               .reduce((a:number, c:number) => Math.min(a, c))
+          )
+        } else {
+          _scores.push(0)
+        }
+      }
+
+      return {
+        labels: this.chartDates,
+        datasets: [
+          {
+            label: 'とくてん',
+            data: _scores,
+            borderColor: "#FFC107",
+            backgroundColor: "transparent",
+            yAxisID: "y-axis-1"
+          },
+          {
+            label: 'かいすう',
+            data: _counts,
+            borderColor: "#009688",
+            backgroundColor: "transparent",
+            yAxisID: "y-axis-2"
+          }
+        ]
+      }
+    },
+
+    sprint10History() {
+      return this.sprintHistory(this.sprint10Scores)
+    },
+    sprint30History() {
+      return this.sprintHistory(this.sprint30Scores)
+    },
+
+    endressHistory() {
+      const scores = this.endressScores
+      const _counts = []
+      const _scores = []
+
+      for(const d of this.historyDates) {
+        const ss = scores.filter((o:ScoreEntity) => d.time <= o.createdAt && o.createdAt < d.time1)
+        _counts.push(ss.length)
+        if(ss.length > 0) {
+          _scores.push(
+            ss.map((o:ScoreEntity) => o.score)
+              .reduce((a:number, c:number) => Math.max(a, c))
           )
         } else {
           _scores.push(0)
@@ -133,51 +198,6 @@ export default Vue.extend({
     },
     endressScores(): ScoreEntity[] {
       return this.termFilteredScoreEntities('modeEndress')
-    },
-
-    sprint10History() {
-      return this.sprintHistory(this.sprint10Scores)
-    },
-    sprint30History() {
-      return this.sprintHistory(this.sprint30Scores)
-    },
-    endressHistory() {
-      const scores = this.endressScores
-      const _counts = []
-      const _scores = []
-
-      for(const d:HistoryDate of this.historyDates) {
-        const ss = scores.filter((o:ScoreEntity) => d.time <= o.createdAt && o.createdAt < d.time1)
-        _counts.push(ss.length)
-        if(ss.length > 0) {
-          _scores.push(
-            ss.map((o:ScoreEntity) => o.score)
-              .reduce((a:number, c:number) => Math.max(a, c))
-          )
-        } else {
-          _scores.push(0)
-        }
-      }
-
-      return {
-        labels: this.chartDates,
-        datasets: [
-          {
-            label: 'とくてん',
-            data: _scores,
-            borderColor: "#FFC107",
-            backgroundColor: "transparent",
-            yAxisID: "y-axis-1"
-          },
-          {
-            label: 'かいすう',
-            data: _counts,
-            borderColor: "#009688",
-            backgroundColor: "transparent",
-            yAxisID: "y-axis-2"
-          }
-        ]
-      }
     },
 
     chartOptions() {
