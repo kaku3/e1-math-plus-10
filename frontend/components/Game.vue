@@ -4,7 +4,7 @@
       <v-card-text class="green lighten-4">
         <v-row class="score-container">
           <v-col cols="auto" class="label">じかん</v-col>
-          <v-col cols="auto" class="value">{{getDisplayTime()}}</v-col>
+          <v-col cols="auto" class="value">{{getDisplayTime() | time2}}</v-col>
           <v-spacer></v-spacer>
           <v-col cols="auto" class="label">とくてん</v-col>
           <v-col cols="auto" class="value">{{displayScore}}</v-col>
@@ -58,7 +58,7 @@
         </v-progress-linear>
       </v-card-text>
     </v-card>
-    <v-card>
+    <v-card v-if="isGame">
       <v-card-text class="digit-keyboard cyan lighten-4">
         <v-row justify="center">
           <v-col cols="4"><v-btn @click="onAnswer(1)">1</v-btn></v-col>
@@ -126,6 +126,10 @@
 </style>
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import AccountStore from '~/store/AccountStore'
+import HiscoreStore from '~/store/HiscoreStore'
+import { GameMode } from '~/models/Hiscore'
 
 import seAnswerOk from '~/assets/se/answer-ok.mp3'
 import seAnswerNg from '~/assets/se/answer-ng.mp3'
@@ -134,6 +138,10 @@ const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
 const ANSWER_TIME_LEVELUP_TIME = 3000
 const ANSWER_TIME_MIN = 1500
+
+function time2(v: number) {
+  return v.toFixed(2)
+}
 
 function answered(v: number) {
   return v !== 0 ? v : ''
@@ -188,6 +196,7 @@ export default Vue.extend({
       this.gameTimerId = window.setInterval(function() {
         self.gameTime = (new Date()).getTime() - self.gameStartTime
         if(self.updateProgress()) {
+          self.addEndressHiscore()
           self.endGame()
         }
       }, 200)
@@ -222,6 +231,7 @@ export default Vue.extend({
         se.play()
         if(this.gameMode === 'modeSprint') {
           if(this.score === this.questionCount) {
+            this.addSprintHiscore()
             this.endGame()
             return
           }
@@ -246,7 +256,7 @@ export default Vue.extend({
       }, 1000)
     },
     getDisplayTime(): number {
-      return Math.floor((this.gameTime  + this.penaltyTime) / 1000)
+      return (this.gameTime  + this.penaltyTime) / 1000
     },
     updateProgress(): boolean {
       if(this.gameMode === 'modeEndress') {
@@ -259,8 +269,28 @@ export default Vue.extend({
       }
       return false
     },
+
+    addSprintHiscore() {
+      const name = this.accountStore.account.name
+      const mode = `${this.gameMode}-${this.questionCount}` as GameMode
+      const score = this.getDisplayTime()
+      this.hiscoreStore.addHiscore({ mode, name, score })
+    },
+    addEndressHiscore() {
+      const name = this.accountStore.account.name
+      const mode = `${this.gameMode}` as GameMode
+      const score: number = this.score2
+      this.hiscoreStore.addHiscore({ mode, name, score })
+    },
   },
   computed: {
+    accountStore() : AccountStore {
+      return getModule(AccountStore, this.$store) as AccountStore
+    },
+    hiscoreStore() : HiscoreStore {
+      return getModule(HiscoreStore, this.$store) as HiscoreStore
+    },
+
     isEnd(): boolean {
       return this.mode === 'end'
     },
@@ -275,7 +305,8 @@ export default Vue.extend({
     }
   },
   filters: {
-    answered
+    answered,
+    time2
   }
 })
 </script>

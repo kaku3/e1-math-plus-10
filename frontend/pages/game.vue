@@ -3,6 +3,9 @@
     <v-col cols="12">
       <Game :gameMode="mode" :questionCount="count" />
     </v-col>
+    <v-col cols="12">
+      <Hiscore :gameMode="mode" :questionCount="count" />
+    </v-col>
   </v-row>
 </template>
 <script lang="ts">
