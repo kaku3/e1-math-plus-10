@@ -9,6 +9,7 @@ import { Account } from '~/models/Account'
 })
 export default class ScoreStore extends VuexModule {
   scores: ScoreEntity[] = []
+  lastScore: ScoreEntity | null = null
 
   public get sprint10Hiscores(): ScoreEntity[] {
     let scores = this.scores
@@ -37,10 +38,15 @@ export default class ScoreStore extends VuexModule {
     this.scores = scores
   }
 
-  @Action({ commit: 'setScores' })
+  @Mutation
+  setLastScore(score: ScoreEntity) {
+    this.lastScore = score
+  }
+
+  @Action
   async addScore(score: ScoreEntity) {
     const scores = [...this.scores, score ]
     this.setScores(scores)
-    return this.scores
+    this.setLastScore(score)
   }
 }

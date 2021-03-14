@@ -133,6 +133,8 @@ import { GameMode } from '~/models/Score'
 
 import seAnswerOk from '~/assets/se/answer-ok.mp3'
 import seAnswerNg from '~/assets/se/answer-ng.mp3'
+import seFinish from '~/assets/se/finish.mp3'
+import seEnd from '~/assets/se/end.mp3'
 
 const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
@@ -198,6 +200,8 @@ export default Vue.extend({
         if(self.updateProgress()) {
           self.addEndressScore()
           self.endGame()
+          const seEnd_ = new Audio(seEnd)
+          seEnd_.play()
         }
       }, 200)
     },
@@ -233,6 +237,8 @@ export default Vue.extend({
           if(this.score === this.questionCount) {
             this.addSprintScore()
             this.endGame()
+            const seFinish_ = new Audio(seFinish)
+            seFinish_.play()
             return
           }
         }

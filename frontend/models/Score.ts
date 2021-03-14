@@ -6,3 +6,10 @@ export interface ScoreEntity {
   score: number
   createdAt: number
 }
+
+export function NullScoreEntity(mode:GameMode):ScoreEntity {
+  const name = ''
+  const score = 0
+  const createdAt = 0
+  return { mode, name, score, createdAt }
+}
