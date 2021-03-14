@@ -15,8 +15,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
-import HiscoreStore from '~/store/HiscoreStore'
-import { Hiscore, GameMode } from '~/models/Hiscore'
+import ScoreStore from '~/store/ScoreStore'
+import { ScoreEntity, GameMode } from '~/models/Score'
 
 export default Vue.extend({
   props: {
@@ -30,17 +30,17 @@ export default Vue.extend({
     }
   },
   computed: {
-    hiscoreStore(): HiscoreStore {
-      return getModule(HiscoreStore, this.$store) as HiscoreStore
+    scoreStore(): ScoreStore {
+      return getModule(ScoreStore, this.$store) as ScoreStore
     },
-    hiscores(): Hiscore[] {
+    hiscores(): ScoreEntity[] {
       switch(this.displayGameMode) {
         case 'modeSprint-10':
-          return this.hiscoreStore.sprint10Hiscores
+          return this.scoreStore.sprint10Hiscores
         case 'modeSprint-30':
-          return this.hiscoreStore.sprint10Hiscores
+          return this.scoreStore.sprint10Hiscores
         default:
-          return this.hiscoreStore.endressHiscores
+          return this.scoreStore.endressHiscores
       }
     },
     displayGameMode(): GameMode {

@@ -60,7 +60,7 @@ export default {
         },
       ],
       miniVariant: false,
-      title: '足し算練習帳',
+      title: 'たしざん練習帳',
     }
   },
 }

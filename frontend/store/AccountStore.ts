@@ -2,7 +2,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Account } from '~/models/Account'
 
 class DefaultAccount implements Account {
-  name = 'プレイヤー1'
+  name = 'ゲスト'
 }
 
 @Module({

@@ -6,19 +6,19 @@
       <v-list-item @click="startGame('modeSprint', 10)">
         <v-list-item-content>
           <v-list-item-title>10問モード</v-list-item-title>
-          <v-list-item-subtitle>10問クリアまでの時間を競います</v-list-item-subtitle>
+          <v-list-item-subtitle>10問れんしゅうします</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item @click="startGame('modeSprint', 30)">
         <v-list-item-content>
           <v-list-item-title>30問モード</v-list-item-title>
-          <v-list-item-subtitle>30問クリアまでの時間を競います</v-list-item-subtitle>
+          <v-list-item-subtitle>30問れんしゅうします</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item @click="startGame('modeEndress', -1)">
         <v-list-item-content>
-          <v-list-item-title>耐久モード</v-list-item-title>
-          <v-list-item-subtitle>間違えずにどれだけ続けられるかを競います</v-list-item-subtitle>
+          <v-list-item-title>たいきゅうモード</v-list-item-title>
+          <v-list-item-subtitle>まちがえるまでれんしゅうします</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>

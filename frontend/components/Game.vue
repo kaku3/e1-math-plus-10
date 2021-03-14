@@ -103,11 +103,11 @@
   }
   > .value {
     font-family: 'Fredoka One';
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
   .effect {
     font-family: 'Fredoka One';
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 }
 
@@ -128,8 +128,8 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
-import HiscoreStore from '~/store/HiscoreStore'
-import { GameMode } from '~/models/Hiscore'
+import ScoreStore from '~/store/ScoreStore'
+import { GameMode } from '~/models/Score'
 
 import seAnswerOk from '~/assets/se/answer-ok.mp3'
 import seAnswerNg from '~/assets/se/answer-ng.mp3'
@@ -196,7 +196,7 @@ export default Vue.extend({
       this.gameTimerId = window.setInterval(function() {
         self.gameTime = (new Date()).getTime() - self.gameStartTime
         if(self.updateProgress()) {
-          self.addEndressHiscore()
+          self.addEndressScore()
           self.endGame()
         }
       }, 200)
@@ -231,7 +231,7 @@ export default Vue.extend({
         se.play()
         if(this.gameMode === 'modeSprint') {
           if(this.score === this.questionCount) {
-            this.addSprintHiscore()
+            this.addSprintScore()
             this.endGame()
             return
           }
@@ -270,25 +270,35 @@ export default Vue.extend({
       return false
     },
 
-    addSprintHiscore() {
+    addSprintScore() {
       const name = this.accountStore.account.name
       const mode = `${this.gameMode}-${this.questionCount}` as GameMode
       const score = this.getDisplayTime()
-      this.hiscoreStore.addHiscore({ mode, name, score })
+      this.scoreStore.addScore({
+        mode,
+        name,
+        score,
+        createdAt: this.gameStartTime
+      })
     },
-    addEndressHiscore() {
+    addEndressScore() {
       const name = this.accountStore.account.name
       const mode = `${this.gameMode}` as GameMode
       const score: number = this.score2
-      this.hiscoreStore.addHiscore({ mode, name, score })
+      this.scoreStore.addScore({
+        mode,
+        name,
+        score,
+        createdAt: this.gameStartTime
+      })
     },
   },
   computed: {
     accountStore() : AccountStore {
       return getModule(AccountStore, this.$store) as AccountStore
     },
-    hiscoreStore() : HiscoreStore {
-      return getModule(HiscoreStore, this.$store) as HiscoreStore
+    scoreStore() : ScoreStore {
+      return getModule(ScoreStore, this.$store) as ScoreStore
     },
 
     isEnd(): boolean {
