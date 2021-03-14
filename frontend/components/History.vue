@@ -5,28 +5,40 @@
       <v-tab>30問モード</v-tab>
       <v-tab>たいきゅうモード</v-tab>
       <v-tab-item>
-        <HistoryChart :data="sprint10History()" :options="chartOptions" />
-        <v-row class="mt-2 mb-2 text-center">
-          <v-col>
-            <v-btn @click="startGame('modeSprint', 10)" color="primary">はじめる</v-btn>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <v-row class="mt-2 mb-2">
+            <v-col cols="auto" class="text-subtitle-2">10問がんばる</v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+              <v-btn @click="startGame('modeSprint', 10)" color="primary"><v-icon>mdi-play</v-icon>はじめる</v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <HistoryChart class="mb-4" :data="sprint10History()" :options="chartOptions" />
       </v-tab-item>
       <v-tab-item>
+        <v-card-text>
+          <v-row class="mt-2 mb-2">
+            <v-col cols="auto" class="text-subtitle-2">30問がんばる</v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+              <v-btn @click="startGame('modeSprint', 30)" color="primary"><v-icon>mdi-play</v-icon>はじめる</v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
         <HistoryChart :data="sprint30History()" :options="chartOptions" />
-        <v-row class="mt-2 mb-2 text-center">
-          <v-col>
-            <v-btn @click="startGame('modeSprint', 30)" color="primary">はじめる</v-btn>
-          </v-col>
-        </v-row>
       </v-tab-item>
       <v-tab-item>
+        <v-card-text>
+          <v-row class="mt-2 mb-2">
+            <v-col cols="auto" class="text-subtitle-2">じかんぎれまでがんばる</v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+              <v-btn @click="startGame('modeEndress', -1)" color="primary"><v-icon>mdi-play</v-icon>はじめる</v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
         <HistoryChart :data="endressHistory()" :options="chartOptions" />
-        <v-row class="mt-2 mb-2 text-center">
-          <v-col>
-            <v-btn @click="startGame('modeEndress', -1)" color="primary">はじめる</v-btn>
-          </v-col>
-        </v-row>
       </v-tab-item>
     </v-tabs>
   </v-card>

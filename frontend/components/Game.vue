@@ -29,6 +29,13 @@
               @click="startGame()">
               もういちど
             </v-btn>
+            <v-btn
+              large
+              outlined
+              to="/"
+            >
+              <v-icon>mdi-playlist-edit</v-icon>ホーム
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -227,7 +234,7 @@ export default Vue.extend({
         if(this.gameMode === 'modeEndress') {
           let time = this.answerTime - ((new Date()).getTime() -this.startTime)
           time = Math.max(time, 0)
-          this.score2 += Math.floor(time / 100)
+          this.score2 += Math.floor(time / 20)
         }
         this.updateProgress()
         this.answerEffect('o')

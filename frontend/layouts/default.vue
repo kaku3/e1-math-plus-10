@@ -54,9 +54,9 @@ export default {
           to: '/',
         },
         {
-          icon: 'mdi-calendar-blank',
-          title: '履歴',
-          to: '/histories',
+          icon: 'mdi-account-box',
+          title: 'アカウント',
+          to: '/account',
         },
       ],
       miniVariant: false,

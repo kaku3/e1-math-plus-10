@@ -16,12 +16,12 @@ export default class AccountStore extends VuexModule {
   @Mutation
   setAccount(account: Account) {
     this.account = account
+    console.log(this.account, account)
   }
 
   @Action({ commit: 'setAccount' })
-  async updateName(name: string) {
-    this.account.name = name
-    this.setAccount(this.account)
-    return this.account
+  async update(account: Account) {
+    this.setAccount(account)
+    return account
   }
 }

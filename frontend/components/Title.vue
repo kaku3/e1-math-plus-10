@@ -1,42 +1,33 @@
 <template>
-  <v-card>
-    <v-list
-      v-model="menu"
-    >
-      <v-list-item @click="startGame('modeSprint', 10)">
-        <v-list-item-content>
-          <v-list-item-title>10問モード</v-list-item-title>
-          <v-list-item-subtitle>10問れんしゅうします</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item @click="startGame('modeSprint', 30)">
-        <v-list-item-content>
-          <v-list-item-title>30問モード</v-list-item-title>
-          <v-list-item-subtitle>30問れんしゅうします</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item @click="startGame('modeEndress', -1)">
-        <v-list-item-content>
-          <v-list-item-title>たいきゅうモード</v-list-item-title>
-          <v-list-item-subtitle>まちがえるまでれんしゅうします</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-  </v-card>
+  <div>
+    <v-row>
+      <v-col>
+        ようこそ {{name}} さん
+      </v-col>
+    </v-row>
+    <History class="mt-2" />
+  </div>
+
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import AccountStore from '~/store/AccountStore'
 
-export default {
+export default Vue.extend({
   data() {
     return {
-      menu: -1
+      name: ''
     }
   },
-  methods: {
-    startGame(mode, count) {
-      this.$router.push({ name: 'game', params: { mode: mode, count: count }})
-    }
+  mounted () {
+    this.name = this.accountStore.account.name
+  },
+  computed: {
+    accountStore() : AccountStore {
+      return getModule(AccountStore, this.$store) as AccountStore
+    },
   }
-}
+})
 </script>
