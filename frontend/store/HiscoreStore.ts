@@ -13,14 +13,14 @@ export default class HiscoreStore extends VuexModule {
   public get sprint10Hiscores(): Hiscore[] {
     let hiscores = this.hiscores
       .filter(v => v.mode === 'modeSprint-10')
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => a.score - b.score)
     hiscores = hiscores.slice(0, 10)
     return hiscores
   }
   public get sprint30Hiscores(): Hiscore[] {
     let hiscores = this.hiscores
       .filter(v => v.mode === 'modeSprint-30')
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => a.score - b.score)
     hiscores = hiscores.slice(0, 10)
     return hiscores
   }
