@@ -22,7 +22,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    Vue.nextTick(() => {
+    setTimeout(() => {
       this.name = this.accountStore.account.name
     })
   },
