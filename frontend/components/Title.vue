@@ -16,20 +16,13 @@ import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 
 export default Vue.extend({
-  data() {
-    return {
-      name: ''
-    }
-  },
-  mounted () {
-    setTimeout(() => {
-      this.name = this.accountStore.account.name
-    })
-  },
   computed: {
     accountStore() : AccountStore {
       return getModule(AccountStore, this.$store) as AccountStore
     },
+    name(): string {
+      return this.accountStore.account.name
+    }
   }
 })
 </script>
