@@ -129,7 +129,7 @@ export default Vue.extend({
         labels: this.chartDates,
         datasets: [
           {
-            label: 'とくてん',
+            label: 'じかん',
             data: _scores,
             borderColor: "#FFC107",
             backgroundColor: "transparent",

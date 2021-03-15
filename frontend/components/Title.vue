@@ -22,7 +22,9 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.name = this.accountStore.account.name
+    Vue.nextTick(() => {
+      this.name = this.accountStore.account.name
+    })
   },
   computed: {
     accountStore() : AccountStore {
