@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt-ts",
-    "build": "nuxt-ts build",
+    "dev": "cross-env NODE_ENV='production' nuxt-ts",
+    "build": "cross-env NODE_ENV='production' nuxt-ts build",
     "start": "nuxt-ts start",
-    "generate": "nuxt-ts generate",
+    "generate": "cross-env NODE_ENV='production' nuxt-ts generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "test": "jest"
@@ -18,6 +18,9 @@
     "@nuxtjs/pwa": "^3.3.5",
     "chart.js": "^2.9.4",
     "core-js": "^3.8.3",
+    "cross-env": "^7.0.3",
+    "firebase": "^8.3.0",
+    "firebase-tools": "^9.6.1",
     "nuxt": "^2.14.12",
     "vue-chartjs": "^3.5.1",
     "vuex-module-decorators": "^1.0.1",

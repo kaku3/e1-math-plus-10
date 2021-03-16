@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title><v-icon>mdi-crown</v-icon>{{displayGameModeTitle}}</v-card-title>
     <v-card-text>
-      <v-row v-for="(o, i) in hiscores" :key="i" :class="{ entry: isLastScore(o) }">
+      <v-row v-for="(o, i) in hiscores" :key="i" class="rankings" :class="{ entry: isLastScore(o) }">
         <v-col cols="auto" class="text-h6">{{o.name}}</v-col>
         <v-spacer></v-spacer>
         <v-col cols="auto" class="value">{{displayScore(o.score)}}</v-col>
@@ -11,6 +11,17 @@
   </v-card>
 </template>
 <style lang="scss" scoped>
+.rankings {
+  > * {
+    padding: .5rem;
+  }
+  + .rankings {
+    margin-top: .25rem;
+    border-top: 1px solid #E0E0E0;
+  }
+}
+
+
 .entry {
   background-color: #F0F4C3;
 }

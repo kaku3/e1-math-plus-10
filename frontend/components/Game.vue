@@ -1,5 +1,10 @@
 <template>
   <div class="game">
+    <v-slide-fade-transition>
+      <v-card v-if="isEnd">
+        <Hiscore :gameMode="gameMode" :questionCount="questionCount" />
+      </v-card>
+    </v-slide-fade-transition>
     <v-card>
       <v-card-text class="green lighten-4">
         <v-row class="score-container">
@@ -19,51 +24,53 @@
           </v-slide-y-reverse-transition>
         </v-row>
       </v-card-text>
-      <v-card-text v-if="isEnd" class="green lighten-5">
-        <v-row class="ex-canvas text-center">
-          <v-col align-self="center">
-            <v-btn
-              x-large
-              color="blue"
-              dark
-              @click="startGame()">
-              もういちど
-            </v-btn>
-            <v-btn
-              large
-              outlined
-              to="/"
-            >
-              <v-icon>mdi-playlist-edit</v-icon>ホーム
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-text v-else-if="isGame" class="green lighten-5">
-        <v-row class="ex-canvas">
-          <v-col class="blue-grey--text" align-self="center">
-            {{question}}
-          </v-col>
-          <v-col class="blue--text" align-self="center">
-            +
-          </v-col>
-          <v-col class="amber--text answer" align-self="center">
-            {{answer | answered}}
-          </v-col>
-          <v-col class="light-green--text" align-self="center">
-            =
-          </v-col>
-          <v-col class="teal--text" align-self="center">
-            10
-          </v-col>
-        </v-row>
-        <v-progress-linear
-          v-model="progress"
-          color="blue darken-2"
-          height="8"
-        >
-        </v-progress-linear>
-      </v-card-text>
+      <v-fade-transition>
+        <v-card-text v-if="isEnd" class="green lighten-5">
+          <v-row class="ex-canvas text-center">
+            <v-col align-self="center">
+              <v-btn
+                large
+                outlined
+                to="/"
+              >
+                <v-icon>mdi-playlist-edit</v-icon>ホーム
+              </v-btn>
+              <v-btn
+                x-large
+                color="blue"
+                dark
+                @click="startGame()">
+                もういちど
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-text v-else-if="isGame" class="green lighten-5">
+          <v-row class="ex-canvas">
+            <v-col class="blue-grey--text" align-self="center">
+              {{question}}
+            </v-col>
+            <v-col class="blue--text" align-self="center">
+              +
+            </v-col>
+            <v-col class="amber--text answer" align-self="center">
+              {{answer | answered}}
+            </v-col>
+            <v-col class="light-green--text" align-self="center">
+              =
+            </v-col>
+            <v-col class="teal--text" align-self="center">
+              10
+            </v-col>
+          </v-row>
+          <v-progress-linear
+            v-model="progress"
+            color="blue darken-2"
+            height="8"
+          >
+          </v-progress-linear>
+        </v-card-text>
+      </v-fade-transition>
     </v-card>
     <v-card v-if="isGame">
       <v-card-text class="digit-keyboard cyan lighten-4">
@@ -136,7 +143,9 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
-import { GameMode } from '~/models/Score'
+import { ScoreEntity, GameMode } from '~/models/Score'
+
+import firebase from '@/plugins/firebase'
 
 import seAnswerOk from '~/assets/se/answer-ok.mp3'
 import seAnswerNg from '~/assets/se/answer-ng.mp3'
@@ -293,6 +302,21 @@ export default Vue.extend({
         score,
         createdAt: this.gameStartTime
       })
+
+      let isHiscore = false
+      if(this.questionCount === 10) {
+        if(score === this.scoreStore.sprint10Hiscores[0].score) {
+          isHiscore = true
+        }
+      } else if(this.questionCount === 30) {
+        if(score === this.scoreStore.sprint30Hiscores[0].score) {
+          isHiscore = true
+        }
+      }
+      // high score なら登録
+      if(isHiscore) {
+        this.entryHiscore(mode, name, score)
+      }
     },
     addEndressScore() {
       const name = this.accountStore.account.name
@@ -304,7 +328,19 @@ export default Vue.extend({
         score,
         createdAt: this.gameStartTime
       })
+      if(score === this.scoreStore.endressHiscores[0].score) {
+        this.entryHiscore(mode, name, score)
+      }
     },
+    entryHiscore(mode: GameMode, name: String, score: number) {
+      console.log(name, score)
+      const db = firebase.firestore()
+      db.collection('scores').add({
+        mode,
+        name,
+        score
+      })
+    }
   },
   computed: {
     accountStore() : AccountStore {

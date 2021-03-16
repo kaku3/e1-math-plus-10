@@ -5,6 +5,7 @@
       <v-tab>30問モード</v-tab>
       <v-tab>たいきゅうモード</v-tab>
       <v-tab-item>
+        <HistoryChart class="mt-4" :data="sprint10History()" :options="chartOptions" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
             <v-col cols="auto" class="text-subtitle-2">10問がんばる</v-col>
@@ -14,9 +15,10 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <HistoryChart class="mb-4" :data="sprint10History()" :options="chartOptions" />
+        <Ranking gameMode="modeSprint" :questionCount="10" />
       </v-tab-item>
       <v-tab-item>
+        <HistoryChart class="mt-4" :data="sprint30History()" :options="chartOptions" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
             <v-col cols="auto" class="text-subtitle-2">30問がんばる</v-col>
@@ -26,9 +28,10 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <HistoryChart :data="sprint30History()" :options="chartOptions" />
+        <Ranking gameMode="modeSprint" :questionCount="30" />
       </v-tab-item>
       <v-tab-item>
+        <HistoryChart class="mt-4" :data="endressHistory()" :options="chartOptions" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
             <v-col cols="auto" class="text-subtitle-2">じかんぎれまでがんばる</v-col>
@@ -38,7 +41,7 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <HistoryChart :data="endressHistory()" :options="chartOptions" />
+        <Ranking gameMode="modeEndress" :questionCount="-1" />
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -215,6 +218,7 @@ export default Vue.extend({
     chartOptions() {
       return {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
           yAxes: [
             {

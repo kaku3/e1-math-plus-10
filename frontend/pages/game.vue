@@ -1,12 +1,5 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12">
-      <Game :gameMode="mode" :questionCount="count" />
-    </v-col>
-    <v-col cols="12">
-      <Hiscore :gameMode="mode" :questionCount="count" />
-    </v-col>
-  </v-row>
+  <Game :gameMode="mode" :questionCount="count" />
 </template>
 <script lang="ts">
 import Vue from 'vue'
