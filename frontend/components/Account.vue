@@ -4,10 +4,11 @@
       <v-form v-model="valid">
         <v-text-field
           v-model="name"
-          label="なまえ"
+          label="にっくねーむ"
         >
         </v-text-field>
       </v-form>
+      * 個人を特定できる名前を登録しないでください
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
