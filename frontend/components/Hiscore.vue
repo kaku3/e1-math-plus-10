@@ -75,11 +75,14 @@ export default Vue.extend({
       switch(this.displayGameMode) {
         case 'modeSprint-10':
           es = this.scoreStore.sprint10Hiscores
+          break
         case 'modeSprint-30':
           es = this.scoreStore.sprint30Hiscores
+          break
         default:
           es = this.scoreStore.endressHiscores
       }
+      console.log(es, this.displayGameMode)
       const res = es.map(e => {
         const re:RankingEntry = {
           no: 0,
