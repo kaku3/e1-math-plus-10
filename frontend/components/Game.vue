@@ -1,10 +1,10 @@
 <template>
   <div class="game">
-    <v-slide-fade-transition>
+    <v-fade-transition>
       <v-card v-if="isEnd">
         <Hiscore :gameMode="gameMode" :questionCount="questionCount" />
       </v-card>
-    </v-slide-fade-transition>
+    </v-fade-transition>
     <v-card>
       <v-card-text class="green lighten-4">
         <v-row class="score-container">
@@ -223,7 +223,7 @@ export default Vue.extend({
           const seEnd_ = new Audio(seEnd)
           seEnd_.play()
         }
-      }, 200)
+      }, 100)
     },
     endGame() {
       this.mode = 'end'
