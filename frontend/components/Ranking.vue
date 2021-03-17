@@ -90,12 +90,14 @@ export default Vue.extend({
       if(this.rankings.length > 0) {
         let score = this.rankings[0].score
         let no = 1
+        let no2 = 1
         for(const r of this.rankings) {
           if(r.score != score) {
             score = r.score
-            no++
+            no = no2
           }
           r.no = no
+          no2++
         }
       }
     } catch(ex) {

@@ -95,12 +95,14 @@ export default Vue.extend({
       if(res.length > 0) {
         let score = res[0].score
         let no = 1
+        let no2 = 1
         for(const r of res) {
           if(r.score != score) {
             score = r.score
-            no++
+            no = no2
           }
           r.no = no
+          no2++
         }
       }
       return res
