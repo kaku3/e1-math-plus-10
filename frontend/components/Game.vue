@@ -13,15 +13,6 @@
           <v-spacer></v-spacer>
           <v-col cols="auto" class="label">とくてん</v-col>
           <v-col cols="auto" class="value">{{displayScore}}</v-col>
-          <v-slide-y-reverse-transition>
-            <v-col
-              v-if="showAnswerEffect"
-              cols="auto"
-              class="effect orange--text"
-            >
-              {{effects.answer}}
-            </v-col>
-          </v-slide-y-reverse-transition>
         </v-row>
       </v-card-text>
       <v-fade-transition>
@@ -55,6 +46,15 @@
             </v-col>
             <v-col class="amber--text answer" align-self="center">
               {{answer | answered}}
+              <v-slide-y-reverse-transition>
+                <div
+                  v-if="showAnswerEffect"
+                  class="effect orange--text"
+                >
+                  {{effects.answer}}
+              </div>
+              </v-slide-y-reverse-transition>
+
             </v-col>
             <v-col class="light-green--text" align-self="center">
               =
@@ -107,6 +107,7 @@
   text-align: center;
 
   &.answer {
+    position: relative;
     border: 2px solid #FF9800;
     border-radius: 4px;
   }
@@ -119,10 +120,13 @@
     font-family: 'Fredoka One';
     font-size: 1.6rem;
   }
-  .effect {
-    font-family: 'Fredoka One';
-    font-size: 2rem;
-  }
+}
+.effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: 'Fredoka One';
+  font-size: 2rem;
 }
 
 .digit-keyboard > .row > .col {
@@ -296,50 +300,32 @@ export default Vue.extend({
       const name = this.accountStore.account.name
       const mode = `${this.gameMode}-${this.questionCount}` as GameMode
       const score = this.getDisplayTime()
-      this.scoreStore.addScore({
+      const e:ScoreEntity = {
         mode,
         name,
         score,
         createdAt: this.gameStartTime
-      })
-
-      let isHiscore = false
-      if(this.questionCount === 10) {
-        if(score === this.scoreStore.sprint10Hiscores[0].score) {
-          isHiscore = true
-        }
-      } else if(this.questionCount === 30) {
-        if(score === this.scoreStore.sprint30Hiscores[0].score) {
-          isHiscore = true
-        }
       }
-      // high score なら登録
-      if(isHiscore) {
-        this.entryHiscore(mode, name, score)
-      }
+      this.scoreStore.addScore(e)
+      this.entryHiscore(e)
     },
     addEndressScore() {
       const name = this.accountStore.account.name
       const mode = `${this.gameMode}` as GameMode
       const score: number = this.score2
-      this.scoreStore.addScore({
+      const e:ScoreEntity = {
         mode,
         name,
         score,
         createdAt: this.gameStartTime
-      })
-      if(score === this.scoreStore.endressHiscores[0].score) {
-        this.entryHiscore(mode, name, score)
       }
+      this.scoreStore.addScore(e)
+      this.entryHiscore(e)
     },
-    entryHiscore(mode: GameMode, name: String, score: number) {
-      console.log(name, score)
+    entryHiscore(e: ScoreEntity) {
+      console.log(e)
       const db = firebase.firestore()
-      db.collection('scores').add({
-        mode,
-        name,
-        score
-      })
+      db.collection('scores').add(e)
     }
   },
   computed: {
