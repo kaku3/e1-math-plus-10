@@ -250,7 +250,7 @@ export default Vue.extend({
           this.score2 += Math.floor(time / 20)
         }
         this.updateProgress()
-        this.answerEffect('o')
+        this.answerEffect(`o ${v}`)
         const se = new Audio(seAnswerOk)
         se.play()
         if(this.gameMode === 'modeSprint') {
