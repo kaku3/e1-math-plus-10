@@ -39,6 +39,9 @@ export default Vue.extend({
   },
   methods: {
     updateName() {
+      if(this.name === '') {
+        return
+      }
       const name = this.name
       this.accountStore.update({ name })
       this.showUpdateMessage = true
