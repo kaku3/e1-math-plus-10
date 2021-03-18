@@ -5,7 +5,7 @@
       <v-tab>30問モード</v-tab>
       <v-tab>たいきゅうモード</v-tab>
       <v-tab-item>
-        <HistoryChart class="mt-4" :data="sprint10History()" :options="chartOptions" />
+        <HistoryChart class="mt-4" :data="sprint10History()" :options="chartOptions" :style="chartStyle" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
             <v-col cols="auto" class="text-subtitle-2">10問がんばる</v-col>
@@ -18,7 +18,7 @@
         <Ranking gameMode="modeSprint" :questionCount="10" />
       </v-tab-item>
       <v-tab-item>
-        <HistoryChart class="mt-4" :data="sprint30History()" :options="chartOptions" />
+        <HistoryChart class="mt-4" :data="sprint30History()" :options="chartOptions"  :style="chartStyle" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
             <v-col cols="auto" class="text-subtitle-2">30問がんばる</v-col>
@@ -31,7 +31,7 @@
         <Ranking gameMode="modeSprint" :questionCount="30" />
       </v-tab-item>
       <v-tab-item>
-        <HistoryChart class="mt-4" :data="endressHistory()" :options="chartOptions" />
+        <HistoryChart class="mt-4" :data="endressHistory()" :options="chartOptions" :style="chartStyle" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
             <v-col cols="auto" class="text-subtitle-2">じかんぎれまでがんばる</v-col>
@@ -63,6 +63,7 @@ type HistoryDate = {
 }
 
 type DataType = {
+  chartStyle: Object,
   historyDates: HistoryDate[]
 }
 
@@ -72,6 +73,10 @@ export default Vue.extend({
   },
   data (): DataType {
     return {
+      chartStyle: {
+        width: '100%',
+        height: '30vh'
+      },
       historyDates: []
     }
   },
