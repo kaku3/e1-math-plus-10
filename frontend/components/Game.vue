@@ -212,6 +212,7 @@ export default Vue.extend({
       const self = this
       this.score = 0
       this.score2 = 0
+      this.penaltyTime = 0
       this.mode = 'game'
       this.gameStartTime = (new Date()).getTime()
       this.next()
