@@ -50,7 +50,7 @@ export default {
       items: [
         {
           icon: 'mdi-playlist-edit',
-          title: 'ほーむ',
+          title: 'たして１０',
           to: '/',
         },
         {
