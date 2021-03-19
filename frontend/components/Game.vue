@@ -22,9 +22,9 @@
               <v-btn
                 large
                 outlined
-                to="/"
+                @click="home()"
               >
-                <v-icon>mdi-playlist-edit</v-icon>ホーム
+                <v-icon>mdi-playlist-edit</v-icon>たして１０
               </v-btn>
               <v-btn
                 x-large
@@ -208,6 +208,16 @@ export default Vue.extend({
     this.endGame()
   },
   methods: {
+    home() {
+      console.log(this.gameMode, this.questionCount)
+      this.$router.replace({
+        path: '/',
+        params: {
+          mode: this.gameMode,
+          count: `${this.questionCount}`
+        }
+      })
+    },
     startGame() {
       const self = this
       this.score = 0

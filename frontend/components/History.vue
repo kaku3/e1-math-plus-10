@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-tabs>
+    <v-tabs v-model="tabNo">
       <v-tab>10問モード</v-tab>
       <v-tab>30問モード</v-tab>
       <v-tab>たいきゅうモード</v-tab>
@@ -63,6 +63,7 @@ type HistoryDate = {
 }
 
 type DataType = {
+  tabNo: number,
   chartStyle: Object,
   historyDates: HistoryDate[]
 }
@@ -71,8 +72,19 @@ export default Vue.extend({
   components: {
     HistoryChart
   },
+  props: {
+    'gameMode': {
+      type: String,
+      default: 'modeSprint'
+    },
+    'questionCount': {
+      type: Number,
+      default: 10
+    }
+  },
   data (): DataType {
     return {
+      tabNo: 1,
       chartStyle: {
         width: '100%',
         height: '30vh'
@@ -81,6 +93,12 @@ export default Vue.extend({
     }
   },
   mounted () {
+    this.tabNo = 2
+    switch(this.gameMode) {
+      case 'modeSprint':
+        this.tabNo =  (this.questionCount === 10) ? 0 : 1
+    }
+
     const dates: HistoryDate[] = []
     const d = new Date()
 
@@ -97,7 +115,6 @@ export default Vue.extend({
       d.setDate(d.getDate() + 1)
     }
     this.historyDates = dates
-    console.log(this.historyDates)
   },
   methods: {
     startGame(mode: string, count: string) {
