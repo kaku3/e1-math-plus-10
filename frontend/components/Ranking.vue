@@ -95,13 +95,13 @@ export default Vue.extend({
           q = db.collection('scores')
             .where('mode', '==', this.displayGameMode)
             .where('createdAt', '==', startTime)
-            .orderBy('score', this.gameMode === 'modeEndress' ? 'desc' : 'asc')
+            .orderBy('score', this.orderBy)
             .limit(100)
 
         } else {
           q = db.collection('scores')
             .where('mode', '==', this.displayGameMode)
-            .orderBy('score', this.gameMode === 'modeEndress' ? 'desc' : 'asc')
+            .orderBy('score', this.orderBy)
             .limit(100)
 
         }
@@ -138,7 +138,7 @@ export default Vue.extend({
       return o.name == this.accountStore.account.name
     },
     displayScore(score: number) {
-      if(this.gameMode !== 'modeEndress') {
+      if(this.gameMode !== 'modeEndress' && this.gameMode !== 'modeSingle') {
         return score.toFixed(2)
       }
       return score
@@ -149,11 +149,14 @@ export default Vue.extend({
       return getModule(AccountStore, this.$store) as AccountStore
     },
     displayGameMode(): GameMode {
-      if(this.gameMode == 'modeEndress') {
+      if(this.gameMode == 'modeEndress' || this.gameMode == 'modeSingle') {
         return this.gameMode
       } else {
         return `${this.gameMode}-${this.questionCount}` as GameMode
       }
+    },
+    orderBy() {
+      return (this.gameMode === 'modeEndress' || this.gameMode === 'modeSingle') ? 'desc' : 'asc'
     }
   }
 })

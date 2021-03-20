@@ -32,6 +32,13 @@ export default class ScoreStore extends VuexModule {
     scores = scores.slice(0, 10)
     return scores
   }
+  public get singleHiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'modeSingle')
+      .sort((a, b) => b.score - a.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
 
   @Mutation
   setScores(scores: ScoreEntity[]) {

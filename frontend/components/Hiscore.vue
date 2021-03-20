@@ -60,7 +60,7 @@ export default Vue.extend({
       return (this.lastScore.name === o.name && this.lastScore.score === o.score && this.lastScore.createdAt === o.createdAt)
     },
     displayScore(score: number) {
-      if(this.gameMode !== 'modeEndress') {
+      if(this.gameMode !== 'modeEndress' && this.gameMode !== 'modeSingle') {
         return score.toFixed(2)
       }
       return score
@@ -79,8 +79,12 @@ export default Vue.extend({
         case 'modeSprint-30':
           es = this.scoreStore.sprint30Hiscores
           break
-        default:
+        case 'modeEndress':
           es = this.scoreStore.endressHiscores
+          break
+        case 'modeSingle':
+          es = this.scoreStore.singleHiscores
+          break
       }
       console.log(es, this.displayGameMode)
       const res = es.map(e => {
@@ -114,7 +118,7 @@ export default Vue.extend({
       return NullScoreEntity(this.displayGameMode)
     },
     displayGameMode(): GameMode {
-      if(this.gameMode == 'modeEndress') {
+      if(this.gameMode == 'modeEndress' || this.gameMode == 'modeSingle') {
         return this.gameMode
       } else {
         return `${this.gameMode}-${this.questionCount}` as GameMode
@@ -123,6 +127,8 @@ export default Vue.extend({
     displayGameModeTitle(): String {
       if(this.gameMode == 'modeEndress') {
         return 'たいきゅうモード'
+      } else if(this.gameMode == 'modeSingle') {
+        return 'ヒトケタス'
       } else {
         return `${this.questionCount}問モード`
       }

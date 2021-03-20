@@ -54,6 +54,11 @@ export default {
           to: '/',
         },
         {
+          icon: 'mdi-playlist-edit',
+          title: 'ヒトケタス',
+          to: '/game-plus-single',
+        },
+        {
           icon: 'mdi-account-box',
           title: 'アカウント',
           to: '/account',
