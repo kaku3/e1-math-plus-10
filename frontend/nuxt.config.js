@@ -18,12 +18,19 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - たしざん練習帳',
+    titleTemplate: '%s - 小１さんすうゲーム',
     title: 'Home',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
-      { hid: 'description', name: 'description', content: '小学校１年生用たしざん練習webアプリ。脳トレにご利用ください' },
+      { hid: 'description', name: 'description', content: '小１向けさんすうゲーム。簡単な脳トレとして親子であそべます' },
+      { hid: 'og:site_name', property: 'og:site_name', content: '小１さんすうゲーム' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:url', property: 'og:url', content: 'https://kaku3.github.io/e1-math-plus-10/frontend/dist/' },
+      { hid: 'og:title', property: 'og:title', content: '小１さんすうゲーム' },
+      { hid: 'og:description', property: 'og:description', content: '小学校１年生用たしざん練習webアプリページ。簡単な脳トレとして親子であそべます' },
+      { hid: 'og:image', property: 'og:image', content: 'https://kaku3.github.io/e1-math-plus-10/frontend/dist/icon-1280x640.png' },
+      { name: 'twitter:card', content: 'summary' },　//twitterの画像サイズ
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
