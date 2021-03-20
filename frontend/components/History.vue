@@ -120,7 +120,14 @@ export default Vue.extend({
   },
   methods: {
     startGame(mode: string, count: string) {
-      this.$router.push({ name: 'game', params: { mode: mode, count: count }})
+      console.log(mode, count)
+      this.$router.replace({
+        name: 'game-plus10',
+        params: {
+          mode: mode,
+          count: count
+        }
+      })
     },
 
     termFilteredScoreEntities(mode: string): ScoreEntity[] {

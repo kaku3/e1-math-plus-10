@@ -1,10 +1,8 @@
 <template>
   <div class="game">
-    <v-fade-transition>
-      <v-card v-if="isEnd">
-        <Hiscore :gameMode="gameMode" :questionCount="questionCount" />
-      </v-card>
-    </v-fade-transition>
+    <v-card v-if="isEnd">
+      <Hiscore :gameMode="gameMode" :questionCount="questionCount" />
+    </v-card>
     <v-card>
       <v-card-text class="green lighten-4">
         <v-row class="score-container">
@@ -52,7 +50,7 @@
                   class="effect orange--text"
                 >
                   {{effects.answer}}
-              </div>
+                </div>
               </v-slide-y-reverse-transition>
 
             </v-col>
@@ -91,9 +89,51 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-fade-transition>
+      <div v-if="isReady" class="ready">
+        <v-slide-y-reverse-transition>
+          <div v-if="readyCount === 3">3</div>
+        </v-slide-y-reverse-transition>
+        <v-slide-y-reverse-transition>
+          <div v-if="readyCount === 2">2</div>
+        </v-slide-y-reverse-transition>
+        <v-slide-y-reverse-transition>
+          <div v-if="readyCount === 1">1</div>
+        </v-slide-y-reverse-transition>
+        <v-slide-y-reverse-transition>
+          <div v-if="readyCount === 0">すたーと</div>
+        </v-slide-y-reverse-transition>
+      </div>
+    </v-fade-transition>
   </div>
 </template>
 <style lang="scss" scoped>
+
+.game {
+  position: relative;
+
+  > .ready {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-family: 'Fredoka One';
+    background-color: rgba(0, 0, 0, .5);
+
+    > * {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      text-align: center;
+      color: white;
+      font-size: 4rem;
+    }
+  }
+}
 
 .ex-canvas {
   height: 16vh;
@@ -112,6 +152,7 @@
     border-radius: 4px;
   }
 }
+
 .score-container {
   > .label {
     font-weight: bold;
@@ -183,6 +224,7 @@ export default Vue.extend({
   data() {
     return {
       mode: "",
+      readyCount: 0,
       score: 0,
       score2: 0,
       question: 0,
@@ -201,6 +243,7 @@ export default Vue.extend({
     }
   },
   mounted() {
+    console.log(this.gameMode, this.questionCount)
     this.startGame();
   },
   destroyed() {
@@ -223,8 +266,23 @@ export default Vue.extend({
       this.score = 0
       this.score2 = 0
       this.penaltyTime = 0
-      this.mode = 'game'
+      this.question = 0
+      this.answer = 0
+      this.mode = 'ready'
+
+      this.readyCount = 3
+      this.gameTimerId = window.setInterval(function() {
+        console.log(self.readyCount)
+        if(self.readyCount-- === 0) {
+          window.clearInterval(self.gameTimerId)
+          self.start()
+        }
+      }, 1000)
+    },
+    start() {
+      const self = this
       this.gameStartTime = (new Date()).getTime()
+      this.mode = 'game'
       this.next()
       this.gameTimerId = window.setInterval(function() {
         self.gameTime = (new Date()).getTime() - self.gameStartTime
@@ -236,6 +294,7 @@ export default Vue.extend({
         }
       }, 100)
     },
+
     endGame() {
       this.mode = 'end'
       window.clearInterval(this.gameTimerId)
@@ -355,8 +414,11 @@ export default Vue.extend({
     isEnd(): boolean {
       return this.mode === 'end'
     },
+    isReady(): boolean {
+      return this.mode === 'ready'
+    },
     isGame(): boolean {
-      return this.mode === 'game'
+      return this.mode === 'game' || this.mode === 'ready'
     },
     displayScore(): number {
       return this.gameMode === 'modeSprint' ? this.score : this.score2
