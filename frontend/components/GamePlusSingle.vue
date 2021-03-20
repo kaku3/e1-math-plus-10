@@ -210,8 +210,8 @@ import seEnd from '~/assets/se/end.mp3'
 const ANSWER_TIME_DEFAULT = 10000  // 1問あたりの回答時間
 // const ANSWER_TIME_DEFAULT = 10000000  // 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
-const ANSWER_TIME_LEVELUP_TIME = 1000
-const ANSWER_TIME_MIN = 3000
+const ANSWER_TIME_LEVELUP_TIME = 200
+const ANSWER_TIME_MIN = 5000
 
 function time2(v: number) {
   return v.toFixed(2)
@@ -342,7 +342,7 @@ export default Vue.extend({
 
         let time = this.answerTime - ((new Date()).getTime() -this.startTime)
         time = Math.max(time, 0)
-        this.score2 += Math.floor(time / 20) * count
+        this.score2 += Math.floor(this.score + (time / 50)) * count
         this.updateProgress()
         this.answerEffect(`o ${this.displayAnswers.join('+')}`)
 
