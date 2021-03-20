@@ -84,7 +84,7 @@ export default Vue.extend({
   },
   data (): DataType {
     return {
-      tabNo: 1,
+      tabNo: -1,
       chartStyle: {
         width: '100%',
         height: '30vh'
@@ -115,6 +115,8 @@ export default Vue.extend({
       d.setDate(d.getDate() + 1)
     }
     this.historyDates = dates
+
+
   },
   methods: {
     startGame(mode: string, count: string) {
@@ -175,6 +177,7 @@ export default Vue.extend({
       return this.sprintHistory(this.sprint10Scores)
     },
     sprint30History() {
+      console.log(this.sprint30Scores)
       return this.sprintHistory(this.sprint30Scores)
     },
 
