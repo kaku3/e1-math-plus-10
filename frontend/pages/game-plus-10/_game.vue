@@ -9,10 +9,9 @@ export default Vue.extend({
   async asyncData(context: Context) {
     const params = context.params
     const [ mode, count ] = params.game.split('-')
-    console.log(mode,count)
     return {
       mode: mode,
-      count: parseInt(count)
+      count: parseInt(count) || -1
     }
   }
 })

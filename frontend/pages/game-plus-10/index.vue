@@ -21,11 +21,11 @@ export default Vue.extend({
     }
   },
   async asyncData(context: Context) {
-    const params:any = context.from.params
+    const params:any = context.params
     console.log(params)
     return {
       gameMode: params.mode,
-      questionCount: params.count
+      questionCount: parseInt(params.count) || -1
     }
   },
   computed: {

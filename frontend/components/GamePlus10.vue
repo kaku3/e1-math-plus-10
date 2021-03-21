@@ -250,7 +250,6 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.gameMode, this.questionCount)
     this.startGame();
   },
   destroyed() {
@@ -280,7 +279,6 @@ export default Vue.extend({
 
       this.readyCount = 3
       this.gameTimerId = window.setInterval(function() {
-        console.log(self.readyCount)
         if(self.readyCount-- === 0) {
           window.clearInterval(self.gameTimerId)
           self.start()
@@ -295,15 +293,16 @@ export default Vue.extend({
       this.gameTimerId = window.setInterval(function() {
         self.gameTime = (new Date()).getTime() - self.gameStartTime
         if(self.updateProgress()) {
-          self.addEndressScore()
           self.endGame()
+          self.addEndressScore()
           const seEnd_ = new Audio(seEnd)
           seEnd_.play()
         }
-      }, 100)
+      }, 200)
     },
 
     endGame() {
+      this.gameTime = (new Date()).getTime() - this.gameStartTime
       this.mode = 'end'
       window.clearInterval(this.gameTimerId)
       this.gameTimerId = -1
@@ -333,8 +332,8 @@ export default Vue.extend({
         se.play()
         if(this.gameMode === 'modeSprint') {
           if(this.score === this.questionCount) {
-            this.addSprintScore()
             this.endGame()
+            this.addSprintScore()
             const seFinish_ = new Audio(seFinish)
             seFinish_.play()
             return
