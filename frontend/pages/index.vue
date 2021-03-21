@@ -8,7 +8,7 @@
 
     <v-row>
       <v-col cols="12" md="6">
-        <v-card class="menu-item" @click="go('/game-plus-10')">
+        <v-card class="menu-item" @click="goPlus10('/game-plus-10')">
           <v-card-text class="green lighten-5">
             <v-row class="ex-canvas">
               <v-col class="blue-grey--text" align-self="center">
@@ -32,7 +32,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" md="6">
-        <v-card class="menu-item" @click="go('/game-plus-single')">
+        <v-card class="menu-item" @click="goPlusSingle('/game-plus-single')">
           <v-card-text class="green lighten-5">
             <v-row class="ex-canvas">
               <v-col cols="mr-auto" class="answer-container" align-self="center">
@@ -107,8 +107,17 @@ import AccountStore from '~/store/AccountStore'
 
 export default Vue.extend({
   methods: {
-    go(to: string) {
-      this.$router.replace(to)
+    goPlus10() {
+      this.$router.replace({
+        name: 'game-plus-10',
+        params: {
+          mode: 'modeSprint',
+          count: '10'
+        }
+      })
+    },
+    goPlusSingle() {
+      this.$router.replace({ name: 'game-plus-single' })
     }
   },
   computed: {

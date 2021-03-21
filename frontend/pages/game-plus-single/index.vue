@@ -1,16 +1,28 @@
 <template>
-  <v-card>
-    <HistoryChart v-if="showChart" class="mt-4" :data="singleHistory()" :options="chartOptions" :style="chartStyle" />
-    <v-card-text>
-      <v-row class="mt-2 mb-2">
-        <v-col cols="mr-auto" class="text-subtitle-2">ひとけたのすうじをたして、こたえにする</v-col>
-        <v-col cols="auto">
-          <v-btn @click="startGame('modeSingle')" color="primary"><v-icon>mdi-play</v-icon>はじめる</v-btn>
-        </v-col>
-      </v-row>
-    </v-card-text>
-    <Ranking gameMode="modeSingle" :questionCount="-1" />
-  </v-card>
+  <div>
+    <v-row>
+      <v-col cols="mr-auto" class="text-h5">
+        ヒトケタス
+      </v-col>
+      <v-col cols="auto">
+        <v-btn outlined to="/">
+          <v-icon>mdi-home-circle</v-icon>ほーむ
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-card>
+      <HistoryChart v-if="showChart" class="mt-4" :data="singleHistory()" :options="chartOptions" :style="chartStyle" />
+      <v-card-text>
+        <v-row class="mt-2 mb-2">
+          <v-col cols="mr-auto" class="text-subtitle-2">ひとけたのすうじをたして、こたえにする</v-col>
+          <v-col cols="auto">
+            <v-btn @click="startGame('modeSingle')" color="primary"><v-icon>mdi-play</v-icon>はじめる</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <Ranking gameMode="modeSingle" :questionCount="-1" />
+    </v-card>
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'

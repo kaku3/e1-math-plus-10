@@ -1,8 +1,13 @@
 <template>
   <div>
     <v-row>
-      <v-col>
-        ようこそ {{name}} さん
+      <v-col cols="mr-auto" class="text-h5">
+        たして１０
+      </v-col>
+      <v-col cols="auto">
+        <v-btn outlined to="/">
+          <v-icon>mdi-home-circle</v-icon>ほーむ
+        </v-btn>
       </v-col>
     </v-row>
     <GamePlus10History class="mt-2" :gameMode="gameMode" :questionCount="questionCount" />
