@@ -6,8 +6,6 @@
     <v-card>
       <v-card-text class="green lighten-4">
         <v-row class="score-container">
-          <v-col cols="auto" class="label">じかん</v-col>
-          <v-col cols="auto" class="value">{{getDisplayTime() | time2}}</v-col>
           <v-spacer></v-spacer>
           <v-col cols="auto" class="label">とくてん</v-col>
           <v-col cols="auto" class="value">{{displayScore}}</v-col>
@@ -334,7 +332,7 @@ export default Vue.extend({
 
         let time = this.answerTime - ((new Date()).getTime() -this.startTime)
         time = Math.max(time, 0)
-        this.score2 += Math.floor(this.score + (time / 50)) * count
+        this.score2 += Math.floor(this.score + (time / 50)) * (1 << count)
         this.updateProgress()
         this.answerEffect(`o ${this.displayAnswers.join('+')}`)
 
