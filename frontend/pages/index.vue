@@ -72,6 +72,7 @@
     width: 100%;
     padding: .25rem .5rem;
     color: white;
+    font-weight: bold;
     background-color: rgba(27, 94, 32, .4)
   }
 
