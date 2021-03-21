@@ -296,9 +296,11 @@ export default Vue.extend({
       this.gameTimerId = -1
     },
     next() {
-      let q = Math.floor(this.score / 5) + Math.floor(this.score / 10) * 4 + Math.floor(this.score / 20) * 8
-      q = Math.min(q + 6, 44)
-      this.question = (Math.floor(Math.random() * 100) % q) + 1
+      let qMax = Math.floor(this.score / 3) * 3 + Math.floor(this.score / 10) * 8 + 6
+      let qMin = Math.floor(this.score / 5) + 3
+      qMin = Math.min(qMin, 20)
+      qMax = Math.min(qMax, 45 - qMin)
+      this.question = (Math.floor(Math.random() * 100) % (qMax - qMin)) + qMin
       this.answers.fill(0)
       this.displayAnswers = []
       this.startTime = (new Date()).getTime()
