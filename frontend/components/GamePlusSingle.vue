@@ -76,19 +76,19 @@
     <v-card v-if="isGame">
       <v-card-text class="digit-keyboard cyan lighten-4">
         <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(1)" :disabled="isUsed(1)">1</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(2)" :disabled="isUsed(2)">2</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(3)" :disabled="isUsed(3)">3</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(1)" :class="{ selected : isSelected(1) }">1</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(2)" :class="{ selected : isSelected(2) }">2</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(3)" :class="{ selected : isSelected(3) }">3</v-btn></v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(4)" :disabled="isUsed(4)">4</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(5)" :disabled="isUsed(5)">5</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(6)" :disabled="isUsed(6)">6</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(4)" :class="{ selected : isSelected(4) }">4</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(5)" :class="{ selected : isSelected(5) }">5</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(6)" :class="{ selected : isSelected(6) }">6</v-btn></v-col>
         </v-row>
         <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(7)" :disabled="isUsed(7)">7</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(8)" :disabled="isUsed(8)">8</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(9)" :disabled="isUsed(9)">9</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(7)" :class="{ selected : isSelected(7) }">7</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(8)" :class="{ selected : isSelected(8) }">8</v-btn></v-col>
+          <v-col cols="4"><v-btn @click="onAnswer(9)" :class="{ selected : isSelected(9) }">9</v-btn></v-col>
         </v-row>
       </v-card-text>
     </v-card>
@@ -184,6 +184,10 @@
     width: 80%;
     height: 5rem;
     color: #0097A7;
+
+    &.selected {
+      background-color: #FFECB3;
+    }
   }
 }
 </style>
@@ -287,7 +291,7 @@ export default Vue.extend({
           const seEnd_ = new Audio(seEnd)
           seEnd_.play()
         }
-      }, 100)
+      }, 200)
     },
 
     endGame() {
@@ -307,7 +311,7 @@ export default Vue.extend({
       this.answerTime = ANSWER_TIME_DEFAULT - Math.floor(this.score / ANSWER_TIME_LEVELUP_COUNT) * ANSWER_TIME_LEVELUP_TIME
       this.answerTime = Math.max(this.answerTime, ANSWER_TIME_MIN)
     },
-    isUsed(v: number): boolean {
+    isSelected(v: number): boolean {
       return this.answers[v] !== 0
     },
     onAnswer(v: number) {
@@ -317,8 +321,13 @@ export default Vue.extend({
       const se = new Audio(seAnswerOk)
       se.play()
 
-      this.answers[v] = v
-      this.displayAnswers.push(v)
+      if(this.answers[v] === 0) {
+        this.answers[v] = v
+        this.displayAnswers.push(v)
+      } else {
+        this.answers[v] = 0
+        this.displayAnswers = this.displayAnswers.filter(vv => vv !== v)
+      }
 
       const answer = this.answers.reduce((v, c) => v + c)
 
