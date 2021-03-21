@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title><v-icon>mdi-crown</v-icon>{{displayGameModeTitle}}</v-card-title>
+    <v-card-title class="title"><v-icon>mdi-crown</v-icon>{{displayGameModeTitle}}</v-card-title>
     <v-card-text>
       <v-row v-for="(o, i) in hiscores" :key="i" class="rankings" :class="{ entry: isLastScore(o) }">
         <v-col cols="auto" class="no">{{o.no}}</v-col>
@@ -12,9 +12,12 @@
   </v-card>
 </template>
 <style lang="scss" scoped>
+.title {
+  padding: .5rem .25rem;
+}
 .rankings {
   > * {
-    padding: .5rem;
+    padding: .25rem;
   }
   + .rankings {
     margin-top: .25rem;

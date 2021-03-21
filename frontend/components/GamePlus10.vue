@@ -13,69 +13,67 @@
           <v-col cols="auto" class="value">{{displayScore}}</v-col>
         </v-row>
       </v-card-text>
-      <v-fade-transition>
-        <v-card-text v-if="isEnd" class="green lighten-5">
-          <v-row class="ex-canvas text-center">
-            <v-col cols="12" align-self="center">
-              <v-btn
-                large
-                outlined
-                @click="goGameIndex()"
+      <v-card-text v-if="isEnd" class="green lighten-5">
+        <v-row class="ex-canvas text-center">
+          <v-col cols="12" align-self="center">
+            <v-btn
+              large
+              outlined
+              @click="goGameIndex()"
+            >
+              <v-icon>mdi-playlist-edit</v-icon>たして１０
+            </v-btn>
+            <v-btn
+              x-large
+              color="blue"
+              dark
+              @click="startGame()">
+              もういちど
+            </v-btn>
+          </v-col>
+          <v-col align-self="center">
+            <v-btn
+              to="/"
+            >
+              <v-icon>mdi-home-circle</v-icon>ほーむ
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-text v-else-if="isGame" class="green lighten-5">
+        <v-row class="ex-canvas">
+          <v-col class="blue-grey--text" align-self="center">
+            {{question}}
+          </v-col>
+          <v-col class="blue--text" align-self="center">
+            +
+          </v-col>
+          <v-col class="amber--text answer" align-self="center">
+            {{answer | answered}}
+            <v-slide-y-reverse-transition>
+              <div
+                v-if="showAnswerEffect"
+                class="effect orange--text"
               >
-                <v-icon>mdi-playlist-edit</v-icon>たして１０
-              </v-btn>
-              <v-btn
-                x-large
-                color="blue"
-                dark
-                @click="startGame()">
-                もういちど
-              </v-btn>
-            </v-col>
-            <v-col align-self="center">
-              <v-btn
-                to="/"
-              >
-                <v-icon>mdi-home-circle</v-icon>ほーむ
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-card-text v-else-if="isGame" class="green lighten-5">
-          <v-row class="ex-canvas">
-            <v-col class="blue-grey--text" align-self="center">
-              {{question}}
-            </v-col>
-            <v-col class="blue--text" align-self="center">
-              +
-            </v-col>
-            <v-col class="amber--text answer" align-self="center">
-              {{answer | answered}}
-              <v-slide-y-reverse-transition>
-                <div
-                  v-if="showAnswerEffect"
-                  class="effect orange--text"
-                >
-                  {{effects.answer}}
-                </div>
-              </v-slide-y-reverse-transition>
+                {{effects.answer}}
+              </div>
+            </v-slide-y-reverse-transition>
 
-            </v-col>
-            <v-col class="light-green--text" align-self="center">
-              =
-            </v-col>
-            <v-col class="teal--text" align-self="center">
-              10
-            </v-col>
-          </v-row>
-          <v-progress-linear
-            v-model="progress"
-            color="blue darken-2"
-            height="8"
-          >
-          </v-progress-linear>
-        </v-card-text>
-      </v-fade-transition>
+          </v-col>
+          <v-col class="light-green--text" align-self="center">
+            =
+          </v-col>
+          <v-col class="teal--text" align-self="center">
+            10
+          </v-col>
+        </v-row>
+        <v-progress-linear
+          v-model="progress"
+          color="blue darken-2"
+          height="8"
+        >
+        </v-progress-linear>
+      </v-card-text>
     </v-card>
     <v-card v-if="isGame">
       <v-card-text class="digit-keyboard cyan lighten-4">
@@ -387,6 +385,9 @@ export default Vue.extend({
       this.entryHiscore(e)
     },
     addEndressScore() {
+      if(this.score2 === 0) {
+        return
+      }
       const name = this.accountStore.account.name
       const mode = `${this.gameMode}` as GameMode
       const score: number = this.score2
