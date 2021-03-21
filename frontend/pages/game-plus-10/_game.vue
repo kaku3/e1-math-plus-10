@@ -12,7 +12,7 @@ export default Vue.extend({
     console.log(mode,count)
     return {
       mode: mode,
-      count: count
+      count: parseInt(count)
     }
   }
 })
