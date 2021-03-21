@@ -16,11 +16,11 @@
       <v-fade-transition>
         <v-card-text v-if="isEnd" class="green lighten-5">
           <v-row class="ex-canvas text-center">
-            <v-col align-self="center">
+            <v-col cols="12" align-self="center">
               <v-btn
                 large
                 outlined
-                @click="home()"
+                @click="goGameIndex()"
               >
                 <v-icon>mdi-playlist-edit</v-icon>たして１０
               </v-btn>
@@ -30,6 +30,13 @@
                 dark
                 @click="startGame()">
                 もういちど
+              </v-btn>
+            </v-col>
+            <v-col align-self="center">
+              <v-btn
+                to="/"
+              >
+                <v-icon>mdi-home-circle</v-icon>ほーむ
               </v-btn>
             </v-col>
           </v-row>
@@ -251,10 +258,10 @@ export default Vue.extend({
     this.endGame()
   },
   methods: {
-    home() {
+    goGameIndex() {
       console.log(this.gameMode, this.questionCount)
       this.$router.replace({
-        path: '/',
+        name: 'game-plus-10',
         params: {
           mode: this.gameMode,
           count: `${this.questionCount}`
