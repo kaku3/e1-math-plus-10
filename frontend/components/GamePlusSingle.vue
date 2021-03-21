@@ -36,15 +36,6 @@
         </v-card-text>
         <v-card-text v-else-if="isGame" class="green lighten-5">
           <v-row class="ex-canvas">
-            <!-- <v-col class="blue-grey--text" align-self="center">
-              {{question}}
-            </v-col>
-            <v-col class="blue--text" align-self="center">
-              +
-            </v-col>
-            <v-col class="amber--text answer" align-self="center">
-              {{answer | answered}}
-            </v-col> -->
             <v-col cols="mr-auto" class="answer-container" align-self="center">
               <span v-for="o in displayAnswers" :key="o">
                 <span>{{o}}</span>
@@ -262,6 +253,7 @@ export default Vue.extend({
       const self = this
       this.score = 0
       this.score2 = 0
+      this.gameTime = 0
       this.penaltyTime = 0
       this.question = 0
       this.answers = Array(10).fill(0)

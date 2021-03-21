@@ -265,6 +265,7 @@ export default Vue.extend({
       const self = this
       this.score = 0
       this.score2 = 0
+      this.gameTime = 0
       this.penaltyTime = 0
       this.question = 0
       this.answer = 0

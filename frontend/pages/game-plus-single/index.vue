@@ -8,8 +8,8 @@
           <v-btn @click="startGame('modeSingle')" color="primary"><v-icon>mdi-play</v-icon>はじめる</v-btn>
         </v-col>
       </v-row>
-      <Ranking gameMode="modeSingle" :questionCount="-1" />
     </v-card-text>
+    <Ranking gameMode="modeSingle" :questionCount="-1" />
   </v-card>
 </template>
 <script lang="ts">
@@ -38,6 +38,12 @@ export default Vue.extend({
   components: {
     HistoryChart
   },
+  head() {
+    return {
+      title: 'ヒトケタス'
+    }
+  },
+
   data (): DataType {
     return {
       showChart: false,

@@ -49,9 +49,14 @@ export default {
       fixed: false,
       items: [
         {
+          icon: 'mdi-home-circle',
+          title: 'ほーむ',
+          to: '/',
+        },
+        {
           icon: 'mdi-playlist-edit',
           title: 'たして１０',
-          to: '/',
+          to: '/game-plus-10',
         },
         {
           icon: 'mdi-playlist-edit',
@@ -65,7 +70,7 @@ export default {
         },
       ],
       miniVariant: false,
-      title: 'たしざん練習帳',
+      title: '小１さんすうゲーム',
     }
   },
 }
