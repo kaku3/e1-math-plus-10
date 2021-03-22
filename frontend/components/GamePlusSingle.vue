@@ -209,7 +209,7 @@ const ANSWER_TIME_DEFAULT = 10000  // 1問あたりの回答時間
 // const ANSWER_TIME_DEFAULT = 10000000  // 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
 const ANSWER_TIME_LEVELUP_TIME = 200
-const ANSWER_TIME_MIN = 5000
+const ANSWER_TIME_MIN = 3000
 
 function time2(v: number) {
   return v.toFixed(2)
@@ -298,7 +298,7 @@ export default Vue.extend({
       this.gameTimerId = -1
     },
     next() {
-      let qMax = Math.floor(this.score / 3) * 3 + Math.floor(this.score / 10) * 8 + 6
+      let qMax = Math.floor(this.score / 3) * 3 + Math.floor(this.score / 10) * 12 + 6
       let qMin = Math.floor(this.score / 5) + 3
       qMin = Math.min(qMin, 20)
       qMax = Math.min(qMax, 45 - qMin)
