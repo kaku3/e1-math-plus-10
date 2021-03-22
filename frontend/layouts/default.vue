@@ -56,7 +56,13 @@ export default {
         {
           icon: 'mdi-playlist-edit',
           title: 'たして１０',
-          to: '/game-plus-10',
+          to: {
+            name: 'game-plus-10',
+            params: {
+              mode: 'modeSprint',
+              count: 10
+            }
+          }
         },
         {
           icon: 'mdi-playlist-edit',
