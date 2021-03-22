@@ -6,8 +6,8 @@
     <v-card>
       <v-card-text class="green lighten-4">
         <v-row class="score-container">
-          <v-col cols="auto" class="label">じかん</v-col>
-          <v-col cols="auto" class="value">{{getDisplayTime() | time2}}</v-col>
+          <v-col v-if="isSprint" cols="auto" class="label">じかん</v-col>
+          <v-col v-if="isSprint" cols="auto" class="value">{{getDisplayTime() | time2}}</v-col>
           <v-spacer></v-spacer>
           <v-col cols="auto" class="label">とくてん</v-col>
           <v-col cols="auto" class="value">{{displayScore}}</v-col>
@@ -289,7 +289,7 @@ export default Vue.extend({
       this.mode = 'game'
       this.next()
       this.gameTimerId = window.setInterval(function() {
-        self.gameTime = (new Date()).getTime() - self.gameStartTime
+        self.updateGameTime()
         if(self.updateProgress()) {
           self.endGame()
           self.addEndressScore()
@@ -300,7 +300,7 @@ export default Vue.extend({
     },
 
     endGame() {
-      this.gameTime = (new Date()).getTime() - this.gameStartTime
+      this.updateGameTime()
       this.mode = 'end'
       window.clearInterval(this.gameTimerId)
       this.gameTimerId = -1
@@ -316,6 +316,7 @@ export default Vue.extend({
       if(this.mode !== 'game') {
         return
       }
+      this.updateGameTime()
 
       if(this.question + v === 10) {
         this.score += 1
@@ -369,6 +370,9 @@ export default Vue.extend({
         this.progress = (this.score * 100) / this.questionCount
       }
       return false
+    },
+    updateGameTime() {
+      this.gameTime = (new Date()).getTime() - this.gameStartTime
     },
 
     addSprintScore() {
@@ -427,6 +431,12 @@ export default Vue.extend({
     },
     isGame(): boolean {
       return this.mode === 'game' || this.mode === 'ready'
+    },
+    isSprint(): boolean {
+      return this.gameMode === 'modeSprint'
+    },
+    isEndress(): boolean {
+      return this.gameMode === 'modeEndress'
     },
     displayScore(): number {
       return this.gameMode === 'modeSprint' ? this.score : this.score2
