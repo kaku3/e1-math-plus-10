@@ -209,7 +209,7 @@ const ANSWER_TIME_DEFAULT = 10000  // 1問あたりの回答時間
 // const ANSWER_TIME_DEFAULT = 10000000  // 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
 const ANSWER_TIME_LEVELUP_TIME = 200
-const ANSWER_TIME_MIN = 3000
+const ANSWER_TIME_MIN = 2000
 
 function time2(v: number) {
   return v.toFixed(2)
@@ -281,6 +281,7 @@ export default Vue.extend({
       this.gameStartTime = (new Date()).getTime()
       this.mode = 'game'
       this.next()
+
       this.gameTimerId = window.setInterval(function() {
         self.gameTime = (new Date()).getTime() - self.gameStartTime
         if(self.updateProgress()) {
@@ -301,8 +302,8 @@ export default Vue.extend({
       let qMax = Math.floor(this.score / 3) * 3 + Math.floor(this.score / 10) * 12 + 6
       let qMin = Math.floor(this.score / 5) + 3
       qMin = Math.min(qMin, 20)
-      qMax = Math.min(qMax, 45 - qMin)
-      this.question = (Math.floor(Math.random() * 100) % (qMax - qMin)) + qMin
+      qMax = Math.min(qMax, 45)
+      this.question = Math.floor(Math.random() * (qMax - qMin + 1) + qMin)
       this.answers.fill(0)
       this.displayAnswers = []
       this.startTime = (new Date()).getTime()
@@ -331,7 +332,7 @@ export default Vue.extend({
 
       if(answer === this.question) {
         const count = this.answers.filter(v => v !== 0).length
-        this.score += 1
+        this.score++
 
         let se_ = null
         if(count > 6) {
