@@ -22,7 +22,7 @@
       </v-card-text>
       <Ranking gameMode="modeSingle" :questionCount="-1" />
     </v-card>
-    <Chat room="plus-single" />
+    <Chat room="all" />
   </div>
 </template>
 <script lang="ts">

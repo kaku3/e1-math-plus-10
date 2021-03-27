@@ -11,7 +11,7 @@
       </v-col>
     </v-row>
     <GamePlus10History class="mt-2" :gameMode="gameMode" :questionCount="questionCount" />
-    <Chat room="plus-10" />
+    <Chat room="all" />
   </div>
 </template>
 <script lang="ts">

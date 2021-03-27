@@ -60,7 +60,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <Chat room="home" />
+    <Chat room="all" />
   </div>
 </template>
 <style lang="scss" scoped>
