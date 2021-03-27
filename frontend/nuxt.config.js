@@ -79,7 +79,6 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    icon: false,
     manifest: {
       name: title,
       lang: 'ja',
