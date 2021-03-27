@@ -87,6 +87,20 @@ export default Vue.extend({
         case 'modeSingle':
           es = this.scoreStore.singleHiscores
           break
+
+        case 'minusSprint-10':
+          es = this.scoreStore.minusSprint10Hiscores
+          break
+        case 'minusSprint-30':
+          es = this.scoreStore.minusSprint30Hiscores
+          break
+        case 'minusEndress':
+          es = this.scoreStore.minusEndressHiscores
+          break
+
+      }
+      if(!es) {
+        return []
       }
       console.log(es, this.displayGameMode)
       const res = es.map(e => {
@@ -127,7 +141,7 @@ export default Vue.extend({
       }
     },
     displayGameModeTitle(): String {
-      if(this.gameMode == 'modeEndress') {
+      if(this.gameMode == 'modeEndress' || this.gameMode == 'minusEndress') {
         return 'たいきゅうモード'
       } else if(this.gameMode == 'modeSingle') {
         return 'ヒトケタス'

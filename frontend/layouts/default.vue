@@ -67,6 +67,17 @@ export default {
           to: '/game-plus-single',
         },
         {
+          icon: 'mdi-playlist-edit',
+          title: 'ひきざん２０',
+          to: {
+            name: 'game-minus-20',
+            params: {
+              mode: 'minusSprint',
+              count: 10
+            }
+          }
+        },
+        {
           icon: 'mdi-account-box',
           title: 'アカウント',
           to: '/account',

@@ -1,15 +1,15 @@
 <template>
-  <GamePlus10 :gameMode="mode" :questionCount="count" />
+  <GameMinus20 :gameMode="mode" :questionCount="count" />
 </template>
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
 
-import GamePlus10 from '~/components/e1/GamePlus10.vue'
+import GameMinus20 from '~/components/e1/GameMinus20.vue'
 
 export default Vue.extend({
   components: {
-    GamePlus10
+    GameMinus20
   },
   async asyncData(context: Context) {
     const params = context.params

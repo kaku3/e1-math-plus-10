@@ -40,6 +40,29 @@ export default class ScoreStore extends VuexModule {
     return scores
   }
 
+  public get minusSprint10Hiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'minusSprint-10')
+      .sort((a, b) => a.score - b.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
+  public get minusSprint30Hiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'minusSprint-30')
+      .sort((a, b) => a.score - b.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
+  public get minusEndressHiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'minusEndress')
+      .sort((a, b) => b.score - a.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
+
+
   @Mutation
   setScores(scores: ScoreEntity[]) {
     this.scores = scores

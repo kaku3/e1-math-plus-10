@@ -1,4 +1,6 @@
-export type GameMode = 'modeSprint-10' | 'modeSprint-30' | 'modeEndress' | 'modeSingle'
+export type GameMode =
+  'modeSprint-10' | 'modeSprint-30' | 'modeEndress' | 'modeSingle' |
+  'minusSprint-10' | 'minusSprint-30' | 'minusEndress'
 
 export interface ScoreEntity {
   mode: GameMode

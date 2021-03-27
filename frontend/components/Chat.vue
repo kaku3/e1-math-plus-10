@@ -53,7 +53,7 @@
 }
 #log-container {
   width: 100vw;
-  max-height: 60vh;
+  max-height: calc(100vh - 172px);
   overflow: auto;
   background-color: rgba(0,0,0, .25);
   > .log-item {
@@ -115,7 +115,6 @@ export default Vue.extend({
   },
   methods: {
     toggleShow() {
-      console.log('test')
       this.show = !this.show
       this.$nextTick(() => {
         if(this.show && this.logs.length > 0) {
