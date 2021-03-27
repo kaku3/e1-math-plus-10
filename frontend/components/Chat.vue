@@ -117,10 +117,12 @@ export default Vue.extend({
           .on("value", (data) => {
           if(data) {
             const obj = data.val()
-            this.logs = Object.keys(obj).map(k => {
-              const o = obj[k]
-              return o
-            })
+            if(obj) {
+              this.logs = Object.keys(obj).map(k => {
+                const o = obj[k]
+                return o
+              })
+            }
           }
         })
         if(this.show) {
