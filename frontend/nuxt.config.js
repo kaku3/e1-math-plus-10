@@ -3,6 +3,9 @@ import colors from 'vuetify/es5/util/colors'
 const environment = process.env.NODE_ENV || 'development'
 const env = require(`./env.${environment}.js`)
 
+const title = '小１さんすうゲーム'
+const description = '小１向けさんすうゲーム。成長の記録が残ります。簡単な脳トレとしても親子であそべます。'
+
 export default {
   env: env,
 
@@ -24,12 +27,12 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
-      { hid: 'description', name: 'description', content: '小１向けさんすうゲーム。簡単な脳トレとして親子であそべます' },
-      { hid: 'og:site_name', property: 'og:site_name', content: '小１さんすうゲーム' },
+      { hid: 'description', name: 'description', content: description },
+      { hid: 'og:site_name', property: 'og:site_name', content: title },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:url', property: 'og:url', content: 'https://kaku3.github.io/e1-math-plus-10/frontend/dist/' },
-      { hid: 'og:title', property: 'og:title', content: '小１さんすうゲーム' },
-      { hid: 'og:description', property: 'og:description', content: '小学校１年生用たしざん練習webアプリページ。簡単な脳トレとして親子であそべます' },
+      { hid: 'og:title', property: 'og:title', content: title },
+      { hid: 'og:description', property: 'og:description', content: description },
       { hid: 'og:image', property: 'og:image', content: 'https://kaku3.github.io/e1-math-plus-10/frontend/dist/icon-1280x640.png' },
       { name: 'twitter:card', content: 'summary' },　//twitterの画像サイズ
     ],
@@ -59,8 +62,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // // https://go.nuxtjs.dev/pwa
-    // '@nuxtjs/pwa',
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
     'nuxt-webfontloader'
@@ -74,12 +77,20 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
-  // // PWA module configuration: https://go.nuxtjs.dev/pwa
-  // pwa: {
-  //   manifest: {
-  //     lang: 'en',
-  //   },
-  // },
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      name: title,
+      lang: 'ja',
+      short_name: title,
+      title: title,
+      'og:title': title,
+      description: description,
+      'og:description': description,
+      theme_color: '#fefefe',
+      background_color: '#fefefe'
+    },
+  },
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
   content: {},
