@@ -1,8 +1,8 @@
 <template>
   <div class="chat-component">
     <v-slide-y-reverse-transition>
-      <div v-if="show" class="log-container">
-        <div v-for="(o, i) in logs" :key="i" class="log-item" :class="{ me: isMe(o)}">
+      <div v-if="show" id="log-container">
+        <div v-for="(o, i) in logs" :key="i" :id="`id-${o.createdAt}`" class="log-item" :class="{ me: isMe(o)}">
           <div class="name">{{o.name}}</div>
           <v-card class="comment rounded-lg" elevation="2">{{o.comment}}</v-card>
         </div>
@@ -12,6 +12,7 @@
       <v-text-field
         v-model="comment"
         placeholder="コメント"
+        counter="140"
         outlined
         dense
       >
@@ -50,7 +51,7 @@
   margin-right: .5rem;
   margin-bottom: .5rem;
 }
-.log-container {
+#log-container {
   width: 100vw;
   max-height: 60vh;
   overflow: auto;
@@ -114,10 +115,13 @@ export default Vue.extend({
   },
   methods: {
     toggleShow() {
+      console.log('test')
       this.show = !this.show
-      if(this.show && this.logs.length > 0) {
-        this.updateChatRead(this.logs[this.logs.length - 1] as ChatLogEntity)
-      }
+      this.$nextTick(() => {
+        if(this.show && this.logs.length > 0) {
+          this.updateChatRead(this.logs[this.logs.length - 1] as ChatLogEntity)
+        }
+      })
     },
     getLogs() {
       if(this.room) {
@@ -135,10 +139,10 @@ export default Vue.extend({
               })
             }
           }
+          if(this.show) {
+            this.updateChatRead(this.logs[this.logs.length - 1] as ChatLogEntity)
+          }
         })
-        if(this.show) {
-          this.updateChatRead(this.logs[this.logs.length - 1] as ChatLogEntity)
-        }
       }
     },
     async updateChatRead (log: ChatLogEntity) {
@@ -147,10 +151,15 @@ export default Vue.extend({
         timestamp: log.createdAt
       }
       this.chatStore.updateChatRead(this.chatRead)
+
+      const container = this.$el.querySelector('#log-container')
+      if(container) {
+        container.scrollTop = container.scrollHeight
+      }
     },
 
     postComment() {
-      if(!this.comment) {
+      if(!this.comment || this.comment.length > 140) {
         return
       }
       if(this.room) {
