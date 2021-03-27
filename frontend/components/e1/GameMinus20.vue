@@ -314,7 +314,8 @@ export default Vue.extend({
       } else {
         q += Math.random() * Math.floor(this.score / 4) * 7
       }
-      this.question1 = Math.min(Math.floor(q), 20)
+      this.question1 = Math.floor(q) % 17
+      this.question1 = Math.max(this.question1, 3)
       do {
         this.question2 = Math.floor(Math.random() * this.question1) + 1
       } while (this.question1 - this.question2 >= 10 || this.question1 - this.question2 <= 0)
