@@ -9,8 +9,7 @@
     <v-card-text>
       <v-row v-for="(o, i) in rankings" :key="i" class="rankings" :class="{ entry: isMe(o), 'rank-1': o.no == 1, 'rank-2': o.no == 2, 'rank-3': o.no == 3, 'top10': o.no <= 10 }">
         <v-col cols="auto" class="no">{{o.no}}</v-col>
-        <v-col cols="auto" class="name">{{o.name}}</v-col>
-        <v-spacer></v-spacer>
+        <v-col cols="mr-auto" class="name">{{o.name}}</v-col>
         <v-col cols="auto" class="value">{{displayScore(o.score)}}</v-col>
       </v-row>
     </v-card-text>

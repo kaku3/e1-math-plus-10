@@ -4,8 +4,7 @@
     <v-card-text>
       <v-row v-for="(o, i) in hiscores" :key="i" class="rankings" :class="{ entry: isLastScore(o) }">
         <v-col cols="auto" class="no">{{o.no}}</v-col>
-        <v-col cols="auto" class="text-h6">{{o.name}}</v-col>
-        <v-spacer></v-spacer>
+        <v-col cols="mr-auto" class="text-h6">{{o.name}}</v-col>
         <v-col cols="auto" class="value">{{displayScore(o.score)}}</v-col>
       </v-row>
     </v-card-text>
