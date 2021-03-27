@@ -82,8 +82,17 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
+import ChatStore from '~/store/ChatStore'
+import { ChatLogEntity, ChatReadEntity } from '~/models/Chat'
 
 import firebase from '@/plugins/firebase'
+
+type DataType = {
+  show: boolean
+  chatRead: ChatReadEntity | null
+  comment: String
+  logs: ChatLogEntity[]
+}
 
 export default Vue.extend({
   props: {
@@ -92,12 +101,12 @@ export default Vue.extend({
       default: ""
     }
   },
-  data() {
+  data(): DataType {
     return {
       show: false,
-      readCount: 0,
+      chatRead: null,
       comment: "",
-      logs: [] as Object[]
+      logs: []
     }
   },
   mounted () {
@@ -105,8 +114,10 @@ export default Vue.extend({
   },
   methods: {
     toggleShow() {
-      this.readCount = this.logs.length
       this.show = !this.show
+      if(this.show && this.logs.length > 0) {
+        this.updateChatRead(this.logs[this.logs.length - 1] as ChatLogEntity)
+      }
     },
     getLogs() {
       if(this.room) {
@@ -126,10 +137,18 @@ export default Vue.extend({
           }
         })
         if(this.show) {
-          this.readCount = this.logs.length
+          this.updateChatRead(this.logs[this.logs.length - 1] as ChatLogEntity)
         }
       }
     },
+    async updateChatRead (log: ChatLogEntity) {
+      this.chatRead = {
+        room: this.room,
+        timestamp: log.createdAt
+      }
+      this.chatStore.updateChatRead(this.chatRead)
+    },
+
     postComment() {
       if(!this.comment) {
         return
@@ -152,13 +171,20 @@ export default Vue.extend({
     accountStore() : AccountStore {
       return getModule(AccountStore, this.$store) as AccountStore
     },
+    chatStore() : ChatStore {
+      return getModule(ChatStore, this.$store) as ChatStore
+    },
 
     showIconColor(): string {
 
       return this.show ? "accent" : "primary"
     },
     unreadCount(): number {
-      return this.logs.length - this.readCount
+      const chatRead = this.chatRead
+      if(chatRead) {
+        return this.logs.filter((e:any) => e.createdAt > chatRead.timestamp).length
+      }
+      return 0
     }
   }
 })
