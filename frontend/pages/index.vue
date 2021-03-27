@@ -25,6 +25,7 @@
               <v-col class="teal--text" align-self="center">
                 10
               </v-col>
+            </v-row>
           </v-card-text>
           <div class="title">
             たして１０
@@ -59,6 +60,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <Chat room="home" />
   </div>
 </template>
 <style lang="scss" scoped>

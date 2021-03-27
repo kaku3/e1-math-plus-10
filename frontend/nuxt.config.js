@@ -10,7 +10,8 @@ export default {
   ssr: false,
 
   router: {
-    base: '/e1-math-plus-10/frontend/dist/'
+    base: '/e1-math-plus-10/frontend/dist/',
+    middleware: ['authentication']
   },
 
   // Target: https://go.nuxtjs.dev/config-target

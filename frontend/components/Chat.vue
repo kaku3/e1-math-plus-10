@@ -33,7 +33,6 @@
         dark
         small
         :color="showIconColor"
-        elevation="10"
         @click="toggleShow()">
         <v-icon>mdi-chat</v-icon>
       </v-btn>
@@ -120,7 +119,6 @@ export default Vue.extend({
             const obj = data.val()
             this.logs = Object.keys(obj).map(k => {
               const o = obj[k]
-              console.log(o)
               return o
             })
           }
@@ -134,7 +132,6 @@ export default Vue.extend({
       if(!this.comment) {
         return
       }
-      console.log(this.comment)
       if(this.room) {
         const db = firebase.database()
         db.ref(this.room).push({

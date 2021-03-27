@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV='production' nuxt-ts",
+    "dev": "cross-env NODE_ENV='develop' nuxt-ts",
     "build": "cross-env NODE_ENV='production' nuxt-ts build",
     "start": "nuxt-ts start",
     "generate": "cross-env NODE_ENV='production' nuxt-ts generate",
