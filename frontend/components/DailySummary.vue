@@ -26,11 +26,11 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, NullScoreEntity, GameMode } from '~/models/Score'
 
-function asc(a:number, b:number): number {
-  return a - b
+function asc(a:ScoreEntity, b:ScoreEntity): number {
+  return a.score - b.score
 }
-function desc(a:number, b:number): number {
-  return b - a
+function desc(a:ScoreEntity, b:ScoreEntity): number {
+  return b.score - a.score
 }
 
 function displayModeName(mode:GameMode): string {
@@ -68,7 +68,7 @@ export default Vue.extend({
         .filter(s => (s.createdAt >= start))
         .sort(order)
 
-      console.log(scores)
+      console.log(mode, scores)
 
       if(scores.length > 0) {
         return scores[0]
