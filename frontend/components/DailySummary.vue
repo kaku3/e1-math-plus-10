@@ -3,15 +3,20 @@
     <v-row v-for="(o, i) in hiscores" :key="i" class="score-item" dense>
       <v-col cols="mr-auto" class="mode">{{ o.mode | displayModeName }}</v-col>
       <v-col cols="auto" class="score">{{o.score}}</v-col>
+      <v-col cols="auto" ><v-btn icon x-small @click="play(o.mode)"><v-icon>mdi-play</v-icon></v-btn></v-col>
     </v-row>
   </v-card>
 </template>
 <style lang="scss" scoped>
 .score-item {
-  padding: 0 .5rem;
+  padding-left: 1.5rem;
+  padding-right: .5rem;
   font-size: .8rem;
   > .score {
     font-family: 'Fredoka One';
+  }
+  + .score-item {
+    border-top: 1px solid #BDBDBD;
   }
 }
 </style>
@@ -69,6 +74,25 @@ export default Vue.extend({
         return scores[0]
       }
       return NullScoreEntity(mode)
+    },
+    play(mode:GameMode) {
+      switch(mode) {
+        case 'modeSprint-10':
+        case 'modeSprint-30':
+        case 'modeEndress':
+          this.$router.replace({ path: `/game-plus-10/${mode}` })
+          break
+
+        case 'modeSingle':
+          this.$router.replace({ path: `/game-plus-single/${mode}` })
+          break
+
+        case 'minusSprint-10':
+        case 'minusSprint-30':
+        case 'minusEndress':
+          this.$router.replace({ path: `/game-minus-20/${mode}` })
+          break
+      }
     }
   },
   computed: {
