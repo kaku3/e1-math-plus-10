@@ -1,13 +1,7 @@
 {
-	"name":				"",
-	"short_name":		"",
-	"description":		"",
-	"start_url":		"/",
-	"display":			"standalone",
-	"orientation":		"any",
-	"background_color":	"#fff",
-	"theme_color":		"#fff",
-	"orientation":		"any",
+  "name": "小１さんすうゲーム",
+  "short_name": "小１さんすうゲーム",
+  "description": "小１向けさんすうゲーム。成長の記録が残ります。簡単な脳トレとしても親子であそべます。",
 	"icons": [
 		{
 			"src": "/e1-math-plus-10/frontend/dist/android-chrome-36x36.png",
@@ -64,5 +58,13 @@
 			"sizes": "512x512",
 			"type": "image/png"
 		}
-	]
+	],
+  "start_url": "/e1-math-plus-10/frontend/dist/?standalone=true",
+  "display": "standalone",
+  "background_color": "#fefefe",
+  "theme_color": "#fefefe",
+  "lang": "ja",
+  "title": "小１さんすうゲーム",
+  "og:title": "小１さんすうゲーム",
+  "og:description": "小１向けさんすうゲーム。成長の記録が残ります。簡単な脳トレとしても親子であそべます。"
 }

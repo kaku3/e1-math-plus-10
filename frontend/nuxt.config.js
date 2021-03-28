@@ -45,7 +45,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~plugins/persistedstate.js", ssr: false },
-    '~/plugins/sw.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -150,9 +149,6 @@ export default {
     },
   },
   workbox: {
-    importScripts: [
-      'custom-sw.js'
-    ]
   },
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
