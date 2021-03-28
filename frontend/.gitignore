@@ -78,7 +78,7 @@ typings/
 .idea
 
 # Service worker
-sw.*
+static/sw.*
 
 # macOS
 .DS_Store
