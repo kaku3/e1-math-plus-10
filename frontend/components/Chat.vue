@@ -22,8 +22,8 @@
       </v-text-field>
     </v-card>
     <v-badge
-      :content="unreadCount"
-      :value="unreadCount"
+      :content="unreadCount()"
+      :value="unreadCount()"
       bordered
       color="info"
       overlap
@@ -123,6 +123,7 @@ export default Vue.extend({
       })
     },
     getLogs() {
+      console.log(this.room)
       if(this.room) {
         const db = firebase.database()
         db.ref(this.room)
@@ -173,6 +174,13 @@ export default Vue.extend({
     },
     isMe(o:any): boolean {
       return o.name === this.accountStore.account.name
+    },
+    unreadCount(): number {
+      const chatRead = this.chatRead
+      if(chatRead) {
+        return this.logs.filter((e:any) => e.createdAt > chatRead.timestamp).length
+      }
+      return 0
     }
   },
   computed: {
@@ -186,13 +194,6 @@ export default Vue.extend({
     showIconColor(): string {
 
       return this.show ? "accent" : "primary"
-    },
-    unreadCount(): number {
-      const chatRead = this.chatRead
-      if(chatRead) {
-        return this.logs.filter((e:any) => e.createdAt > chatRead.timestamp).length
-      }
-      return 0
     }
   }
 })
