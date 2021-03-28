@@ -9,12 +9,15 @@
     <v-row>
       <v-col cols="12" md="6">
         <BannerPlus10 />
+        <DailySummary game="plus-10" />
       </v-col>
       <v-col cols="12" md="6">
         <BannerSingle />
+        <DailySummary game="plus-single" />
       </v-col>
       <v-col cols="12" md="6">
         <BannerMinus20 />
+        <DailySummary game="minus-20" />
       </v-col>
     </v-row>
     <Chat room="all" />
