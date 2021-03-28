@@ -113,7 +113,7 @@ export default Vue.extend({
         case 'minus-20':
           hiscores.push(this.getDailyHiscore('minusSprint-10', asc))
           hiscores.push(this.getDailyHiscore('minusSprint-30', asc))
-          hiscores.push(this.getDailyHiscore('minusEndress', asc))
+          hiscores.push(this.getDailyHiscore('minusEndress', desc))
           break
       }
       return hiscores
