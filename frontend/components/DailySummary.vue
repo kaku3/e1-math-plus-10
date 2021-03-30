@@ -26,27 +26,13 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, NullScoreEntity, GameMode } from '~/models/Score'
 
+import { displayModeName } from '~/utils/filters'
+
 function asc(a:ScoreEntity, b:ScoreEntity): number {
   return a.score - b.score
 }
 function desc(a:ScoreEntity, b:ScoreEntity): number {
   return b.score - a.score
-}
-
-function displayModeName(mode:GameMode): string {
-  switch(mode) {
-    case 'modeSprint-10':
-    case 'minusSprint-10':
-      return '10問モード'
-    case 'modeSprint-30':
-    case 'minusSprint-30':
-      return '30問モード'
-    case 'modeEndress':
-    case 'minusEndress':
-      return 'たいきゅうモード'
-    case 'modeSingle':
-      return 'ヒトケタス'
-  }
 }
 
 export default Vue.extend({

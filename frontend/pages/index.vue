@@ -6,6 +6,7 @@
       </v-col>
     </v-row>
 
+    <v-subheader>１ねんせい</v-subheader>
     <v-row>
       <v-col cols="12" md="6">
         <BannerPlus10 />
@@ -18,6 +19,11 @@
       <v-col cols="12" md="6">
         <BannerMinus20 />
         <DailySummary game="minus-20" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <DailyEntry />
       </v-col>
     </v-row>
     <Chat room="all" />

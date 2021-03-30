@@ -196,7 +196,7 @@ import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, GameMode } from '~/models/Score'
 
-import firebase from '@/plugins/firebase'
+import { entryHiscore } from '~/utils/score'
 
 import seAnswerOk from '~/assets/se/answer-ok.mp3'
 import seAnswerNg from '~/assets/se/answer-ng.mp3'
@@ -401,17 +401,7 @@ export default Vue.extend({
         createdAt: this.gameStartTime
       }
       this.scoreStore.addScore(e)
-      this.entryHiscore(e)
-    },
-    entryHiscore(e: ScoreEntity) {
-      console.log(e)
-      const db = firebase.firestore()
-      db.collection('scores').add({
-        mode: e.mode,
-        name: e.name,
-        score: e.score,
-        createdAt: new Date(e.createdAt).setHours(0,0,0,0)
-      })
+      entryHiscore(e)
     }
   },
   computed: {
