@@ -75,6 +75,12 @@
         </v-progress-linear>
       </v-card-text>
     </v-card>
+    <v-row v-if="isEnd">
+      <v-col cols="12">
+        <Share />
+      </v-col>
+    </v-row>
+
     <v-card v-if="isGame">
       <v-card-text class="digit-keyboard cyan lighten-4">
         <v-row justify="center">

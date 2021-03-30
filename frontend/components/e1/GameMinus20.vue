@@ -94,6 +94,12 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-row v-if="isEnd">
+      <v-col cols="12">
+        <Share />
+      </v-col>
+    </v-row>
+
     <v-fade-transition>
       <div v-if="isReady" class="ready">
         <v-slide-y-reverse-transition>
