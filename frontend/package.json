@@ -23,6 +23,7 @@
     "firebase-tools": "^9.6.1",
     "nuxt": "^2.14.12",
     "vue-chartjs": "^3.5.1",
+    "vue-social-sharing": "^3.0.7",
     "vuex-module-decorators": "^1.0.1",
     "vuex-persistedstate": "^4.0.0-beta.3"
   },

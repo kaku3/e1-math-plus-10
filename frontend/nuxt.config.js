@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 const environment = process.env.NODE_ENV || 'development'
 const env = require(`./env.${environment}.js`)
 
-const title = '小１さんすうゲーム'
-const description = '小１向けさんすうゲーム。成長の記録が残ります。簡単な脳トレとしても親子であそべます。'
+const title = '小１からのさんすうゲーム'
+const description = '小学生用さんすうゲーム。成長の記録が残ります。簡単な脳トレとしても親子であそべます。'
 
 export default {
   env: env,
@@ -66,7 +66,8 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    'nuxt-webfontloader'
+    'nuxt-webfontloader',
+    'vue-social-sharing/nuxt'
   ],
   webfontloader: {
     google: {

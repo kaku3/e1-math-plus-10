@@ -26,6 +26,11 @@
         <DailyEntry />
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <Share />
+      </v-col>
+    </v-row>
     <Chat room="all" />
   </div>
 </template>

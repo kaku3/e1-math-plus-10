@@ -11,7 +11,7 @@
       </v-list-item>
     </v-list>
     <v-card-text v-else>
-      プレイしてさいしょのスコアを登録しよう
+      プレイしてきょうのさいしょのスコアを登録しよう
     </v-card-text>
   </v-card>
 </template>
@@ -46,8 +46,10 @@ export default Vue.extend({
   },
   methods: {
     async getRankings() {
+      const startTime = (new Date()).setHours(0, 0, 0, 0)
       const db = firebase.firestore()
       const q = db.collection('scores')
+        .where('createdAt', '==', startTime)
         .orderBy('timestamp', 'desc')
         .limit(10)
 
