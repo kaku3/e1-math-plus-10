@@ -5,12 +5,17 @@
       :type="month"
     >
       <template v-slot:day="{ date }">
-        <span v-for="(o, i) in starsOf(date)" :key="i"><v-icon class="shake">mdi-star</v-icon></span>
+        <span v-for="(o, i) in starsOf(date)" :key="i" class="star-container"><v-icon class="shake">mdi-star</v-icon></span>
       </template>
     </v-calendar>
   </v-card>
 </template>
 <style lang="scss" scoped>
+.star-container {
+  + .star-container {
+    margin-left: -14px;
+  }
+}
 .shake{
   animation: shake 1s linear infinite;
 }

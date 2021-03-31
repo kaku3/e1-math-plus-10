@@ -5,6 +5,11 @@
         ようこそ {{name}} さん
       </v-col>
     </v-row>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <Calendar />
+      </v-col>
+    </v-row>
 
     <v-subheader>１ねんせい</v-subheader>
     <v-row>
@@ -24,11 +29,6 @@
     <v-row>
       <v-col cols="12">
         <DailyEntry />
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="12" md="6">
-        <Calendar />
       </v-col>
     </v-row>
     <v-row>
