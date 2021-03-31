@@ -1,6 +1,6 @@
 小学校1年生向け足し算練習 web アプリです。
 
-[小１さんすうゲーム](https://kaku3.github.io/e1-math-plus-10/frontend/dist/)
+[小１からのさんすうゲーム](https://kaku3.github.io/e1-math-plus-10/frontend/dist/)
 
 ## ゲームモード
 - たして１０

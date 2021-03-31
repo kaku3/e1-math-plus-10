@@ -84,7 +84,7 @@ export default {
         },
       ],
       miniVariant: false,
-      title: '小１さんすうゲーム',
+      title: '小１からのさんすうゲーム',
     }
   },
 }

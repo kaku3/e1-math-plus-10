@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="teal white--text text-h6">きょうのスコア</v-card-title>
+    <v-card-title class="teal white--text text-h6">さいしんのスコア</v-card-title>
     <v-list v-if="rankings.length > 0" dense>
       <v-list-item v-for="(o, i) in rankings" :key="i" class="score-item">
         <v-list-item-content>
@@ -19,14 +19,29 @@
 .v-card__title {
   padding: .5rem;
 }
-.score-item {
-  .score {
-    font-family: 'Fredoka One';
-  }
-  + .score-item {
-    border-top: 1px solid #BDBDBD;
+.v-list {
+  padding: 0;
+  .score-item {
+    .v-list-item__content {
+      .v-list-item__title {
+        font-weight: bold;
+      }
+      .v-list-item__subtitle {
+        font-size: .7rem;
+      }
+    }
+    .v-list-item__action {
+      margin: 0;
+    }
+    .score {
+      font-family: 'Fredoka One';
+    }
+    + .score-item {
+      border-top: 1px solid #BDBDBD;
+    }
   }
 }
+
 </style>
 <script lang="ts">
 import Vue from 'vue'

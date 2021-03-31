@@ -65,7 +65,7 @@
     > .comment {
       display: inline-block;
       padding: .5rem;
-
+      text-align: left;
     }
 
     &.me {

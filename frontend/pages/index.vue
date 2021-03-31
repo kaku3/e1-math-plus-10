@@ -8,15 +8,15 @@
 
     <v-subheader>１ねんせい</v-subheader>
     <v-row>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <BannerPlus10 />
         <DailySummary game="plus-10" />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <BannerSingle />
         <DailySummary game="plus-single" />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <BannerMinus20 />
         <DailySummary game="minus-20" />
       </v-col>
@@ -24,6 +24,11 @@
     <v-row>
       <v-col cols="12">
         <DailyEntry />
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <Calendar />
       </v-col>
     </v-row>
     <v-row>
