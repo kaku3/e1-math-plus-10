@@ -62,7 +62,7 @@ export default Vue.extend({
       return (this.lastScore.name === o.name && this.lastScore.score === o.score && this.lastScore.createdAt === o.createdAt)
     },
     displayScore(score: number) {
-      if(this.gameMode !== 'modeEndress' && this.gameMode !== 'modeSingle') {
+      if(this.gameMode !== 'modeEndress' && this.gameMode !== 'modeSingle' && this.gameMode !== 'minusEndress') {
         return score.toFixed(2)
       }
       return score
@@ -73,6 +73,7 @@ export default Vue.extend({
       return getModule(ScoreStore, this.$store) as ScoreStore
     },
     hiscores(): RankingEntry[] {
+      console.log(this.displayGameMode)
       let es = null
       switch(this.displayGameMode) {
         case 'modeSprint-10':
@@ -134,7 +135,7 @@ export default Vue.extend({
       return NullScoreEntity(this.displayGameMode)
     },
     displayGameMode(): GameMode {
-      if(this.gameMode == 'modeEndress' || this.gameMode == 'modeSingle') {
+      if(this.gameMode == 'modeEndress' || this.gameMode == 'modeSingle' || this.gameMode == 'minusEndress') {
         return this.gameMode
       } else {
         return `${this.gameMode}-${this.questionCount}` as GameMode

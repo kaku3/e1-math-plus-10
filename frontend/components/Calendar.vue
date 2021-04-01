@@ -3,7 +3,7 @@
     <v-card v-if="show">
       <v-calendar
         :weekdays="[0, 1, 2, 3, 4, 5, 6]"
-        :type="month"
+        type="month"
       >
         <template v-slot:day="{ date }">
           <span v-if="starsOf(date) >= 4" class="star-container"><v-icon class="shake">mdi-star</v-icon>{{ starsOf(date) }}</span>
@@ -61,7 +61,6 @@ export default Vue.extend({
   },
   methods: {
     starsOf(d:Date) {
-      console.log(this)
       const dd = new Date(d)
       const start = dd.setHours(0, 0, 0, 0)
       const end = dd.setDate(dd.getDate() + 1)
