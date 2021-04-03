@@ -1,6 +1,9 @@
 <script lang="ts">
 import Vue from 'vue'
 
+import seCount from '~/assets/se/count.mp3'
+import seCount0 from '~/assets/se/count-0.mp3'
+
 export default Vue.extend({
   data() {
     return {
@@ -16,12 +19,19 @@ export default Vue.extend({
       const self = this
       this.changeMode('ready')
       this.readyCount = 3
+      new Audio(seCount).play()
       this.$emit('ready', self.readyCount)
       this.gameTimerId = window.setInterval(function() {
         console.log(self.readyCount)
         if(self.readyCount-- === 0) {
           window.clearInterval(self.gameTimerId)
           self.start()
+          return
+        }
+        if(self.readyCount > 0) {
+          new Audio(seCount).play()
+        } else {
+          new Audio(seCount0).play()
         }
         self.$emit('ready', self.readyCount)
       }, 1000)
