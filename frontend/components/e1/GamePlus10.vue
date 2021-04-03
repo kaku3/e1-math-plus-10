@@ -75,6 +75,9 @@
         </v-progress-linear>
       </v-card-text>
     </v-card>
+
+    <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
+
     <v-row v-if="isEnd">
       <v-col cols="12">
         <Calendar />
@@ -84,52 +87,12 @@
       </v-col>
     </v-row>
 
-    <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
-
-    <v-fade-transition>
-      <div v-if="isReady" class="ready">
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 3">3</div>
-        </v-slide-y-reverse-transition>
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 2">2</div>
-        </v-slide-y-reverse-transition>
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 1">1</div>
-        </v-slide-y-reverse-transition>
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 0">すたーと</div>
-        </v-slide-y-reverse-transition>
-      </div>
-    </v-fade-transition>
   </div>
 </template>
 <style lang="scss" scoped>
 
 .game {
   position: relative;
-
-  > .ready {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    font-family: 'Fredoka One';
-    background-color: rgba(0, 0, 0, .5);
-
-    > * {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
-      text-align: center;
-      color: white;
-      font-size: 4rem;
-    }
-  }
 }
 
 .ex-canvas {
@@ -165,19 +128,6 @@
   left: 0;
   font-family: 'Fredoka One';
   font-size: 2rem;
-}
-
-.digit-keyboard > .row > .col {
-  padding: .25rem;
-  text-align: center;
-
-  > button {
-    font-size: 4rem;
-    font-family: 'Fredoka One';
-    width: 80%;
-    height: 5rem;
-    color: #0097A7;
-  }
 }
 </style>
 <script lang="ts">

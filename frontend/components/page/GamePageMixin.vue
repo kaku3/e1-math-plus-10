@@ -13,13 +13,16 @@ export default Vue.extend({
     return {
       showGetStarScreen: false,
       nextConditionCount: 0,
-      _playCount: 0
+      _playCount: 0,
+      mode_: '',
+      readyCount_: 0
     }
   },
   mounted () {
   },
   methods: {
     onChangeMode(mode: string) {
+      this.mode_ = mode
       console.log(mode)
       this.showGetStarScreen = false
       if(mode === 'end') {
@@ -36,6 +39,9 @@ export default Vue.extend({
       } else if(mode === 'game') {
         this._playCount = this.playCount
       }
+    },
+    onReady(readyCount: number) {
+      this.readyCount_ = readyCount
     },
 
     isGetStar(): boolean {

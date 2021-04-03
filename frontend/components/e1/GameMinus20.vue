@@ -75,25 +75,9 @@
         </v-progress-linear>
       </v-card-text>
     </v-card>
-    <v-card v-if="isGame">
-      <v-card-text class="digit-keyboard cyan lighten-4">
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(1)">1</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(2)">2</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(3)">3</v-btn></v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(4)">4</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(5)">5</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(6)">6</v-btn></v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(7)">7</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(8)">8</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(9)">9</v-btn></v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+
+    <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
+
     <v-row v-if="isEnd">
       <v-col cols="12">
         <Calendar />
@@ -103,23 +87,6 @@
       </v-col>
     </v-row>
 
-    <v-fade-transition>
-      <div v-if="isReady" class="ready">
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 3">3</div>
-        </v-slide-y-reverse-transition>
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 2">2</div>
-        </v-slide-y-reverse-transition>
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 1">1</div>
-        </v-slide-y-reverse-transition>
-        <v-slide-y-reverse-transition>
-          <div v-if="readyCount === 0">すたーと</div>
-        </v-slide-y-reverse-transition>
-      </div>
-    </v-fade-transition>
-    <GetStarScreen />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -184,24 +151,13 @@
   font-family: 'Fredoka One';
   font-size: 2rem;
 }
-
-.digit-keyboard > .row > .col {
-  padding: .25rem;
-  text-align: center;
-
-  > button {
-    font-size: 4rem;
-    font-family: 'Fredoka One';
-    width: 80%;
-    height: 5rem;
-    color: #0097A7;
-  }
-}
 </style>
 <script lang="ts">
 import Vue from 'vue'
 
 import GameMixin from '~/components/game/GameMixin.vue'
+
+import NumPad from '~/components/game/NumPad.vue'
 
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
@@ -232,6 +188,9 @@ export default Vue.extend({
   mixins: [
     GameMixin
   ],
+  components: {
+    NumPad
+  },
 
   props: {
     'gameMode': {
@@ -313,6 +272,9 @@ export default Vue.extend({
     },
 
     next() {
+      //@ts-ignore
+      this.$refs.numPad.reset()
+
       let q = Math.floor(3 + Math.random() * 4)
       if(this.questionCount === 10) {
         q += Math.random() * Math.floor(this.score / 2) * 7
@@ -329,6 +291,9 @@ export default Vue.extend({
       this.startTime = (new Date()).getTime()
       this.answerTime = ANSWER_TIME_DEFAULT - Math.floor(this.score / ANSWER_TIME_LEVELUP_COUNT) * ANSWER_TIME_LEVELUP_TIME
       this.answerTime = Math.max(this.answerTime, ANSWER_TIME_MIN)
+    },
+    onTap(v: number, _:boolean): void {
+      this.onAnswer(v)
     },
     onAnswer(v: number) {
       if(this.mode !== 'game') {

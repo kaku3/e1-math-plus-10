@@ -62,7 +62,7 @@ export default Vue.extend({
       if(this.mode === 'select') {
         this.$set(this.selected, v, !this.selected[v])
       }
-      console.log(v, this.selected[v])
+      // console.log(v, this.selected[v])
       this.$emit('tap', v, this.selected[v])
     },
     isSelected(v: number): boolean {

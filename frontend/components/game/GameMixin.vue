@@ -16,12 +16,14 @@ export default Vue.extend({
       const self = this
       this.changeMode('ready')
       this.readyCount = 3
+      this.$emit('ready', self.readyCount)
       this.gameTimerId = window.setInterval(function() {
         console.log(self.readyCount)
         if(self.readyCount-- === 0) {
           window.clearInterval(self.gameTimerId)
           self.start()
         }
+        self.$emit('ready', self.readyCount)
       }, 1000)
     },
     start() {
