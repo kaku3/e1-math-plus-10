@@ -1,6 +1,6 @@
 <template>
   <v-fade-transition>
-    <div class="effect-screen" @click="$emit('dismiss')">
+    <div class="effect-screen" @click="onTap()">
       <div class="caption-text">スターをげっと</div>
       <div class="star-container">
         <v-icon color="yellow" size="50vw" class="star">mdi-star</v-icon>
@@ -92,5 +92,23 @@ export default Vue.extend({
       default: 0
     }
   },
+  data () {
+    return {
+      shown: false
+    }
+  },
+  mounted () {
+    const self = this
+    window.setTimeout(() => {
+      self.shown = true
+    }, 1000)
+  },
+  methods: {
+    onTap() {
+      if(this.shown) {
+        this.$emit('dismiss')
+      }
+    }
+  }
 })
 </script>

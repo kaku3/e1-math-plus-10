@@ -4,6 +4,8 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity } from '~/models/Score'
 
+import seGetStar from '~/assets/se/get-star.mp3'
+
 const CONDITIONS = [ 1, 4, 10, 20, 40, 60 ]
 
 export default Vue.extend({
@@ -25,6 +27,11 @@ export default Vue.extend({
         if(this._playCount !== this.playCount) {
           this.showGetStarScreen = this.isGetStar()
           this.nextConditionCount = this.nextCondition()
+
+          if(this.showGetStarScreen) {
+            const se = new Audio(seGetStar)
+            se.play()
+          }
         }
       } else if(mode === 'game') {
         this._playCount = this.playCount
