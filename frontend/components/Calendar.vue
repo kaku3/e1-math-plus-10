@@ -46,7 +46,7 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
-import { ScoreEntity, GameMode } from '~/models/Score'
+import { ScoreEntity } from '~/models/Score'
 
 export default Vue.extend({
   data () {
