@@ -84,25 +84,8 @@
       </v-col>
     </v-row>
 
-    <v-card v-if="isGame">
-      <v-card-text class="digit-keyboard cyan lighten-4">
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(1)">1</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(2)">2</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(3)">3</v-btn></v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(4)">4</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(5)">5</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(6)">6</v-btn></v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(7)">7</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(8)">8</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(9)">9</v-btn></v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+    <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
+
     <v-fade-transition>
       <div v-if="isReady" class="ready">
         <v-slide-y-reverse-transition>
@@ -202,6 +185,8 @@ import Vue from 'vue'
 
 import GameMixin from '~/components/game/GameMixin.vue'
 
+import NumPad from '~/components/game/NumPad.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
@@ -231,6 +216,9 @@ export default Vue.extend({
   mixins: [
     GameMixin
   ],
+  components: {
+    NumPad
+  },
 
   props: {
     'gameMode': {
@@ -310,11 +298,17 @@ export default Vue.extend({
     },
 
     next() {
+      //@ts-ignore
+      this.$refs.numPad.reset()
+
       this.question = (this.question * 3 + Math.floor(Math.random() * 100)) % 9 + 1
       this.answer = 0
       this.startTime = (new Date()).getTime()
       this.answerTime = ANSWER_TIME_DEFAULT - Math.floor(this.score / ANSWER_TIME_LEVELUP_COUNT) * ANSWER_TIME_LEVELUP_TIME
       this.answerTime = Math.max(this.answerTime, ANSWER_TIME_MIN)
+    },
+    onTap(v: number, _:boolean): void {
+      this.onAnswer(v)
     },
     onAnswer(v: number) {
       if(this.mode !== 'game') {

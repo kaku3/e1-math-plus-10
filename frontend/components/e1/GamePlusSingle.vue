@@ -71,25 +71,9 @@
         </v-progress-linear>
       </v-card-text>
     </v-card>
-    <v-card v-if="isGame">
-      <v-card-text class="digit-keyboard cyan lighten-4">
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(1)" :class="{ selected : isSelected(1) }">1</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(2)" :class="{ selected : isSelected(2) }">2</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(3)" :class="{ selected : isSelected(3) }">3</v-btn></v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(4)" :class="{ selected : isSelected(4) }">4</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(5)" :class="{ selected : isSelected(5) }">5</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(6)" :class="{ selected : isSelected(6) }">6</v-btn></v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="4"><v-btn @click="onAnswer(7)" :class="{ selected : isSelected(7) }">7</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(8)" :class="{ selected : isSelected(8) }">8</v-btn></v-col>
-          <v-col cols="4"><v-btn @click="onAnswer(9)" :class="{ selected : isSelected(9) }">9</v-btn></v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+
+    <NumPad ref="numPad" v-if="isGame" mode="select" @tap="onSelect"></NumPad>
+
     <v-row v-if="isEnd">
       <v-col cols="12">
         <Calendar />
@@ -179,29 +163,13 @@
     font-size: 2rem;
   }
 }
-
-
-.digit-keyboard > .row > .col {
-  padding: .25rem;
-  text-align: center;
-
-  > button {
-    font-size: 4rem;
-    font-family: 'Fredoka One';
-    width: 80%;
-    height: 5rem;
-    color: #0097A7;
-
-    &.selected {
-      background-color: #FFECB3;
-    }
-  }
-}
 </style>
 <script lang="ts">
 import Vue from 'vue'
 
 import GameMixin from '~/components/game/GameMixin.vue'
+
+import NumPad from '~/components/game/NumPad.vue'
 
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
@@ -235,6 +203,9 @@ export default Vue.extend({
   mixins: [
     GameMixin
   ],
+  components: {
+    NumPad
+  },
 
   data() {
     return {
@@ -300,6 +271,9 @@ export default Vue.extend({
     },
 
     next() {
+      //@ts-ignore
+      this.$refs.numPad.reset()
+
       let qMax = Math.floor(this.score / 3) * 3 + Math.floor(this.score / 10) * 12 + 6
       let qMin = Math.floor(this.score / 5) + 3
       qMin = Math.min(qMin, 20)
@@ -313,6 +287,9 @@ export default Vue.extend({
     },
     isSelected(v: number): boolean {
       return this.answers[v] !== 0
+    },
+    onSelect(v: number, _: boolean): void {
+      this.onAnswer(v)
     },
     onAnswer(v: number) {
       if(this.mode !== 'game') {
@@ -358,6 +335,9 @@ export default Vue.extend({
 
       } else if(answer > this.question) {
         // 正解を超えたらリセット
+        //@ts-ignore
+        this.$refs.numPad.reset()
+
         this.answers.fill(0)
         this.displayAnswers = []
         this.answerEffect('x')
