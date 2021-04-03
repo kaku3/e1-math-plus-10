@@ -1,6 +1,9 @@
 <template>
   <v-fade-transition>
     <v-card v-if="show">
+      <div class="monthly-star-container">
+        {{ new Date().getMonth() + 1}}月の★<span class="count">{{monthlyStarCount}}</span>
+      </div>
       <v-calendar
         :weekdays="[0, 1, 2, 3, 4, 5, 6]"
         type="month"
@@ -14,6 +17,13 @@
   </v-fade-transition>
 </template>
 <style lang="scss" scoped>
+.monthly-star-container {
+  padding: .25rem;
+  text-align: right;
+  > .count {
+    font-family: 'Fredoka One';
+  }
+}
 .star-container {
   font-family: 'Fredoka One';
   + .star-container {
@@ -48,6 +58,8 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity } from '~/models/Score'
 
+import { dailyStarsOf, monthlyStarsOf } from '~/utils/star'
+
 export default Vue.extend({
   data () {
     return {
@@ -61,20 +73,7 @@ export default Vue.extend({
   },
   methods: {
     starsOf(d:Date) {
-      const dd = new Date(d)
-      const start = dd.setHours(0, 0, 0, 0)
-      const end = dd.setDate(dd.getDate() + 1)
-      const scores = this.scores
-        .filter((o:ScoreEntity) => o.createdAt >= start)
-        .filter((o:ScoreEntity) => o.createdAt < end)
-      if(scores.length >= 10) {
-        return Math.min(Math.floor(scores.length / 20) + 3, 6)
-      } else if(scores.length >= 4) {
-        return 2
-      } else if(scores.length >= 1) {
-        return 1
-      }
-      return 0
+      return dailyStarsOf(this.scores, new Date(d))
     }
   },
   computed: {
@@ -84,6 +83,9 @@ export default Vue.extend({
     scores(): ScoreEntity[] {
       return this.scoreStore.scores || [] as ScoreEntity[]
     },
+    monthlyStarCount(): number {
+      return monthlyStarsOf(this.scores, new Date())
+    }
   },
 })
 </script>
