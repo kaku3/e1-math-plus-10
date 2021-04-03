@@ -199,6 +199,9 @@
 </style>
 <script lang="ts">
 import Vue from 'vue'
+
+import GameMixin from '~/components/game/GameMixin.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
@@ -225,6 +228,10 @@ function answered(v: number) {
 }
 
 export default Vue.extend({
+  mixins: [
+    GameMixin
+  ],
+
   props: {
     'gameMode': {
       type: String,
@@ -248,7 +255,6 @@ export default Vue.extend({
       gameStartTime: 0,
       gameTime: 0,
       penaltyTime: 0,
-      gameTimerId: -1,
       progress: 0,
       effects: {
         answer: '',
@@ -261,6 +267,8 @@ export default Vue.extend({
   },
   destroyed() {
     console.log("destroyed")
+
+    //@ts-ignore
     this.endGame()
   },
   methods: {
@@ -282,38 +290,25 @@ export default Vue.extend({
       this.penaltyTime = 0
       this.question = 0
       this.answer = 0
-      this.mode = 'ready'
 
-      this.readyCount = 3
-      this.gameTimerId = window.setInterval(function() {
-        if(self.readyCount-- === 0) {
-          window.clearInterval(self.gameTimerId)
-          self.start()
-        }
-      }, 1000)
+      //@ts-ignore
+      this.ready()
     },
-    start() {
-      const self = this
-      this.gameStartTime = (new Date()).getTime()
-      this.mode = 'game'
+    onNext(): void {
       this.next()
-      this.gameTimerId = window.setInterval(function() {
-        self.updateGameTime()
-        if(self.updateProgress()) {
-          self.endGame()
-          self.addEndressScore()
-          const seEnd_ = new Audio(seEnd)
-          seEnd_.play()
-        }
-      }, 200)
+    },
+    onUpdateProgress(): void {
+      if(this.updateProgress()) {
+
+        //@ts-ignore
+        this.endGame()
+        this.addEndressScore()
+
+        const seEnd_ = new Audio(seEnd)
+        seEnd_.play()
+      }
     },
 
-    endGame() {
-      this.updateGameTime()
-      this.mode = 'end'
-      window.clearInterval(this.gameTimerId)
-      this.gameTimerId = -1
-    },
     next() {
       this.question = (this.question * 3 + Math.floor(Math.random() * 100)) % 9 + 1
       this.answer = 0
@@ -340,6 +335,8 @@ export default Vue.extend({
         se.play()
         if(this.gameMode === 'modeSprint') {
           if(this.score === this.questionCount) {
+
+            //@ts-ignore
             this.endGame()
             this.addSprintScore()
             const seFinish_ = new Audio(seFinish)
