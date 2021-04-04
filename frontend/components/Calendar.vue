@@ -4,13 +4,15 @@
       <div class="monthly-star-container">
         {{ new Date().getMonth() + 1}}月の★<span class="count">{{monthlyStarCount}}</span>
       </div>
-      <v-calendar
+      <v-calendar class="star-calendar"
         :weekdays="[0, 1, 2, 3, 4, 5, 6]"
         type="month"
       >
         <template v-slot:day="{ date }">
-          <span v-if="starsOf(date) >= 4" class="star-container"><v-icon class="shake">mdi-star</v-icon>{{ starsOf(date) }}</span>
-          <span v-else v-for="(o, i) in starsOf(date)" :key="i" class="star-container"><v-icon class="shake">mdi-star</v-icon></span>
+          <div :class="`date-container star-${dateClass(date)}`">
+            <span v-if="starsOf(date) >= 4" class="star-container"><v-icon class="shake">★</v-icon>{{ starsOf(date) }}</span>
+            <span v-else v-for="(o, i) in starsOf(date)" :key="i" class="star-container"><v-icon class="shake">★</v-icon></span>
+          </div>
         </template>
       </v-calendar>
     </v-card>
@@ -23,11 +25,40 @@
   > .count {
     font-family: 'Fredoka One';
   }
+
+  color: white;
+  background-color: #00BCD4;
 }
-.star-container {
-  font-family: 'Fredoka One';
-  + .star-container {
-    margin-left: -14px;
+.date-container {
+
+  &.star-0 * {
+    color: #37474F;
+  }
+  &.star-1 * {
+    color: #00838F;
+  }
+  &.star-2 * {
+    color: #00BFA5;
+  }
+  &.star-3 * {
+    color: #7CB342;
+  }
+  &.star-4 * {
+    color: #FFC107;
+  }
+  &.star-5 * {
+    color: #FBC02D;
+  }
+  &.star-6 * {
+    color: #FFD600;
+  }
+
+  .star-container {
+    font-family: 'Fredoka One';
+    + .star-container {
+      margin-left: -14px;
+    }
+
   }
 }
 .shake{
@@ -72,8 +103,18 @@ export default Vue.extend({
     })
   },
   methods: {
-    starsOf(d:Date) {
+    starsOf(d:Date):number {
       return dailyStarsOf(this.monthlyScores, new Date(d))
+    },
+    dateClass(d:Date):number {
+      const c = this.starsOf(d)
+      if(c >= 20 ) return 6
+      else if(c >= 10) return 5
+      else if(c >= 6) return 4
+      else if(c >= 3) return 3
+      else if(c >= 2) return 2
+      else if(c >= 1) return 1
+      return 0
     }
   },
   computed: {

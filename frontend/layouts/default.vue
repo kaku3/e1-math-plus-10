@@ -24,9 +24,9 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar color="light-blue" :clipped-left="clipped" fixed app dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="title" class="text-subtitle-1" />
       <v-spacer />
     </v-app-bar>
     <v-main class="grey lighten-2">
