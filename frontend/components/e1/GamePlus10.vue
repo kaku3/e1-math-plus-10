@@ -78,15 +78,6 @@
 
     <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
 
-    <v-row v-if="isEnd">
-      <v-col cols="12">
-        <Calendar />
-      </v-col>
-      <v-col cols="12">
-        <Share />
-      </v-col>
-    </v-row>
-
   </div>
 </template>
 <style lang="scss" scoped>
@@ -96,7 +87,7 @@
 }
 
 .ex-canvas {
-  height: 16vh;
+  min-height: 16vh;
 }
 .ex-canvas > * {
   padding: .25rem;

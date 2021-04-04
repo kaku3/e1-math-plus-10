@@ -73,7 +73,7 @@ export default Vue.extend({
   },
   methods: {
     starsOf(d:Date) {
-      return dailyStarsOf(this.scores, new Date(d))
+      return dailyStarsOf(this.monthlyScores, new Date(d))
     }
   },
   computed: {
@@ -82,6 +82,16 @@ export default Vue.extend({
     },
     scores(): ScoreEntity[] {
       return this.scoreStore.scores || [] as ScoreEntity[]
+    },
+    monthlyScores(): ScoreEntity[] {
+      const dd = new Date()
+      dd.setHours(0,0,0,0)
+      const monthStart =   dd.setDate(1)
+      const monthEnd = dd.setMonth(dd.getMonth() + 1)
+
+      return this.scores
+        .filter((o:ScoreEntity) => o.createdAt >= monthStart)
+        .filter((o:ScoreEntity) => o.createdAt < monthEnd)
     },
     monthlyStarCount(): number {
       return monthlyStarsOf(this.scores, new Date())

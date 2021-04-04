@@ -1,10 +1,19 @@
 <template>
-  <div>
+  <div class="game-page">
     <GamePlusSingle @change-mode="onChangeMode" @ready="onReady" />
-    <ReadyScreen v-if="mode_ === 'ready'" :readyCount="readyCount_" />
+    <ReadyScreen v-if="isReady" :readyCount="readyCount_" />
+    <v-col cols="12" v-if="isEnd">
+      <Share />
+    </v-col>
+
     <GetStarScreen v-if="showGetStarScreen" :nextConditionCount="nextConditionCount" @dismiss="onDismissGetStarScreen" />
   </div>
 </template>
+<style lang="scss" scoped>
+.game-page {
+  min-height: calc(100vh - 80px);
+}
+</style>
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
@@ -27,6 +36,7 @@ export default Vue.extend({
     const params = context.params
     console.log(context)
     return {
+      gameMode_: params.game,
       mode: params.game
     }
   }

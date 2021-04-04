@@ -2,6 +2,18 @@ export type GameMode =
   'modeSprint-10' | 'modeSprint-30' | 'modeEndress' | 'modeSingle' |
   'minusSprint-10' | 'minusSprint-30' | 'minusEndress'
 
+export const GAME_MODES:GameMode[] = [
+  'modeSprint-10',
+  'modeSprint-30',
+  'modeEndress',
+
+  'modeSingle',
+
+  'minusSprint-10',
+  'minusSprint-30',
+  'minusEndress'
+]
+
 export interface ScoreEntity {
   mode: GameMode
   name: string
@@ -15,3 +27,4 @@ export function NullScoreEntity(mode:GameMode):ScoreEntity {
   const createdAt = 0
   return { mode, name, score, createdAt }
 }
+

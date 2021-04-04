@@ -2,7 +2,9 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
-import { ScoreEntity } from '~/models/Score'
+import { ScoreEntity, GameMode } from '~/models/Score'
+
+import { dailyStarsOf, nextCondition } from '~/utils/star'
 
 import seGetStar from '~/assets/se/get-star.mp3'
 
@@ -13,7 +15,8 @@ export default Vue.extend({
     return {
       showGetStarScreen: false,
       nextConditionCount: 0,
-      _playCount: 0,
+      _starCount: 0,
+      gameMode_: '',
       mode_: '',
       readyCount_: 0
     }
@@ -23,13 +26,13 @@ export default Vue.extend({
   methods: {
     onChangeMode(mode: string) {
       this.mode_ = mode
-      console.log(mode)
+      console.log(this.gameMode_, mode)
       this.showGetStarScreen = false
       if(mode === 'end') {
-        console.log(this._playCount, this.playCount)
-        if(this._playCount !== this.playCount) {
-          this.showGetStarScreen = this.isGetStar()
-          this.nextConditionCount = this.nextCondition()
+        console.log(this._starCount, this.dailyStarCount)
+        if(this._starCount !== this.dailyStarCount) {
+          this.showGetStarScreen = true
+          this.nextConditionCount = nextCondition(this.monthlyScores, new Date(), this.gameMode_ as GameMode)
 
           if(this.showGetStarScreen) {
             const se = new Audio(seGetStar)
@@ -37,24 +40,13 @@ export default Vue.extend({
           }
         }
       } else if(mode === 'game') {
-        this._playCount = this.playCount
+        this._starCount = this.dailyStarCount
       }
     },
     onReady(readyCount: number) {
       this.readyCount_ = readyCount
     },
 
-    isGetStar(): boolean {
-      const c = CONDITIONS.some(c => c === this.playCount)
-      return c
-    },
-    nextCondition(): number {
-      const c = CONDITIONS.findIndex(c => c === this.playCount)
-      if(c >= 0 && c < CONDITIONS.length - 1) {
-        return CONDITIONS[c + 1] - this.playCount
-      }
-      return 1
-    },
     onDismissGetStarScreen() {
       this.showGetStarScreen = false
     }
@@ -66,15 +58,26 @@ export default Vue.extend({
     scores(): ScoreEntity[] {
       return this.scoreStore.scores || [] as ScoreEntity[]
     },
-    playCount(): number {
+    monthlyScores(): ScoreEntity[] {
       const dd = new Date()
-      const start = dd.setHours(0, 0, 0, 0)
-      const end = dd.setDate(dd.getDate() + 1)
-      const scores = this.scores
-        .filter((o:ScoreEntity) => o.createdAt >= start)
-        .filter((o:ScoreEntity) => o.createdAt < end)
-      return scores.length
+      dd.setHours(0,0,0,0)
+      const monthStart =   dd.setDate(1)
+      const monthEnd = dd.setMonth(dd.getMonth() + 1)
+
+      return this.scores
+        .filter((o:ScoreEntity) => o.createdAt >= monthStart)
+        .filter((o:ScoreEntity) => o.createdAt < monthEnd)
     },
+
+    dailyStarCount(): number {
+      return dailyStarsOf(this.monthlyScores, new Date())
+    },
+    isReady(): boolean {
+      return this.mode_ === 'ready'
+    },
+    isEnd(): boolean {
+      return this.mode_ === 'end'
+    }
   }
 })
 </script>

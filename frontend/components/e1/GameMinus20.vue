@@ -78,47 +78,16 @@
 
     <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
 
-    <v-row v-if="isEnd">
-      <v-col cols="12">
-        <Calendar />
-      </v-col>
-      <v-col cols="12">
-        <Share />
-      </v-col>
-    </v-row>
-
   </div>
 </template>
 <style lang="scss" scoped>
 
 .game {
   position: relative;
-
-  > .ready {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    font-family: 'Fredoka One';
-    background-color: rgba(0, 0, 0, .5);
-
-    > * {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
-      text-align: center;
-      color: white;
-      font-size: 4rem;
-    }
-  }
 }
 
 .ex-canvas {
-  height: 16vh;
+  min-height: 16vh;
 }
 .ex-canvas > * {
   padding: .25rem;
