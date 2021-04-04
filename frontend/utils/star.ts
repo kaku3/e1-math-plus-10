@@ -3,20 +3,20 @@ import { ScoreEntity, GameMode, GAME_MODES } from '~/models/Score'
 const CONDITIONS = [ 1, 4, 10, 20, 40, 60 ]
 
 export function dailyStarsOf(scores: ScoreEntity[], d:Date): number {
-  let count = 0
-
-  for(let gm of GAME_MODES) {
-    const c = playCount(scores, d, gm)
-    if(c >= 10) {
-      count += Math.min(Math.floor(c / 20) + 3, 6)
-    } else if(c >= 4) {
-      count += 2
-    } else if(c >= 1) {
-      count += 1
-    }
-  }
-  return count
+  return GAME_MODES.map(gm => dailyGameModeStarsOf(scores, d, gm)).reduce((v, c) => v + c)
 }
+export function dailyGameModeStarsOf(scores:ScoreEntity[], d:Date, gameMode:GameMode): number {
+  const c = playCount(scores, d, gameMode)
+  if(c >= 10) {
+    return Math.min(Math.floor(c / 20) + 3, 6)
+  } else if(c >= 4) {
+    return 2
+  } else if(c >= 1) {
+    return 1
+  }
+  return 0
+}
+
 
 export function playCount(scores:ScoreEntity[], d:Date, gameMode:GameMode): number {
   const dd = new Date(d)

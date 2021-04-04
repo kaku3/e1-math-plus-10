@@ -1,9 +1,10 @@
 <template>
   <v-card color="grey lighten-3">
     <v-row v-for="(o, i) in hiscores" :key="i" class="score-item" dense>
-      <v-col cols="mr-auto" class="mode">{{ o.e.mode | displayModeName }}</v-col>
-      <v-col cols="auto" class="score">{{ o.e.score | fixed2 }}<span>({{ o.diff | signed }})</span></v-col>
-      <v-col cols="auto" ><v-btn icon x-small @click="play(o.e.mode)"><v-icon>mdi-play</v-icon></v-btn></v-col>
+      <v-col cols="mr-auto" class="mode blue-grey--text">{{ o.e.mode | displayModeName }}</v-col>
+      <v-col cols="auto" class="score blue-grey--text text--darken-2" v-if="o.star > 0">{{ o.e.score | fixed2 }}<span>({{ o.diff | signed }})</span></v-col>
+      <v-col cols="auto" :class="`star star-${o.star}`">★{{ o.star | pad3 }}</v-col>
+      <v-col cols="auto" ><v-btn icon x-small @click="play(o.e.mode)" color="indigo"><v-icon>mdi-play</v-icon></v-btn></v-col>
     </v-row>
   </v-card>
 </template>
@@ -15,6 +16,34 @@
   > .score {
     font-family: 'Fredoka One';
   }
+  > .star {
+    padding-left: .25rem;
+    width: 2rem;
+    font-family: 'Fredoka One';
+
+    &.star-0 {
+      color: #37474F;
+    }
+    &.star-1 {
+      color: #00838F;
+    }
+    &.star-2 {
+      color: #00BFA5;
+    }
+    &.star-3 {
+      color: #7CB342;
+    }
+    &.star-4 {
+      color: #FFC107;
+    }
+    &.star-5 {
+      color: #FBC02D;
+    }
+    &.star-6 {
+      color: #FFD600;
+    }
+  }
+
   + .score-item {
     border-top: 1px solid #BDBDBD;
   }
@@ -26,6 +55,8 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, NullScoreEntity, GameMode } from '~/models/Score'
 
+import { dailyGameModeStarsOf } from '~/utils/star'
+
 import { displayModeName, signed, fixed2 } from '~/utils/filters'
 
 function asc(a:ScoreEntity, b:ScoreEntity): number {
@@ -35,9 +66,14 @@ function desc(a:ScoreEntity, b:ScoreEntity): number {
   return b.score - a.score
 }
 
+function pad3(v: number): string {
+  return String(v).padStart(3, ' ')
+}
+
 type DisplayDailyHiscore = {
   e: ScoreEntity,
-  diff: number
+  diff: number,
+  star: number
 }
 
 export default Vue.extend({
@@ -54,32 +90,29 @@ export default Vue.extend({
     getDailyHiscore(mode:GameMode, order:any): DisplayDailyHiscore {
       const d = new Date()
       const start = d.setHours(0,0,0,0)
-      const yesterday = d.setDate(d.getDate() - 1)
 
-      const _2days = this.scoreStore.scores
+      // mode の全スコア
+      const allScores = this.scoreStore.scores
         .filter(s => s.mode === mode)
-        .filter(s => (s.createdAt >= yesterday))
         .sort(order)
 
-      const scores = _2days
+      // mode の本日のスコア
+      const scores = allScores
         .filter(s => (s.createdAt >= start))
         .sort(order)
-      const oldScores = _2days
-        .filter(s => (s.createdAt < start))
-        .sort(order)
-
-      console.log(mode, scores)
 
       if(scores.length > 0) {
-        const diff = oldScores.length > 0 ? scores[0].score - oldScores[0].score : 0
+        const diff = allScores.length > 0 ? scores[0].score - allScores[0].score : 0
         return {
           e: scores[0],
-          diff: diff
+          diff: diff,
+          star: dailyGameModeStarsOf(scores, d, mode)
         }
       }
       return {
         e: NullScoreEntity(mode),
-        diff: 0
+        diff: 0,
+        star: 0
       }
     },
 
@@ -130,7 +163,8 @@ export default Vue.extend({
   filters: {
     displayModeName,
     signed,
-    fixed2
+    fixed2,
+    pad3
   }
 })
 </script>
