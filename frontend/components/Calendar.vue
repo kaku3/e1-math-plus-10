@@ -30,6 +30,7 @@
   background-color: #00BCD4;
 }
 .date-container {
+  text-align: center;
 
   &.star-0 * {
     color: #37474F;
