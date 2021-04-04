@@ -1,6 +1,7 @@
 <template>
   <v-fade-transition>
     <v-card v-if="show">
+      <img class="poster" :src="bg" />
       <div class="monthly-star-container">
         {{ new Date().getMonth() + 1}}月の★<span class="count">{{monthlyStarCount}}</span>
       </div>
@@ -19,6 +20,13 @@
   </v-fade-transition>
 </template>
 <style lang="scss" scoped>
+.poster {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: opacity(.15);
+}
 .monthly-star-container {
   padding: .25rem;
   text-align: right;
@@ -95,10 +103,14 @@ import { dailyStarsOf, monthlyStarsOf } from '~/utils/star'
 export default Vue.extend({
   data () {
     return {
-      show: false
+      show: false,
+      bg: ''
     }
   },
   mounted () {
+    const no = Math.floor(new Date().getTime() / 24 * 60 * 60 * 1000) % 13
+    this.bg = require(`~/assets/bg/bg-${no}.jpg`)
+    console.log(this.bg)
     this.$nextTick(() => {
       this.show = true
     })
