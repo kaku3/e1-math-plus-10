@@ -46,6 +46,18 @@
   &.entry {
     background-color: #F0F4C3;
   }
+  &:nth-child(n+21) {
+    > * {
+      padding: .25rem .5rem;
+      font-size: .6rem;
+    }
+  }
+  &:nth-child(n+51) {
+    > * {
+      padding: .1rem .5rem;
+      font-size: .5rem;
+    }
+  }
 }
 </style>
 <script lang="ts">
