@@ -108,7 +108,7 @@ export default Vue.extend({
     }
   },
   mounted () {
-    const no = Math.floor(new Date().getTime() / 24 * 60 * 60 * 1000) % 13
+    const no = Math.floor(new Date().getTime() / (24 * 60 * 60 * 1000)) % 13
     this.bg = require(`~/assets/bg/bg-${no}.jpg`)
     console.log(this.bg)
     this.$nextTick(() => {
