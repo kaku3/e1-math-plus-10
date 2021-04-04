@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="title"><v-icon>mdi-crown</v-icon>{{displayGameModeTitle}}</v-card-title>
+    <v-card-title class="title"><v-icon>mdi-crown</v-icon>{{gameMode | displayModeName}}</v-card-title>
     <v-card-text>
       <v-row v-for="(o, i) in hiscores" :key="i" class="rankings" :class="{ entry: isLastScore(o) }">
         <v-col cols="auto" class="no">{{o.no}}</v-col>
@@ -38,6 +38,8 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, NullScoreEntity, GameMode } from '~/models/Score'
+
+import { displayModeName } from '~/utils/filters'
 
 type RankingEntry = {
   no: number
@@ -99,6 +101,15 @@ export default Vue.extend({
           es = this.scoreStore.minusEndressHiscores
           break
 
+        case 'mul99Sprint-10':
+          es = this.scoreStore.mul99Sprint10Hiscores
+          break
+        case 'mul99Sprint-30':
+          es = this.scoreStore.mul99Sprint30Hiscores
+          break
+        case 'mul99Endress':
+          es = this.scoreStore.mul99EndressHiscores
+          break
       }
       if(!es) {
         return []
@@ -135,21 +146,19 @@ export default Vue.extend({
       return NullScoreEntity(this.displayGameMode)
     },
     displayGameMode(): GameMode {
-      if(this.gameMode == 'modeEndress' || this.gameMode == 'modeSingle' || this.gameMode == 'minusEndress') {
+      if( this.gameMode == 'modeEndress'
+      ||  this.gameMode == 'modeSingle'
+      ||  this.gameMode == 'minusEndress'
+      ||  this.gameMode == 'mul99Endress'
+      ) {
         return this.gameMode
       } else {
         return `${this.gameMode}-${this.questionCount}` as GameMode
       }
     },
-    displayGameModeTitle(): String {
-      if(this.gameMode == 'modeEndress' || this.gameMode == 'minusEndress') {
-        return 'たいきゅうモード'
-      } else if(this.gameMode == 'modeSingle') {
-        return 'ヒトケタス'
-      } else {
-        return `${this.questionCount}問モード`
-      }
-    }
+  },
+  filters: {
+    displayModeName
   }
 })
 </script>

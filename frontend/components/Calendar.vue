@@ -108,11 +108,11 @@ export default Vue.extend({
     },
     dateClass(d:Date):number {
       const c = this.starsOf(d)
-      if(c >= 20 ) return 6
-      else if(c >= 10) return 5
-      else if(c >= 6) return 4
-      else if(c >= 3) return 3
-      else if(c >= 2) return 2
+      if(c >= 80 ) return 6
+      else if(c >= 40) return 5
+      else if(c >= 20) return 4
+      else if(c >= 10) return 3
+      else if(c >= 4) return 2
       else if(c >= 1) return 1
       return 0
     }

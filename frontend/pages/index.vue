@@ -26,6 +26,15 @@
         <DailySummary game="minus-20" />
       </v-col>
     </v-row>
+
+    <v-subheader>２ねんせい</v-subheader>
+    <v-row>
+      <v-col cols="12" md="6" lg="4">
+        <BannerMul99 />
+        <DailySummary game="mul-99" />
+      </v-col>
+    </v-row>
+
     <v-row>
       <v-col cols="12">
         <DailyEntry />

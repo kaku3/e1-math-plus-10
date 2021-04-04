@@ -133,6 +133,12 @@ export default Vue.extend({
         case 'minusEndress':
           this.$router.replace({ path: `/game-minus-20/${mode}` })
           break
+
+        case 'mul99Sprint-10':
+        case 'mul99Sprint-30':
+        case 'mul99Endress':
+          this.$router.replace({ path: `/game-mul-99/${mode}` })
+          break
       }
     }
   },
@@ -155,6 +161,12 @@ export default Vue.extend({
           hiscores.push(this.getDailyHiscore('minusSprint-10', asc))
           hiscores.push(this.getDailyHiscore('minusSprint-30', asc))
           hiscores.push(this.getDailyHiscore('minusEndress', desc))
+          break
+
+        case 'mul-99':
+          hiscores.push(this.getDailyHiscore('mul99Sprint-10', asc))
+          hiscores.push(this.getDailyHiscore('mul99Sprint-30', asc))
+          hiscores.push(this.getDailyHiscore('mul99Endress', desc))
           break
       }
       return hiscores

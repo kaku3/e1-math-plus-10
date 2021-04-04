@@ -78,6 +78,17 @@ export default {
           }
         },
         {
+          icon: 'mdi-playlist-edit',
+          title: 'かけざん９９',
+          to: {
+            name: 'game-mul-99',
+            params: {
+              mode: 'mul99Sprint',
+              count: 10
+            }
+          }
+        },
+        {
           icon: 'mdi-account-box',
           title: 'アカウント',
           to: '/account',

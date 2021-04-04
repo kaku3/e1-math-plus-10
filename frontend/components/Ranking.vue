@@ -137,8 +137,11 @@ export default Vue.extend({
       return o.name == this.accountStore.account.name
     },
     displayScore(score: number) {
-      if(this.gameMode !== 'modeEndress' && this.gameMode !== 'modeSingle'
-      && this.gameMode !== 'minusEndress' ) {
+      if(this.gameMode !== 'modeEndress'
+      && this.gameMode !== 'modeSingle'
+      && this.gameMode !== 'minusEndress'
+      && this.gameMode !== 'mul99Endress'
+      ) {
         return score.toFixed(2)
       }
       return score
@@ -149,15 +152,22 @@ export default Vue.extend({
       return getModule(AccountStore, this.$store) as AccountStore
     },
     displayGameMode(): GameMode {
-      if(this.gameMode == 'modeEndress' || this.gameMode == 'modeSingle'
-      || this.gameMode == 'minusEndress') {
+      if(this.gameMode == 'modeEndress'
+      || this.gameMode == 'modeSingle'
+      || this.gameMode == 'minusEndress'
+      || this.gameMode == 'mul99Endress'
+      ) {
         return this.gameMode
       } else {
         return `${this.gameMode}-${this.questionCount}` as GameMode
       }
     },
     orderBy() {
-      return (this.gameMode === 'modeEndress' || this.gameMode === 'modeSingle' || this.gameMode === 'minusEndress') ? 'desc' : 'asc'
+      return (this.gameMode === 'modeEndress'
+        || this.gameMode === 'modeSingle'
+        || this.gameMode === 'minusEndress'
+        || this.gameMode === 'mul99Endress'
+        ) ? 'desc' : 'asc'
     }
   }
 })
