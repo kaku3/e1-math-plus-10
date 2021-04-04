@@ -2,9 +2,11 @@
   <div class="game-page">
     <GameMul99 :gameMode="mode" :questionCount="count" @change-mode="onChangeMode" @ready="onReady" />
     <ReadyScreen v-if="isReady" :readyCount="readyCount_" />
-    <v-col cols="12" v-if="isEnd">
+
+    <div class="share-container" v-if="isEnd">
       <Share />
-    </v-col>
+    </div>
+    <Chat room="all" v-if="isEnd" />
 
     <GetStarScreen v-if="showGetStarScreen" :nextConditionCount="nextConditionCount" @dismiss="onDismissGetStarScreen" />
   </div>
@@ -12,6 +14,10 @@
 <style lang="scss" scoped>
 .game-page {
   min-height: calc(100vh - 80px);
+}
+.share-container {
+  position: fixed;
+  bottom:0;
 }
 </style>
 <script lang="ts">

@@ -49,7 +49,7 @@
 }
 .toggle-show-icon {
   margin-right: .5rem;
-  margin-bottom: .5rem;
+  margin-bottom: 1.5rem;
 }
 #log-container {
   width: 100vw;

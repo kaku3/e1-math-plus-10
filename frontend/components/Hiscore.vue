@@ -1,5 +1,6 @@
 <template>
   <v-card>
+    <img class="poster" :src="bg" />
     <v-card-title class="title"><v-icon>mdi-crown</v-icon>{{displayGameMode | displayModeName}}</v-card-title>
     <v-card-text>
       <v-row v-for="(o, i) in hiscores" :key="i" class="rankings" :class="{ entry: isLastScore(o) }">
@@ -11,6 +12,13 @@
   </v-card>
 </template>
 <style lang="scss" scoped>
+.poster {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: opacity(.15);
+}
 .title {
   padding: .5rem .25rem;
 }
@@ -62,6 +70,15 @@ export default Vue.extend({
       type: Number,
       default: 0
     }
+  },
+  data () {
+    return {
+      bg: ''
+    }
+  },
+  mounted () {
+    const no = Math.floor(new Date().getTime() / (24 * 60 * 60 * 1000)) % 13
+    this.bg = require(`~/assets/bg/bg-${no}.jpg`)
   },
   methods: {
     isLastScore(o: RankingEntry): boolean {
