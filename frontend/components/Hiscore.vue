@@ -1,10 +1,10 @@
 <template>
   <v-card>
-    <v-card-title class="title"><v-icon>mdi-crown</v-icon>{{gameMode | displayModeName}}</v-card-title>
+    <v-card-title class="title"><v-icon>mdi-crown</v-icon>{{displayGameMode | displayModeName}}</v-card-title>
     <v-card-text>
       <v-row v-for="(o, i) in hiscores" :key="i" class="rankings" :class="{ entry: isLastScore(o) }">
         <v-col cols="auto" class="no">{{o.no}}</v-col>
-        <v-col cols="mr-auto" class="text-h6">{{o.name}}</v-col>
+        <v-col cols="mr-auto" class="name">{{o.name}}</v-col>
         <v-col cols="auto" class="value">{{displayScore(o.score)}}</v-col>
       </v-row>
     </v-card-text>
@@ -17,6 +17,7 @@
 .rankings {
   > * {
     padding: .25rem;
+    font-size: .8rem;
   }
   + .rankings {
     margin-top: .25rem;
@@ -28,9 +29,12 @@
 .entry {
   background-color: #F0F4C3;
 }
+.name {
+  font-weight: bold;
+}
 .value {
   font-family: 'Fredoka One';
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 </style>
 <script lang="ts">
@@ -64,7 +68,11 @@ export default Vue.extend({
       return (this.lastScore.name === o.name && this.lastScore.score === o.score && this.lastScore.createdAt === o.createdAt)
     },
     displayScore(score: number) {
-      if(this.gameMode !== 'modeEndress' && this.gameMode !== 'modeSingle' && this.gameMode !== 'minusEndress') {
+      if(this.gameMode !== 'modeEndress'
+      && this.gameMode !== 'modeSingle'
+      && this.gameMode !== 'minusEndress'
+      && this.gameMode !== 'mul99Endress'
+      ) {
         return score.toFixed(2)
       }
       return score
