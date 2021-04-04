@@ -10,7 +10,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-card>
+    <v-card class="green lighten-5">
       <HistoryChart v-if="showChart" class="mt-4" :data="singleHistory()" :options="chartOptions" :style="chartStyle" />
       <v-card-text>
         <v-row class="mt-2 mb-2">

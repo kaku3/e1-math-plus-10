@@ -4,7 +4,7 @@
       <v-tab>10問モード</v-tab>
       <v-tab>30問モード</v-tab>
       <v-tab>たいきゅうモード</v-tab>
-      <v-tab-item>
+      <v-tab-item class="green lighten-5">
         <HistoryChart class="mt-4" :data="sprint10History()" :options="chartOptions" :style="chartStyle" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
@@ -17,7 +17,7 @@
         </v-card-text>
         <Ranking gameMode="minusSprint" :questionCount="10" />
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item class="green lighten-5">
         <HistoryChart class="mt-4" :data="sprint30History()" :options="chartOptions"  :style="chartStyle" />
         <v-card-text>
           <v-row class="mt-2 mb-2">
@@ -30,7 +30,7 @@
         </v-card-text>
         <Ranking gameMode="minusSprint" :questionCount="30" />
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item class="green lighten-5">
         <HistoryChart class="mt-4" :data="endressHistory()" :options="chartOptions" :style="chartStyle" />
         <v-card-text>
           <v-row class="mt-2 mb-2">

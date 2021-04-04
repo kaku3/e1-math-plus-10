@@ -109,20 +109,50 @@ export class GameHistoryUtil {
 
 
   static chartOptions() {
+    const fontColor = '#888'
+    const gridYColor = '#ddd'
+    const gridXColor = '#ddd'
     return {
       responsive: true,
       maintainAspectRatio: false,
+      legend: {
+        fontColor: fontColor
+      },
       scales: {
         yAxes: [
           {
             id: 'y-axis-1',
             type: 'linear',
-            position: 'left'
+            position: 'left',
+            ticks: {
+              fontColor: fontColor
+            },
+            gridLines: {
+              display: false,
+              color: gridYColor
+            }
           },
           {
             id: 'y-axis-2',
             type: 'linear',
-            position: 'right'
+            position: 'right',
+            ticks: {
+              fontColor: fontColor
+            },
+            gridLines: {
+              display: false,
+              color: gridYColor
+            }
+          }
+        ],
+        xAxes: [
+          {
+            ticks: {
+              fontColor: fontColor
+            },
+            gridLines: {
+              color: gridXColor
+            }
           }
         ]
       }
