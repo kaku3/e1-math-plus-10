@@ -1,26 +1,29 @@
 <template>
   <div>
     <v-row class="game-console" justify="center">
-      <v-col cols="auto"><div class="key">HP</div><div class="ml-2">1000</div></v-col>
-      <v-col cols="auto"><div class="console item coin"></div><div class="ml-2">33</div></v-col>
+      <v-col cols="auto"><div class="key">HP</div><div class="ml-2">{{ save.hp }}</div></v-col>
+      <v-col cols="auto"><div class="console item coin"></div><div class="ml-2">{{ save.coin }}</div></v-col>
     </v-row>
 
     <div class="maze-scene" :style="sceneStyle">
-      <div class="maze-bg">
-        <div v-for="(cols, r) in maze" :key="r">
-          <div v-for="(col, c) in cols" :key="c" :class="col.cls">
-            {{ col }}
-            <div v-if="col.obj" :class="col.obj"></div>
+      <div class="maze-container">
+        <div class="maze-bg">
+          <div v-for="(cols, r) in maze" :key="r">
+            <div v-for="(col, c) in cols" :key="c" :class="col.cls">
+              {{ col }}
+              <div v-if="col.obj" :class="col.obj"></div>
+            </div>
           </div>
         </div>
+        <div class="p i" :style="playerStyle"></div>
       </div>
-      <div class="p i" :style="playerStyle"></div>
+      <Tutorial :px="px" :py="py" />
     </div>
 
     <v-row class="game-console" justify="center">
-      <v-col cols="auto"><div class="console item mattock"></div><div class="ml-2">33</div></v-col>
-      <v-col cols="auto"><div class="console item plus-portion"></div><div class="ml-2">0</div></v-col>
-      <v-col cols="auto"><div class="console item key1"></div><div class="ml-2">0</div></v-col>
+      <v-col cols="auto"><div class="console item mattock"></div><div class="ml-2">{{ save.mattock }}</div></v-col>
+      <v-col cols="auto"><div class="console item plus-portion"></div><div class="ml-2">{{ save.portion }}</div></v-col>
+      <v-col cols="auto"><div class="console item key1"></div><div class="ml-2">{{ save.key1 }}</div></v-col>
     </v-row>
 
     <v-row>
@@ -42,7 +45,15 @@
     display: inline-block;
   }
 }
+.maze-scene {
+  display: flex;
+  align-items: center;
+  min-height: 160px;
 
+  .maze-container {
+    position: relative;
+  }
+}
 </style>
 <script lang="ts">
 import Vue from 'vue'
@@ -50,14 +61,19 @@ import Vue from 'vue'
 import { Maze, MAP_OBJECT } from '~/components/maze/Maze'
 import GamePad from '~/components/maze/GamePad.vue'
 
+import Tutorial from '~/components/maze/Tutorial.vue'
+
+import { MazeSave, NewSave } from '~/models/MazeSave'
+
 export default Vue.extend({
   components: {
-    GamePad
+    GamePad,
+    Tutorial
   },
   props: {
-    floor: {
-      type: Number,
-      default: 0
+    save: {
+      type: Object,
+      default: NewSave('')
     }
   },
   data () {
@@ -78,7 +94,7 @@ export default Vue.extend({
   },
   methods: {
     init() {
-      const maze_ = new Maze().generateFloor(this.floor)
+      const maze_ = new Maze().generateFloor(this.save.floor)
 
       const sx = maze_[0].length
       const sy = maze_.length
@@ -214,6 +230,9 @@ export default Vue.extend({
         top: `${this.py * 16 - 16}px`,
         left: `${this.px * 16 - 8}px`,
       }
+    },
+    isTutorial(): boolean {
+      return this.save.floor === 0
     }
   }
 })

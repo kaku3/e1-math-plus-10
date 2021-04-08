@@ -7,6 +7,7 @@ firebase.auth().signInAnonymously()
 
 export default function ({ route, store, redirect }) {
   firebase.auth().onAuthStateChanged((user) => {
+    sessionStorage.setItem('uid', user.uid)
     console.log(user)
   })
 }

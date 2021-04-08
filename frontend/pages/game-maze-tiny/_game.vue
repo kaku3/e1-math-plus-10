@@ -23,6 +23,7 @@ export default Vue.extend({
     const params:any = context.params
     console.log(params)
     return {
+      gameMode: params.game
     }
   }
 })

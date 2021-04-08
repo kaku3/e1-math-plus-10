@@ -4,76 +4,76 @@
 }
 .maze-bg {
   font-size: 0;
-  .bg {
-    position: relative;
-    display: inline-block;
-    background: url(~assets/maze/bg-tileset.png);
-    width: 16px;
-    height: 16px;
+}
 
-    &.lu { background-position: 0 0; }
-    &.l0 { background-position: 0 -16px; }
-    &.l1 { background-position: 0 -32px; }
-    &.l2 { background-position: 0 -48px; }
-    &.ld { background-position: 0 -64px; }
-    &.u0 { background-position: -16px 0; }
-    &.u1 { background-position: -32px 0; }
-    &.u2 { background-position: -48px 0; }
-    &.u3 { background-position: -64px 0; }
-    &.ru { background-position: -80px 0; }
-    &.r0 { background-position: -80px -16px; }
-    &.r1 { background-position: -80px -32px; }
-    &.r2 { background-position: -80px -48px; }
-    &.rd { background-position: -80px -64px; }
-    &.d0 { background-position: -16px -64px; }
-    &.d1 { background-position: -32px -64px; }
-    &.d2 { background-position: -48px -64px; }
-    &.d3 { background-position: -64px -64px; }
-    &.floor { background-position: -16px -16px; }
-  }
-  .bgo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    background: url(~assets/maze/bg-tileset.png);
-    width: 16px;
-    height: 16px;
-    &.chest { background-position: 0 -288px; }
-    &.key1 { background-position: -128px -288px; }
-    &.key2 { background-position: -144px -304px; }
-    &.door { background-position: -288px -48px; }
-    &.coin {
-      animation: a-coin 1s linear 0s infinite;
-      @keyframes a-coin {
-        0% { background-image: url(~assets/maze/coin_1.png); }
-        25% { background-image: url(~assets/maze/coin_2.png); }
-        50% { background-image: url(~assets/maze/coin_3.png); }
-        75% { background-image: url(~assets/maze/coin_4.png); }
-        100% { background-image: url(~assets/maze/coin_1.png); }
-      }
-    }
-    &.peak {
-      background-image: url(~assets/maze/peaks_1.png);
-    }
-    &.mattock {
-      background: url(~assets/maze/item-tileset.png);
-      background-position: -144px -80px;
-    }
-    &.plus0-portion {
-      background: url(~assets/maze/item-tileset.png);
-      background-position: -48px 0;
-    }
-    &.random0-portion {
-      background: url(~assets/maze/item-tileset.png);
-      background-position: -48px -32px;
-    }
-    &.plus-portion {
-      background: url(~assets/maze/item-tileset.png);
-      background-position: 0 0;
+.bg {
+  position: relative;
+  display: inline-block;
+  background: url(~assets/maze/bg-tileset.png);
+  width: 16px;
+  height: 16px;
+
+  &.lu { background-position: 0 0; }
+  &.l0 { background-position: 0 -16px; }
+  &.l1 { background-position: 0 -32px; }
+  &.l2 { background-position: 0 -48px; }
+  &.ld { background-position: 0 -64px; }
+  &.u0 { background-position: -16px 0; }
+  &.u1 { background-position: -32px 0; }
+  &.u2 { background-position: -48px 0; }
+  &.u3 { background-position: -64px 0; }
+  &.ru { background-position: -80px 0; }
+  &.r0 { background-position: -80px -16px; }
+  &.r1 { background-position: -80px -32px; }
+  &.r2 { background-position: -80px -48px; }
+  &.rd { background-position: -80px -64px; }
+  &.d0 { background-position: -16px -64px; }
+  &.d1 { background-position: -32px -64px; }
+  &.d2 { background-position: -48px -64px; }
+  &.d3 { background-position: -64px -64px; }
+  &.floor { background-position: -16px -16px; }
+}
+.bgo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background: url(~assets/maze/bg-tileset.png);
+  width: 16px;
+  height: 16px;
+  &.chest { background-position: 0 -288px; }
+  &.key1 { background-position: -128px -288px; }
+  &.key2 { background-position: -144px -304px; }
+  &.door { background-position: -288px -48px; }
+  &.coin {
+    animation: a-coin 1s linear 0s infinite;
+    @keyframes a-coin {
+      0% { background-image: url(~assets/maze/coin_1.png); }
+      25% { background-image: url(~assets/maze/coin_2.png); }
+      50% { background-image: url(~assets/maze/coin_3.png); }
+      75% { background-image: url(~assets/maze/coin_4.png); }
+      100% { background-image: url(~assets/maze/coin_1.png); }
     }
   }
-
+  &.peak {
+    background-image: url(~assets/maze/peaks_1.png);
+  }
+  &.mattock {
+    background: url(~assets/maze/item-tileset.png);
+    background-position: -144px -80px;
+  }
+  &.plus0-portion {
+    background: url(~assets/maze/item-tileset.png);
+    background-position: -48px 0;
+  }
+  &.random0-portion {
+    background: url(~assets/maze/item-tileset.png);
+    background-position: -48px -32px;
+  }
+  &.plus-portion {
+    background: url(~assets/maze/item-tileset.png);
+    background-position: 0 0;
+  }
 }
 
 .item {
