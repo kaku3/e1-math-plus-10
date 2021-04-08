@@ -32,7 +32,7 @@
       <v-toolbar-title v-text="title" class="text-subtitle-1" />
       <v-spacer />
     </v-app-bar>
-    <v-main class="grey lighten-2">
+    <v-main class="blue-grey darken-4">
       <v-container>
         <nuxt />
       </v-container>

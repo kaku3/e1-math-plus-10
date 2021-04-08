@@ -1,0 +1,155 @@
+export enum MAP_OBJECT {
+  COIN = 10,
+  KEY1 = 11,
+  KEY2 = 12,
+  PLUS0_PORTION = 13,
+  RANDOM0_PORTION = 14,
+  MATTOCK = 20,
+  PLUS_PORTION = 21,
+  CHEST = 30,
+  PEAK = 40,
+  DOOR = 50
+}
+
+export class Maze {
+  generateFloor(floor:number): number[][] {
+    if(floor === 0) {
+      const maze = [
+        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, ],
+        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, ],
+        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ],
+      ]
+      maze[1][3] = MAP_OBJECT.COIN
+      maze[1][4] = MAP_OBJECT.PEAK
+      maze[1][5] = MAP_OBJECT.PLUS0_PORTION
+      maze[1][6] = MAP_OBJECT.PLUS_PORTION
+      maze[1][7] = MAP_OBJECT.RANDOM0_PORTION
+      maze[1][9] = MAP_OBJECT.COIN
+      maze[1][10] = MAP_OBJECT.KEY1
+      maze[1][11] = MAP_OBJECT.CHEST
+      maze[1][13] = MAP_OBJECT.MATTOCK
+      maze[2][13] = MAP_OBJECT.DOOR
+      maze[2][15] = MAP_OBJECT.KEY2
+      return maze
+    }
+
+    const sx = 7
+    const sy = 7
+    const maze = this.generate(sx, sy)
+    this.setObjects(floor, sx, sy, maze)
+    return maze
+  }
+  setObjects(floor:number, sx:number, sy:number, maze: number[][]) {
+    // 鍵と扉は必ず一つずつある
+    while(true) {
+      let x = Math.floor(Math.random() * (sx - 1)) + 1
+      let y = Math.floor(Math.random() * (sy - 1)) + 1
+      if(maze[y][x] === 0) {
+        maze[y][x] = MAP_OBJECT.KEY2
+        break
+      }
+    }
+    maze[sy - 2][sx - 2] = MAP_OBJECT.DOOR
+
+    // floor によって出現率が違う
+    const rates = [
+      [ MAP_OBJECT.PLUS_PORTION, Math.max(0.01, 0.02 - floor * 0.001) ],
+      [ MAP_OBJECT.PLUS0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.RANDOM0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.KEY1, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.CHEST, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.07 - floor * 0.001) ],
+      [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.001) ],
+      [ MAP_OBJECT.PEAK, Math.max(0.3, 0.4 - floor * 0.001) ],
+    ]
+    for(let r = 1; r < sy - 1; r++) {
+      for(let c = 1; c < sx - 1; c++) {
+        if(maze[r][c] !== 0) {
+          continue
+        }
+
+        for(const rr of rates) {
+          if(rr[1] > Math.random()) {
+            maze[r][c] = rr[0]
+            break
+          }
+        }
+      }
+    }
+  }
+
+  generate(sx:number, sy:number): number[][] {
+    // 外周のみ 0, それ以外を 1 で初期化する
+    let maze = Array(sy)
+    for(let y = 0; y < maze.length; y++) {
+      maze[y] = Array(sx).fill(0)
+    }
+    for(let y = 1; y < maze.length - 1; y++) {
+      maze[y].fill(1, 1, sx - 1)
+    }
+
+    let starts:object[] = []
+    this.dig(maze, starts, 1, 1)
+
+    // 外壁を壁にする
+    maze[0] = Array(sx).fill(1)
+    maze[sy - 1] = Array(sx).fill(1)
+    for(let y = 1; y < maze.length; y++) {
+      maze[y][0] = 1
+      maze[y][sx - 1] = 1
+    }
+
+    return maze
+  }
+  private dig(maze:number[][], starts:object[], x:number, y:number) {
+    while(true) {
+      const ds = []
+      if(maze[y - 1][x] && maze[y - 2][x]) ds.push(0)
+      if(maze[y][x + 1] && maze[y][x + 2]) ds.push(1)
+      if(maze[y + 1][x] && maze[y + 2][x]) ds.push(2)
+      if(maze[y][x - 1] && maze[y][x - 2]) ds.push(3)
+
+      // 掘れない
+      if(ds.length === 0) break
+
+      this.setPath(maze, starts, x, y)
+
+      // 掘る方向をランダムで決めて、2マス掘る
+      const dd = ds[Math.floor(Math.random() * ds.length)]
+      switch(dd) {
+        case 0:
+          this.setPath(maze, starts, x, --y)
+          this.setPath(maze, starts, x, --y)
+          break
+        case 1:
+          this.setPath(maze, starts, ++x, y)
+          this.setPath(maze, starts, ++x, y)
+          break
+        case 2:
+          this.setPath(maze, starts, x, ++y)
+          this.setPath(maze, starts, x, ++y)
+          break
+        case 3:
+          this.setPath(maze, starts, --x, y)
+          this.setPath(maze, starts, --x, y)
+          break
+      }
+
+      if(starts.length > 0) {
+        const ii = Math.floor(Math.random() * starts.length)
+        const start = starts[ii]
+        starts = starts.filter((_, i) => i !== ii)
+
+        //@ts-ignore
+        this.dig(maze, starts, start.x, start.y)
+      }
+    }
+  }
+  private setPath(maze:number[][], starts:object[], x:number, y:number) {
+    maze[y][x] = 0
+    if((x & 1) == 1 && (y & 1) == 1) {
+      starts.push({ x, y })
+    }
+  }
+}
