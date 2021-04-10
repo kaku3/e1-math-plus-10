@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-text class="digit-keyboard cyan darken-4" dark>
+    <v-card-text class="game-pad cyan darken-2" dark>
       <v-row dense>
         <v-col cols="3" class="white--text lighten-4">
           <div class="item mattock"></div>
@@ -12,7 +12,7 @@
             <div class="item-count">{{ save.portion }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto"><v-btn outlined @pointerdown="onClick(2)"><v-icon>mdi-arrow-up-drop-circle</v-icon></v-btn></v-col>
+        <v-col cols="ml-auto"><v-btn depressed @pointerdown="onClick(2)" color="cyan lighten-4"><v-icon>mdi-arrow-up-drop-circle</v-icon></v-btn></v-col>
       </v-row>
       <v-row dense>
         <v-col cols="3"></v-col>
@@ -22,8 +22,8 @@
             <div class="item-count">{{ save.key1 }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto"><v-btn outlined @pointerdown="onClick(4)"><v-icon>mdi-arrow-left-drop-circle</v-icon></v-btn></v-col>
-        <v-col cols="auto"><v-btn outlined @pointerdown="onClick(6)"><v-icon>mdi-arrow-right-drop-circle</v-icon></v-btn></v-col>
+        <v-col cols="ml-auto"><v-btn depressed @pointerdown="onClick(4)" color="cyan lighten-4"><v-icon>mdi-arrow-left-drop-circle</v-icon></v-btn></v-col>
+        <v-col cols="auto"><v-btn depressed @pointerdown="onClick(6)" color="cyan lighten-4"><v-icon>mdi-arrow-right-drop-circle</v-icon></v-btn></v-col>
       </v-row>
       <v-row dense>
         <v-col cols="3"></v-col>
@@ -33,24 +33,20 @@
             <div class="item-count">{{ save.key2 }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto"><v-btn outlined @pointerdown="onClick(8)"><v-icon>mdi-arrow-down-drop-circle</v-icon></v-btn></v-col>
+        <v-col cols="ml-auto"><v-btn depressed @pointerdown="onClick(8)" color="cyan lighten-4"><v-icon>mdi-arrow-down-drop-circle</v-icon></v-btn></v-col>
       </v-row>
     </v-card-text>
   </v-card>
 </template>
 <style lang="scss" scoped src="./main.scss" />
 <style lang="scss" scoped>
-.digit-keyboard > .row > .col {
+.game-pad > .row > .col {
   padding: .25rem;
   text-align: center;
 
   font-size: .8rem;
   font-family: 'Press Start 2P', cursive;
 
-  > button {
-    color: #0097A7;
-
-  }
   .item {
     position: relative;
     margin-right: .25rem;
