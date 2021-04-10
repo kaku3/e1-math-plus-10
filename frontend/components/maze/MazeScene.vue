@@ -1,7 +1,8 @@
 <template>
   <div>
-    <v-row class="game-console" justify="center">
+    <v-row class="game-console">
       <v-col cols="auto"><div class="key">HP</div><div class="ml-2">{{ save.hp }}</div></v-col>
+      <v-spacer></v-spacer>
       <v-col cols="auto"><div class="console item coin"></div><div class="ml-2">{{ save.coin }}</div></v-col>
     </v-row>
 
@@ -42,7 +43,7 @@
 .maze-scene {
   display: flex;
   align-items: center;
-  min-height: 160px;
+  min-height: 256px;
 
   .maze-container {
     position: relative;

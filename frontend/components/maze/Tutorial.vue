@@ -48,7 +48,7 @@
 <style lang="scss" scoped>
 .tutorial-container {
   position: absolute;
-  bottom: 1rem;
+  bottom: 2.5rem;
   left: 0;
   width: 100%;
 
