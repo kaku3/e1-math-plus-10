@@ -24,7 +24,7 @@
         くすり青（大）は　もちあるける
       </div>
       <div v-else-if="m6" class="message-container">
-        くすり黄（小）は　ランダム
+        くすり黄（小）のこうかは　ランダム
       </div>
       <div v-else-if="m7" class="message-container">
         銀カギは　たからばこを　あけられる
@@ -48,7 +48,7 @@
 <style lang="scss" scoped>
 .tutorial-container {
   position: absolute;
-  top: 0;
+  bottom: 1rem;
   left: 0;
   width: 100%;
 

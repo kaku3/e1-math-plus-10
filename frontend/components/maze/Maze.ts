@@ -1,4 +1,6 @@
 export enum MAP_OBJECT {
+  FLOOR = 0,
+  WALL = 1,
   COIN = 10,
   KEY1 = 11,
   KEY2 = 12,
@@ -12,7 +14,7 @@ export enum MAP_OBJECT {
 }
 
 export class Maze {
-  generateFloor(floor:number): number[][] {
+  generateFloor(floor:number): MAP_OBJECT[][] {
     if(floor === 0) {
       const maze = [
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ],
@@ -65,7 +67,7 @@ export class Maze {
     ]
     for(let r = 1; r < sy - 1; r++) {
       for(let c = 1; c < sx - 1; c++) {
-        if(maze[r][c] !== 0) {
+        if(maze[r][c] !== MAP_OBJECT.FLOOR) {
           continue
         }
 
@@ -79,14 +81,14 @@ export class Maze {
     }
   }
 
-  generate(sx:number, sy:number): number[][] {
-    // 外周のみ 0, それ以外を 1 で初期化する
+  generate(sx:number, sy:number): MAP_OBJECT[][] {
+    // 外周のみ FLOOR, それ以外を WALL で初期化する
     let maze = Array(sy)
     for(let y = 0; y < maze.length; y++) {
-      maze[y] = Array(sx).fill(0)
+      maze[y] = Array(sx).fill(MAP_OBJECT.FLOOR)
     }
     for(let y = 1; y < maze.length - 1; y++) {
-      maze[y].fill(1, 1, sx - 1)
+      maze[y].fill(MAP_OBJECT.WALL, 1, sx - 1)
     }
 
     let starts:object[] = []
@@ -96,8 +98,8 @@ export class Maze {
     maze[0] = Array(sx).fill(1)
     maze[sy - 1] = Array(sx).fill(1)
     for(let y = 1; y < maze.length; y++) {
-      maze[y][0] = 1
-      maze[y][sx - 1] = 1
+      maze[y][0] = MAP_OBJECT.WALL
+      maze[y][sx - 1] = MAP_OBJECT.WALL
     }
 
     return maze

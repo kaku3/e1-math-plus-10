@@ -20,15 +20,9 @@
       <Tutorial :px="px" :py="py" />
     </div>
 
-    <v-row class="game-console" justify="center">
-      <v-col cols="auto"><div class="console item mattock"></div><div class="ml-2">{{ save.mattock }}</div></v-col>
-      <v-col cols="auto"><div class="console item plus-portion"></div><div class="ml-2">{{ save.portion }}</div></v-col>
-      <v-col cols="auto"><div class="console item key1"></div><div class="ml-2">{{ save.key1 }}</div></v-col>
-    </v-row>
-
     <v-row>
       <v-col>
-        <GamePad @tap="onTap" />
+        <GamePad :save="save" @tap="onTap" />
       </v-col>
     </v-row>
   </div>
@@ -57,13 +51,15 @@
 </style>
 <script lang="ts">
 import Vue from 'vue'
+import { PropType } from 'vue'
 
 import { Maze, MAP_OBJECT } from '~/components/maze/Maze'
+
+import { MazeSave, NewSave, resetSave } from '~/models/MazeSave'
+
 import GamePad from '~/components/maze/GamePad.vue'
 
 import Tutorial from '~/components/maze/Tutorial.vue'
-
-import { MazeSave, NewSave } from '~/models/MazeSave'
 
 export default Vue.extend({
   components: {
@@ -72,7 +68,7 @@ export default Vue.extend({
   },
   props: {
     save: {
-      type: Object,
+      type: Object as PropType<MazeSave>,
       default: NewSave('')
     }
   },
@@ -163,7 +159,8 @@ export default Vue.extend({
           }
         }
       }
-
+      this.px = 1
+      this.py = 1
     },
     getFloorObject(v: MAP_OBJECT) {
       const obj = {
@@ -208,20 +205,145 @@ export default Vue.extend({
       obj[cls] = true
       return obj
     },
+    removeFloorObject(x:number, y:number) {
+      //@ts-ignore
+      this.maze[y][x].v = 0
+      //@ts-ignore
+      this.maze[y][x].obj = null
+    },
 
-    onTap(v:number, _:boolean): void {
-      if(v === 4) this.moveTo(this.px - 1, this.py)
-      if(v === 6) this.moveTo(this.px + 1, this.py)
-      if(v === 2) this.moveTo(this.px, this.py - 1)
-      if(v === 8) this.moveTo(this.px, this.py + 1)
+    onTap(v:number): void {
+      if(v === 4) {
+        this.moveTo(this.px - 1, this.py)
+        return
+      }
+      if(v === 6) {
+        this.moveTo(this.px + 1, this.py)
+        return
+      }
+      if(v === 2) {
+        this.moveTo(this.px, this.py - 1)
+        return
+      }
+      if(v === 8) {
+        this.moveTo(this.px, this.py + 1)
+        return
+      }
+
+      // portion
+      if(v === 1) {
+        if(this.save.portion > 0) {
+          this.save.portion--
+          this.save.hp = Math.min (Math.floor(this.save.hp + Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 3)), this.save.hpMax)
+        }
+      }
+      // key1
+      if(v === 3) {
+        if(this.save.key1 > 0) {
+          this.save.key1--
+          //@ts-ignore
+          const o = this.maze[this.py][this.px].v as MAP_OBJECT
+          if(o === MAP_OBJECT.CHEST) {
+            const rr = Math.random()
+            if(rr < 0.4) {
+              this.save.mattock += Math.floor(3 + Math.random() * 4)
+            } else if(rr < 0.6) {
+              this.save.portion += Math.floor(1 + Math.random() * 3)
+            } else {
+              this.save.coin += Math.floor(Math.random() * 101 + 100)
+            }
+            this.removeFloorObject(this.px, this.py)
+          }
+        }
+      }
+      // key2
+      if(v === 7) {
+        if(this.save.key2 > 0) {
+          this.save.key2--
+          //@ts-ignore
+          const o = this.maze[this.py][this.px].v as MAP_OBJECT
+          if(o === MAP_OBJECT.DOOR) {
+          }
+        }
+      }
     },
     moveTo(x:number, y:number) {
       //@ts-ignore
-      if(this.maze[y][x].v !== 1) {
-        this.px = x
-        this.py = y
+      const o = this.maze[y][x].v as MAP_OBJECT
+      if(o == MAP_OBJECT.WALL) {
+        if(this.save.mattock > 0) {
+          this.save.mattock--
+
+          //@ts-ignore
+          this.maze[y][x].v = 0
+          //@ts-ignore
+          this.maze[y][x].cls = {
+            bg: true,
+            floor: true
+          }
+
+        } else {
+          return
+        }
+      }
+      this.save.hp--
+
+      let getItem = true
+      switch(o) {
+      case MAP_OBJECT.COIN:
+        this.save.coin++
+        break
+      case MAP_OBJECT.KEY1:
+        this.save.key1++
+        break
+      case MAP_OBJECT.KEY2:
+        this.save.key2++
+        break
+      case MAP_OBJECT.PLUS0_PORTION:
+        this.save.hp = Math.min (Math.floor(this.save.hp + Math.random() * this.save.hpMax / 10), this.save.hpMax)
+        break
+      case MAP_OBJECT.RANDOM0_PORTION:
+        // 若干回復しやすい
+        if(Math.random() < 0.6) {
+          this.save.hp = Math.min (Math.floor(this.save.hp + Math.random() * this.save.hpMax / 3), this.save.hpMax)
+        } else {
+          this.save.hp = Math.max (Math.floor(this.save.hp - Math.random() * this.save.hpMax / 4), 1)
+        }
+        break
+      case MAP_OBJECT.MATTOCK:
+        this.save.mattock++
+        break
+      case MAP_OBJECT.PLUS_PORTION:
+        this.save.portion++
+        break
+      case MAP_OBJECT.CHEST:
+        getItem = false
+        break
+      case MAP_OBJECT.PEAK:
+        this.save.hp = Math.max(this.save.hp - 10, 1)
+        getItem = false
+        break
+      case MAP_OBJECT.DOOR:
+        getItem = false
+        break
+      default:
+        getItem = false
+      }
+      if(getItem) {
+        this.removeFloorObject(x, y)
+      }
+
+      this.px = x
+      this.py = y
+
+      if(this.save.hp === 0) {
+        if(this.save.floor === 0) {
+          resetSave(this.save)
+          this.init()
+        }
       }
     }
+
   },
 
   computed: {
