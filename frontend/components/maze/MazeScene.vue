@@ -21,6 +21,7 @@
             </div>
             <div class="p i" :style="playerStyle"></div>
           </div>
+          <Message ref="msg" />
           <Tutorial v-if="isTutorial" :px="px" :py="py" />
         </div>
 
@@ -74,6 +75,8 @@ import GamePad from '~/components/maze/GamePad.vue'
 import MazeShop from '~/components/maze/MazeShop.vue'
 import MazeEnd from '~/components/maze/MazeEnd.vue'
 
+import Message from '~/components/maze/Message.vue'
+
 import Tutorial from '~/components/maze/Tutorial.vue'
 
 import { MazeSave, NewSave, resetSave } from '~/models/MazeSave'
@@ -85,6 +88,7 @@ export default Vue.extend({
     GamePad,
     MazeShop,
     MazeEnd,
+    Message,
     Tutorial
   },
   props: {
@@ -277,11 +281,15 @@ export default Vue.extend({
         return
       }
 
+      let _v = 0
+
       // portion
       if(v === 1) {
         if(this.save.portion > 0) {
           this.save.portion--
-          this.save.hp = Math.min (Math.floor(this.save.hp + Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 3)), this.save.hpMax)
+          _v = Math.floor(Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 3))
+          this.save.hp = Math.min (this.save.hp + _v, this.save.hpMax)
+          this.showMessage('use-plus-portion', _v)
         }
       }
       // key1
@@ -295,13 +303,19 @@ export default Vue.extend({
             if(o === MAP_OBJECT.CHEST1) {
               const rr = Math.random()
               if(rr < 0.4) {
-                this.save.mattock += Math.floor(3 + Math.random() * 4)
+                _v = Math.floor(5 + Math.random() * 4)
+                this.save.mattock += _v
+                this.showMessage('get-mattock', _v)
               } else if(rr < 0.6) {
-                this.save.portion += Math.floor(1 + Math.random() * 3)
+                _v = Math.floor(3 + Math.random() * 3)
+                this.save.portion += _v
+                this.showMessage('get-plus-portion', _v)
               }
             }
             if(o === MAP_OBJECT.CHEST2) {
-              this.save.coin += Math.floor(Math.random() * 101 + 100)
+              _v = Math.floor(Math.random() * 101 + 100)
+              this.save.coin += _v
+              this.showMessage('get-coin', v)
             }
             this.removeFloorObject(this.px, this.py)
           }
@@ -347,6 +361,7 @@ export default Vue.extend({
       this.save.hp--
 
       let getItem = true
+      let v = 0
       switch(o) {
       case MAP_OBJECT.COIN:
         this.save.coin += 10
@@ -358,15 +373,21 @@ export default Vue.extend({
         this.save.key2++
         break
       case MAP_OBJECT.PLUS0_PORTION:
-        this.save.hp = Math.min (Math.floor(this.save.hp + Math.random() * this.save.hpMax / 10), this.save.hpMax)
+        v = Math.floor(Math.random() * this.save.hpMax / 10)
+        this.save.hp = Math.min (this.save.hp + v, this.save.hpMax)
+        this.showMessage('get-plus0-portion', v)
         break
       case MAP_OBJECT.RANDOM0_PORTION:
         // 若干回復しやすい
         if(Math.random() < 0.6) {
-          this.save.hp = Math.min (Math.floor(this.save.hp + Math.random() * this.save.hpMax / 3), this.save.hpMax)
+          v = Math.floor(Math.random() * this.save.hpMax / 3)
         } else {
-          this.save.hp = Math.max (Math.floor(this.save.hp - Math.random() * this.save.hpMax / 4), 1)
+          v = -Math.floor(Math.random() * this.save.hpMax / 4)
         }
+        this.save.hp += v
+        this.save.hp = Math.min (this.save.hp, this.save.hpMax)
+        this.save.hp = Math.max (this.save.hp, 1)
+        this.showMessage('get-random0-portion', v)
         break
       case MAP_OBJECT.MATTOCK:
         this.save.mattock++
@@ -375,8 +396,9 @@ export default Vue.extend({
         this.save.portion++
         break
       case MAP_OBJECT.PEAK:
-        const damage = Math.min(20 + this.save.floor, 50)
-        this.save.hp = Math.max(this.save.hp - damage, 1)
+        v = Math.min(30 + this.save.floor, 60)
+        this.save.hp = Math.max(this.save.hp - v, 1)
+        this.showMessage('damage', v)
         getItem = false
         break
       default:
@@ -399,8 +421,11 @@ export default Vue.extend({
           this.mode = 'end'
         }
       }
+    },
+    showMessage(m:string, v:number) {
+      //@ts-ignore
+      this.$refs['msg'].showMessage(m, v)
     }
-
   },
 
   computed: {

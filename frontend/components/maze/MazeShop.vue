@@ -1,6 +1,6 @@
 <template>
   <v-card class="info-container blue-grey lighten-4">
-    <div>Tower Shop</div>
+    <div>Maze Shop</div>
     <v-list class="info-container blue-grey lighten-4" dense>
       <v-divider></v-divider>
       <v-list-item>

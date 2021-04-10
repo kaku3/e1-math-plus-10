@@ -39,19 +39,7 @@
     </v-main>
   </v-app>
 </template>
-<style lang="scss" scoped>
-section {
-  color: white;
-  background-color: #00796B;
-
-  &.e1 {
-    background-color: #4CAF50;
-  }
-  &.e2 {
-    background-color: #2196F3;
-  }
-}
-</style>
+<style lang="scss" scoped src="./layout.scss"></style>
 <script>
 import nav from '~/utils/nav'
 

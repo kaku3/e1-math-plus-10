@@ -9,10 +9,10 @@
         <span>でいどう</span>
       </div>
       <div v-else-if="m1" class="message-container">
-        あるくと　HPが　へる
+        あるくと　HP　が　へる
       </div>
       <div v-else-if="m2" class="message-container">
-        コインは　かいものに　つかえる
+        コインで　かいものが　できる
       </div>
       <div v-else-if="m3" class="message-container">
         トゲは　いたい
@@ -27,16 +27,16 @@
         くすり黄（小）のこうかは　ランダム
       </div>
       <div v-else-if="m7" class="message-container">
-        銀カギは　たからばこを　あけられる
+        ぎんのカギで　たからばこを　あけられる
       </div>
       <div v-else-if="m8" class="message-container">
         たからばこには　いいものが　はいっている
       </div>
       <div v-else-if="m9" class="message-container">
-        つるはしは　かべを　こわせる
+        つるはしで　かべを　こわせる
       </div>
       <div v-else-if="m10" class="message-container">
-        金カギは　ドアを　あけられる
+        きんのカギで　ドアを　あけられる
       </div>
       <div v-else-if="m11" class="message-container">
         ドアを　あければ　クリア
@@ -48,9 +48,10 @@
 <style lang="scss" scoped>
 .tutorial-container {
   position: absolute;
-  bottom: 2.5rem;
+  top: 2.5rem;
   left: 0;
   width: 100%;
+  font-family: 'Press Start 2P', 'DotGothic16';
 
   .message-container {
     padding: .25rem .5rem;

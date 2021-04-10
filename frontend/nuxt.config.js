@@ -71,7 +71,7 @@ export default {
   ],
   webfontloader: {
     google: {
-      families: [ 'Fredoka+One', 'Press+Start+2P' ]
+      families: [ 'Fredoka+One', 'Press+Start+2P','DotGothic16' ]
     }
   },
 

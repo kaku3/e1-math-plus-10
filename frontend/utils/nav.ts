@@ -68,6 +68,22 @@ export default function nav() {
         ]
       },
       {
+        section: 'おたのしみ',
+        cls: 'games',
+        items: [
+          {
+            icon: 'mdi-gamepad-square-outline',
+            title: 'めいろ５０(α)',
+            to: {
+              name: 'game-maze-50',
+              params: {
+                mode: 'maze50',
+              }
+            }
+          },
+        ]
+      },
+      {
         section: 'せってい',
         cls: 'setting',
         items: [
