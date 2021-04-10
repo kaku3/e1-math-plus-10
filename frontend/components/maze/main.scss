@@ -41,11 +41,18 @@
   background: url(~assets/maze/bg-tileset.png);
   width: 16px;
   height: 16px;
-  &.chest {
-    animation: a-chest 1s step-end 0s infinite;
-    @keyframes a-chest {
+  &.chest1 {
+    animation: a-chest1 1s step-end 0s infinite;
+    @keyframes a-chest1 {
       0%   { background-position: -16px -288px; }
       50%  { background-position: -32px -288px; }
+    }
+  }
+  &.chest2 {
+    animation: a-chest2 1s step-end 0s infinite;
+    @keyframes a-chest2 {
+      0%   { background-position: 0 -288px; }
+      50%  { background-position: -48px -288px; }
     }
   }
   &.key1 { background-position: -128px -288px; }

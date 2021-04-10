@@ -19,11 +19,11 @@ export default Vue.extend({
       title: 'タイニーめいろ'
     }
   },
-  async asyncData(context: Context) {
-    const params:any = context.params
-    console.log(params)
-    return {
-    }
-  }
+  // async asyncData(context: Context) {
+  //   const params:any = context.params
+  //   console.log(params)
+  //   return {
+  //   }
+  // }
 })
 </script>

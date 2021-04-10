@@ -33,7 +33,7 @@
             <div class="pl-4">Money</div>
           </v-list-item>
           <v-list-item>
-            <div class="console bgo chest"></div>
+            <div class="console bgo chest1"></div><div class="console bgo chest2"></div>
             <div class="pl-4">Chest</div>
           </v-list-item>
           <v-list-item>

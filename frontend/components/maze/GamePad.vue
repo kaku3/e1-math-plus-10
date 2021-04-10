@@ -69,8 +69,6 @@ export default Vue.extend({
       default: NewSave('')
     }
   },
-  data() {
-  },
   mounted () {
   },
   methods: {

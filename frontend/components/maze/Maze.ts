@@ -8,7 +8,8 @@ export enum MAP_OBJECT {
   RANDOM0_PORTION = 14,
   MATTOCK = 20,
   PLUS_PORTION = 21,
-  CHEST = 30,
+  CHEST1 = 30,
+  CHEST2 = 31,
   PEAK = 40,
   DOOR = 50
 }
@@ -29,15 +30,15 @@ export class Maze {
       maze[1][7] = MAP_OBJECT.RANDOM0_PORTION
       maze[1][9] = MAP_OBJECT.COIN
       maze[1][10] = MAP_OBJECT.KEY1
-      maze[1][11] = MAP_OBJECT.CHEST
+      maze[1][11] = MAP_OBJECT.CHEST1
       maze[1][13] = MAP_OBJECT.MATTOCK
       maze[2][13] = MAP_OBJECT.DOOR
       maze[2][15] = MAP_OBJECT.KEY2
       return maze
     }
 
-    const sx = 7
-    const sy = 7
+    const sx = Math.min(7 + Math.floor(floor / 2) * 2, 21)
+    const sy = Math.min(7 + Math.floor(floor / 3) * 2, 21)
     const maze = this.generate(sx, sy)
     this.setObjects(floor, sx, sy, maze)
     return maze
@@ -45,8 +46,8 @@ export class Maze {
   setObjects(floor:number, sx:number, sy:number, maze: number[][]) {
     // 鍵と扉は必ず一つずつある
     while(true) {
-      let x = Math.floor(Math.random() * (sx - 1)) + 1
-      let y = Math.floor(Math.random() * (sy - 1)) + 1
+      let x = Math.floor(Math.random() * (sx - 3)) + 3
+      let y = Math.floor(Math.random() * (sy - 3)) + 3
       if(maze[y][x] === 0) {
         maze[y][x] = MAP_OBJECT.KEY2
         break
@@ -60,7 +61,8 @@ export class Maze {
       [ MAP_OBJECT.PLUS0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.RANDOM0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.KEY1, Math.max(0.01, 0.05 - floor * 0.001) ],
-      [ MAP_OBJECT.CHEST, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.CHEST1, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.CHEST2, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.07 - floor * 0.001) ],
       [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.001) ],
       [ MAP_OBJECT.PEAK, Math.max(0.3, 0.4 - floor * 0.001) ],
@@ -79,6 +81,7 @@ export class Maze {
         }
       }
     }
+    maze[1][1] = MAP_OBJECT.FLOOR
   }
 
   generate(sx:number, sy:number): MAP_OBJECT[][] {
