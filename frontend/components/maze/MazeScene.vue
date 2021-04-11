@@ -113,6 +113,16 @@ import { entryMazeScore } from '~/utils/score'
 
 import firebase from '@/plugins/firebase'
 
+import seMove from '~/assets/maze/se/move.mp3'
+import seMattock from '~/assets/maze/se/mattock.mp3'
+
+import seDown from '~/assets/maze/se/down.mp3'
+import seUp from '~/assets/maze/se/up.mp3'
+import seCoin from '~/assets/maze/se/coin.mp3'
+import sePick from '~/assets/maze/se/pick.mp3'
+import seDoor from '~/assets/maze/se/door.mp3'
+
+
 export default Vue.extend({
   components: {
     GamePad,
@@ -382,6 +392,7 @@ export default Vue.extend({
               this.showMessage('get-coin', _v)
             }
             this.removeFloorObject(this.px, this.py)
+            new Audio(sePick).play()
           }
         }
       }
@@ -393,6 +404,7 @@ export default Vue.extend({
           if(this.save.key2 > 0) {
             this.save.key2--
             this.goalFloor()
+            new Audio(seDoor).play()
           }
         }
       }
@@ -414,6 +426,7 @@ export default Vue.extend({
               bg: true,
               floor: true
             }
+            new Audio(seMattock).play()
 
           } else {
             return
@@ -436,27 +449,33 @@ export default Vue.extend({
       case MAP_OBJECT.COIN:
         this.save.coin += 10
         this.showMessage('get-coin', 10)
+        new Audio(seCoin).play()
         break
       case MAP_OBJECT.KEY1:
         this.save.key1++
         this.showMessage('get-key1', 1)
+        new Audio(sePick).play()
         break
       case MAP_OBJECT.KEY2:
         this.save.key2++
         this.showMessage('get-key2', 1)
+        new Audio(sePick).play()
         break
       case MAP_OBJECT.PLUS0_PORTION:
         v = Math.floor(Math.random() * this.save.hpMax / 5) + 5
         this.save.hp = Math.min (this.save.hp + v, this.save.hpMax)
         console.log(this.save.hp)
         this.showMessage('get-plus0-portion', v)
+        new Audio(seUp).play()
         break
       case MAP_OBJECT.RANDOM0_PORTION:
         // 若干回復しやすい
         if(Math.random() < 0.6) {
           v = Math.floor(Math.random() * this.save.hpMax / 4 + 2)
+          new Audio(seUp).play()
         } else {
           v = -Math.floor(Math.random() * this.save.hpMax / 5 + 2)
+          new Audio(seDown).play()
         }
         this.save.hp += v
         this.save.hp = Math.min (this.save.hp, this.save.hpMax)
@@ -466,18 +485,22 @@ export default Vue.extend({
       case MAP_OBJECT.MATTOCK:
         this.save.mattock++
         this.showMessage('get-mattock', 1)
+        new Audio(sePick).play()
         break
       case MAP_OBJECT.PLUS_PORTION:
         this.save.portion++
         this.showMessage('get-plus-portion', 1)
+        new Audio(sePick).play()
         break
       case MAP_OBJECT.PEAK:
         v = Math.min(20 + Math.floor(this.save.floor / 5) * 5, 40)
         this.save.hp = Math.max(this.save.hp - v, 0)
         this.showMessage('damage', v)
+        new Audio(seDown).play()
         getItem = false
         break
       default:
+        new Audio(seMove).play()
         getItem = false
       }
       if(getItem) {
