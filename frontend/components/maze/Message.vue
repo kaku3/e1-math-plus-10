@@ -65,11 +65,28 @@ export default Vue.extend({
           }
           break
         case 'get-mattock':
-          this.message = `つるはしを ${v} てにいれた`
+          if(v === 1) {
+            this.message = `つるはしを てにいれた`
+          } else {
+            this.message = `つるはしを ${v} てにいれた`
+          }
           break
         case 'get-plus-portion':
           this.message = `くすり青（大）を ${v} てにいれた`
           break
+
+        case 'get-key1':
+          this.message = `ぎんのカギを　てにいれた!`
+          break
+
+        case 'get-key2':
+          this.message = `きんのカギを　てにいれた!`
+          break
+
+        case 'empty-chest':
+          this.message = `たからばこは　からだった!`
+          break
+
         case 'damage':
           this.message = `${v} のダメージ!`
           break

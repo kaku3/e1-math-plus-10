@@ -311,10 +311,12 @@ export default Vue.extend({
                 _v = Math.floor(5 + Math.random() * 4)
                 this.save.mattock += _v
                 this.showMessage('get-mattock', _v)
-              } else if(rr < 0.6) {
+              } else if(rr < 0.4) {
                 _v = Math.floor(3 + Math.random() * 3)
                 this.save.portion += _v
                 this.showMessage('get-plus-portion', _v)
+              } else {
+                this.showMessage('empty-chest', 0)
               }
             }
             if(o === MAP_OBJECT.CHEST2) {
@@ -370,12 +372,15 @@ export default Vue.extend({
       switch(o) {
       case MAP_OBJECT.COIN:
         this.save.coin += 10
+        this.showMessage('get-coin', 10)
         break
       case MAP_OBJECT.KEY1:
         this.save.key1++
+        this.showMessage('get-key1', 1)
         break
       case MAP_OBJECT.KEY2:
         this.save.key2++
+        this.showMessage('get-key2', 1)
         break
       case MAP_OBJECT.PLUS0_PORTION:
         v = Math.floor(Math.random() * this.save.hpMax / 10) + 5
@@ -396,6 +401,7 @@ export default Vue.extend({
         break
       case MAP_OBJECT.MATTOCK:
         this.save.mattock++
+        this.showMessage('get-mattock', 1)
         break
       case MAP_OBJECT.PLUS_PORTION:
         this.save.portion++
