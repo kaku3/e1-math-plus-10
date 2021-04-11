@@ -378,16 +378,16 @@ export default Vue.extend({
         this.save.key2++
         break
       case MAP_OBJECT.PLUS0_PORTION:
-        v = Math.floor(Math.random() * this.save.hpMax / 10)
+        v = Math.floor(Math.random() * this.save.hpMax / 10) + 5
         this.save.hp = Math.min (this.save.hp + v, this.save.hpMax)
         this.showMessage('get-plus0-portion', v)
         break
       case MAP_OBJECT.RANDOM0_PORTION:
         // 若干回復しやすい
         if(Math.random() < 0.6) {
-          v = Math.floor(Math.random() * this.save.hpMax / 3)
+          v = Math.floor(Math.random() * this.save.hpMax / 4 + 2)
         } else {
-          v = -Math.floor(Math.random() * this.save.hpMax / 4)
+          v = -Math.floor(Math.random() * this.save.hpMax / 4 + 2)
         }
         this.save.hp += v
         this.save.hp = Math.min (this.save.hp, this.save.hpMax)
