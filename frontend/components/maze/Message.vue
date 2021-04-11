@@ -72,7 +72,11 @@ export default Vue.extend({
           }
           break
         case 'get-plus-portion':
-          this.message = `くすり青（大）を ${v} てにいれた`
+          if(v === 1) {
+            this.message = `くすり青（大）を　てにいれた`
+          } else {
+            this.message = `くすり青（大）を ${v} てにいれた`
+          }
           break
 
         case 'get-key1':

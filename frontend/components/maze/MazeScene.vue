@@ -366,7 +366,7 @@ export default Vue.extend({
           return
         }
       }
-      this.save.hp--
+      this.save.hp -= Math.min(3, Math.floor(this.save.floor / 10) + 1)
 
       let getItem = true
       let v = 0
@@ -384,7 +384,7 @@ export default Vue.extend({
         this.showMessage('get-key2', 1)
         break
       case MAP_OBJECT.PLUS0_PORTION:
-        v = Math.floor(Math.random() * this.save.hpMax / 10) + 5
+        v = Math.floor(Math.random() * this.save.hpMax / 5) + 5
         this.save.hp = Math.min (this.save.hp + v, this.save.hpMax)
         this.showMessage('get-plus0-portion', v)
         break
@@ -406,6 +406,7 @@ export default Vue.extend({
         break
       case MAP_OBJECT.PLUS_PORTION:
         this.save.portion++
+        this.showMessage('get-plus-portion', 1)
         break
       case MAP_OBJECT.PEAK:
         v = Math.min(30 + this.save.floor, 60)
@@ -424,6 +425,7 @@ export default Vue.extend({
       this.py = y
 
       if(this.save.hp === 0) {
+        console.log('game over')
         const floor = this.save.floor
         resetSave(this.save)
         if(floor === 0) {

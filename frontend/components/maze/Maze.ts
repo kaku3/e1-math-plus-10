@@ -48,7 +48,7 @@ export class Maze {
     let sy = Math.min(7 + Math.floor(floor / 3) * 2, 21)
 
     if(floor % 10 == 0) {
-      sx = 3
+      sx = 5
       sy = 11
     } else if(floor % 5 == 0) {
       sx = 21
@@ -80,10 +80,10 @@ export class Maze {
       [ MAP_OBJECT.PLUS_PORTION, Math.max(0.01, 0.02 - floor * 0.001) ],
       [ MAP_OBJECT.PLUS0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.RANDOM0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
-      [ MAP_OBJECT.KEY1, Math.max(0.01, 0.05 - floor * 0.001) ],
-      [ MAP_OBJECT.CHEST1, Math.max(0.01, 0.05 - floor * 0.001) ],
-      [ MAP_OBJECT.CHEST2, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.CHEST2, Math.max(0.01, 0.03 - floor * 0.001) ],
+      [ MAP_OBJECT.CHEST1, Math.max(0.01, 0.03 - floor * 0.001) ],
       [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.07 - floor * 0.001) ],
+      [ MAP_OBJECT.KEY1, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.001) ],
       [ MAP_OBJECT.PEAK, Math.max(0.3, 0.4 - floor * 0.001) ],
     ]

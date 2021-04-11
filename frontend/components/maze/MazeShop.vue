@@ -118,7 +118,7 @@ export default Vue.extend({
     },
     key1Price() : number {
       const v = this.save.shop_key1
-      return 5 + v + Math.floor(v / 5) * 10
+      return 8 + v + Math.floor(v / 5) * 10
     },
     key2Price() : number {
       return 50 + this.save.shop_key2
