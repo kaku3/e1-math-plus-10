@@ -292,7 +292,7 @@ export default Vue.extend({
       if(v === 1) {
         if(this.save.portion > 0) {
           this.save.portion--
-          _v = Math.floor(Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 3))
+          _v = Math.floor(Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 5))
           this.save.hp = Math.min (this.save.hp + _v, this.save.hpMax)
           this.showMessage('use-plus-portion', _v)
         }
@@ -367,6 +367,7 @@ export default Vue.extend({
         }
       }
       this.save.hp -= Math.min(3, Math.floor(this.save.floor / 10) + 1)
+      this.save.hp = Math.max(0, this.save.hp)
 
       let getItem = true
       let v = 0
@@ -393,7 +394,7 @@ export default Vue.extend({
         if(Math.random() < 0.6) {
           v = Math.floor(Math.random() * this.save.hpMax / 4 + 2)
         } else {
-          v = -Math.floor(Math.random() * this.save.hpMax / 4 + 2)
+          v = -Math.floor(Math.random() * this.save.hpMax / 5 + 2)
         }
         this.save.hp += v
         this.save.hp = Math.min (this.save.hp, this.save.hpMax)

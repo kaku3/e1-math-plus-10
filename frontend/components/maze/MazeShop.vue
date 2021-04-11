@@ -110,7 +110,7 @@ export default Vue.extend({
   computed: {
     mattockPrice() : number {
       const v = this.save.shop_mattock
-      return 5 + v + Math.floor(v / 10) * 10 + Math.floor(v / 20) * 50
+      return 5 + v + Math.floor(v / 5) * 10 + Math.floor(v / 20) * 50
     },
     portionPrice() : number {
       const v = this.save.shop_portion
