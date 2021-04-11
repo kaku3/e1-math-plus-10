@@ -62,6 +62,9 @@ export default Vue.extend({
       rankings: [] as Object[]
     }
   },
+  mounted () {
+    this.getRankings()
+  },
 
   methods: {
     async getRankings() {

@@ -48,12 +48,12 @@
       </div>
       <div v-else-if="isEnd">
         <MazeEnd :result="mazeResult" @start-floor="onStartFloor" />
-        <MazeRanking ref="ranking" />
       </div>
     </v-fade-transition>
     <v-fade-transition>
       <MazeInstruction v-if="!isEnd" />
     </v-fade-transition>
+    <MazeRanking ref="ranking" v-if="isTutorial || isEnd" />
   </div>
 </template>
 <style lang="scss" scoped src="./main.scss" />
