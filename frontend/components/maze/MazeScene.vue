@@ -410,7 +410,7 @@ export default Vue.extend({
         this.showMessage('get-plus-portion', 1)
         break
       case MAP_OBJECT.PEAK:
-        v = Math.min(30 + this.save.floor, 60)
+        v = Math.min(20 + Math.floor(this.save.floor / 2), 40)
         this.save.hp = Math.max(this.save.hp - v, 0)
         this.showMessage('damage', v)
         getItem = false

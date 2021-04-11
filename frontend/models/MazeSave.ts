@@ -23,7 +23,7 @@ export interface MazeSave {
 export function NewSave(id: string): MazeSave {
   return {
     uid: id,
-    seed: new Random(new Date().getTime()).next(),
+    seed: new Date().getTime(),
     hpMax : 100,
     hp : 100,
     coin : 0,
@@ -41,7 +41,7 @@ export function NewSave(id: string): MazeSave {
   }
 }
 export function resetSave(save: MazeSave) {
-  save.seed = new Random(new Date().getTime()).next()
+  save.seed = new Date().getTime()
   save.hpMax = 100
   save.hp = 100
   save.coin = 0

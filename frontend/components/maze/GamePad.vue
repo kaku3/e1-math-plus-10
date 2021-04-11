@@ -22,8 +22,22 @@
             <div class="item-count">{{ save.key1 }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto"><v-btn depressed @pointerdown="onClick(4)" color="cyan lighten-4"><v-icon>mdi-arrow-left-drop-circle</v-icon></v-btn></v-col>
-        <v-col cols="auto"><v-btn depressed @pointerdown="onClick(6)" color="cyan lighten-4"><v-icon>mdi-arrow-right-drop-circle</v-icon></v-btn></v-col>
+        <v-col cols="ml-auto">
+          <v-btn
+           depressed
+           @pointerdown="onClick(4)"
+           color="cyan lighten-4">
+           <v-icon>mdi-arrow-left-drop-circle</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn
+            depressed
+            @pointerdown="onClick(6)"
+            color="cyan lighten-4">
+            <v-icon>mdi-arrow-right-drop-circle</v-icon>
+          </v-btn>
+        </v-col>
       </v-row>
       <v-row dense>
         <v-col cols="3"></v-col>
@@ -74,10 +88,45 @@ export default Vue.extend({
     }
   },
   mounted () {
+    window.addEventListener('keydown', this.onKeyDown)
+  },
+  destroyed() {
+    window.removeEventListener('keydown', this.onKeyDown)
   },
   methods: {
     onClick(v: number) {
       this.$emit('tap', v)
+    },
+    onKeyDown(e: any) {
+      let v = 0
+      switch(e.code) {
+        case 'KeyZ':
+          v = 1
+          break
+        case 'KeyX':
+          v = 3
+          break
+        case 'KeyC':
+          v = 7
+          break
+        case 'ArrowRight':
+          v = 6
+          break
+        case 'ArrowLeft':
+          v = 4
+          break
+        case 'ArrowUp':
+          v = 2
+          break
+        case 'ArrowDown':
+          v = 8
+          break
+      }
+      console.log(e.code)
+      if(v !== 0) {
+        this.onClick(v)
+        e.preventDefault()
+      }
     }
   }
 })
