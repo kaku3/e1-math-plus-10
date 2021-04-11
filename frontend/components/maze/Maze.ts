@@ -61,13 +61,14 @@ export class Maze {
     return maze
   }
   setObjects(floor:number, sx:number, sy:number, maze: number[][]) {
+    console.log({ floor, sx, sy, maze })
     const rnd = this.random
 
     // 金鍵と扉は必ず一つずつある
     maze[sy - 2][sx - 2] = MAP_OBJECT.DOOR
     while(true) {
-      let x = rnd.nextInt(3, sx - 3)
-      let y = rnd.nextInt(3, sy - 3)
+      let x = rnd.nextInt(2, sx - 2)
+      let y = rnd.nextInt(2, sy - 2)
       if(maze[y][x] === 0) {
         maze[y][x] = MAP_OBJECT.KEY2
         break
