@@ -311,7 +311,7 @@ export default Vue.extend({
                 _v = Math.floor(5 + Math.random() * 4)
                 this.save.mattock += _v
                 this.showMessage('get-mattock', _v)
-              } else if(rr < 0.4) {
+              } else if(rr < 0.8) {
                 _v = Math.floor(3 + Math.random() * 3)
                 this.save.portion += _v
                 this.showMessage('get-plus-portion', _v)
@@ -320,9 +320,10 @@ export default Vue.extend({
               }
             }
             if(o === MAP_OBJECT.CHEST2) {
-              _v = Math.floor(Math.random() * 101 + 100)
+              _v = Math.floor(this.save.floor / 5) * 50 + 20
+              _v = Math.floor(_v * (0.8 + Math.random()))
               this.save.coin += _v
-              this.showMessage('get-coin', v)
+              this.showMessage('get-coin', _v)
             }
             this.removeFloorObject(this.px, this.py)
           }
