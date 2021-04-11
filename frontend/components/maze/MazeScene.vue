@@ -20,8 +20,10 @@
               </div>
             </div>
             <div class="p i" :style="playerStyle"></div>
+            <v-progress-linear :value="save.hp"></v-progress-linear>
           </div>
         </div>
+
         <Tutorial v-if="isTutorial" :px="px" :py="py" />
 
         <v-row>
@@ -307,11 +309,11 @@ export default Vue.extend({
 
             if(o === MAP_OBJECT.CHEST1) {
               const rr = Math.random()
-              if(rr < 0.4) {
+              if(rr < 0.5) {
                 _v = Math.floor(2 + Math.random() * 3)
                 this.save.mattock += _v
                 this.showMessage('get-mattock', _v)
-              } else if(rr < 0.8) {
+              } else if(rr < 0.9) {
                 _v = Math.floor(3 + Math.random() * 2)
                 this.save.portion += _v
                 this.showMessage('get-plus-portion', _v)
@@ -320,7 +322,7 @@ export default Vue.extend({
               }
             }
             if(o === MAP_OBJECT.CHEST2) {
-              _v = Math.floor(this.save.floor / 5) * 50 + 20
+              _v = Math.floor(this.save.floor / 5) * 30 + 20
               _v = Math.floor(_v * (0.8 + Math.random()))
               this.save.coin += _v
               this.showMessage('get-coin', _v)
@@ -366,8 +368,13 @@ export default Vue.extend({
           return
         }
       }
+      console.log({x, y})
+      console.log(this.save)
+
       this.save.hp -= Math.min(3, Math.floor(this.save.floor / 10) + 1)
       this.save.hp = Math.max(0, this.save.hp)
+
+      console.log(this.save.hp)
 
       let getItem = true
       let v = 0
@@ -387,6 +394,7 @@ export default Vue.extend({
       case MAP_OBJECT.PLUS0_PORTION:
         v = Math.floor(Math.random() * this.save.hpMax / 5) + 5
         this.save.hp = Math.min (this.save.hp + v, this.save.hpMax)
+        console.log(this.save.hp)
         this.showMessage('get-plus0-portion', v)
         break
       case MAP_OBJECT.RANDOM0_PORTION:

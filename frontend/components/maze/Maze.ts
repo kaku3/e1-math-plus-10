@@ -82,10 +82,10 @@ export class Maze {
       [ MAP_OBJECT.RANDOM0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.CHEST2, Math.max(0.01, 0.03 - floor * 0.001) ],
       [ MAP_OBJECT.CHEST1, Math.max(0.01, 0.03 - floor * 0.001) ],
-      [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.07 - floor * 0.001) ],
+      [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.04 - floor * 0.001) ],
       [ MAP_OBJECT.KEY1, Math.max(0.01, 0.05 - floor * 0.001) ],
-      [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.001) ],
-      [ MAP_OBJECT.PEAK, Math.max(0.3, 0.4 - floor * 0.001) ],
+      [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.01) ],
+      [ MAP_OBJECT.PEAK, Math.min(0.6, 0.3 + floor * 0.001) ],
     ]
     for(let r = 1; r < sy - 1; r++) {
       for(let c = 1; c < sx - 1; c++) {
