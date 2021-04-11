@@ -37,8 +37,18 @@ export class Maze {
       return maze
     }
 
-    const sx = Math.min(7 + Math.floor(floor / 2) * 2, 21)
-    const sy = Math.min(7 + Math.floor(floor / 3) * 2, 21)
+    let sx = Math.min(7 + Math.floor(floor / 2) * 2, 21)
+    let sy = Math.min(7 + Math.floor(floor / 3) * 2, 21)
+
+    if(floor % 10 == 0) {
+      sx = 3
+      sy = 11
+    } else if(floor % 5 == 0) {
+      sx = 21
+      sy = 5
+    }
+
+
     const maze = this.generate(sx, sy)
     this.setObjects(floor, sx, sy, maze)
     return maze
