@@ -73,11 +73,11 @@ export default function nav() {
         items: [
           {
             icon: 'mdi-gamepad-square-outline',
-            title: 'めいろ５０(α)',
+            title: 'めいろ２０(β)',
             to: {
-              name: 'game-maze-50',
+              name: 'game-maze-20',
               params: {
-                mode: 'maze50',
+                mode: 'maze20',
               }
             }
           },
