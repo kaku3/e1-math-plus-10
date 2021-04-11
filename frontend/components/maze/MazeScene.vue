@@ -123,7 +123,7 @@ export default Vue.extend({
   },
   methods: {
     init() {
-      const maze_ = new Maze().generateFloor(this.save.floor)
+      const maze_ = new Maze(this.save.seed).generateFloor(this.save.floor)
 
       const sx = maze_[0].length
       const sy = maze_.length

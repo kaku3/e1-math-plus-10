@@ -1,3 +1,5 @@
+import Random from '~/utils/Random'
+
 export enum MAP_OBJECT {
   FLOOR = 0,
   WALL = 1,
@@ -15,6 +17,11 @@ export enum MAP_OBJECT {
 }
 
 export class Maze {
+  random: Random
+  constructor(seed: number = 0) {
+    this.random = new Random(seed)
+  }
+
   generateFloor(floor:number): MAP_OBJECT[][] {
     if(floor === 0) {
       const maze = [
@@ -54,11 +61,13 @@ export class Maze {
     return maze
   }
   setObjects(floor:number, sx:number, sy:number, maze: number[][]) {
+    const rnd = this.random
+
     // 金鍵と扉は必ず一つずつある
     maze[sy - 2][sx - 2] = MAP_OBJECT.DOOR
     while(true) {
-      let x = Math.floor(Math.random() * (sx - 3)) + 3
-      let y = Math.floor(Math.random() * (sy - 3)) + 3
+      let x = rnd.nextInt(3, sx - 3)
+      let y = rnd.nextInt(3, sy - 3)
       if(maze[y][x] === 0) {
         maze[y][x] = MAP_OBJECT.KEY2
         break
@@ -84,7 +93,7 @@ export class Maze {
         }
 
         for(const rr of rates) {
-          if(rr[1] > Math.random()) {
+          if(rr[1] > rnd.nextFloat1()) {
             maze[r][c] = rr[0]
             break
           }
@@ -118,6 +127,7 @@ export class Maze {
     return maze
   }
   private dig(maze:number[][], starts:object[], x:number, y:number) {
+    const rnd = this.random
     while(true) {
       const ds = []
       if(maze[y - 1][x] && maze[y - 2][x]) ds.push(0)
@@ -131,7 +141,7 @@ export class Maze {
       this.setPath(maze, starts, x, y)
 
       // 掘る方向をランダムで決めて、2マス掘る
-      const dd = ds[Math.floor(Math.random() * ds.length)]
+      const dd = ds[rnd.nextInt(0, ds.length - 1)]
       switch(dd) {
         case 0:
           this.setPath(maze, starts, x, --y)
@@ -152,7 +162,7 @@ export class Maze {
       }
 
       if(starts.length > 0) {
-        const ii = Math.floor(Math.random() * starts.length)
+        const ii = rnd.nextInt(0, starts.length - 1)
         const start = starts[ii]
         starts = starts.filter((_, i) => i !== ii)
 

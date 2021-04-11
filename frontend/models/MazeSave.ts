@@ -1,6 +1,8 @@
+import Random from '~/utils/Random'
 
 export interface MazeSave {
   uid: string
+  seed: number
   hpMax: number
   hp: number
   coin: number
@@ -21,6 +23,7 @@ export interface MazeSave {
 export function NewSave(id: string): MazeSave {
   return {
     uid: id,
+    seed: new Random(new Date().getTime()).next(),
     hpMax : 100,
     hp : 100,
     coin : 0,
@@ -38,6 +41,7 @@ export function NewSave(id: string): MazeSave {
   }
 }
 export function resetSave(save: MazeSave) {
+  save.seed = new Random(new Date().getTime()).next()
   save.hpMax = 100
   save.hp = 100
   save.coin = 0
