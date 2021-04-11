@@ -47,6 +47,15 @@ export class Maze {
     let sx = Math.min(7 + Math.floor(floor / 2) * 2, 21)
     let sy = Math.min(7 + Math.floor(floor / 3) * 2, 21)
 
+    if(floor > 10) {
+      if((floor % 2) === 0) {
+        sx -= 4
+      }
+      if((floor % 4) === 0) {
+        sy -= 4
+      }
+    }
+
     if(floor % 10 == 0) {
       sx = 5
       sy = 11

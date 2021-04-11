@@ -1,10 +1,16 @@
 <template>
   <div v-if="isReady">
     <v-row class="game-console">
+      <v-col cols="auto">HP</v-col>
+      <v-col cols="4">
+        <v-progress-linear :color="hpBarColor" :value="save.hp" width="60" height="18">
+          <template v-slot:default="{ value }">
+            <div class="value">{{ value }}</div>
+          </template>
+        </v-progress-linear>
+      </v-col>
+      <v-col cols="mr-auto text-right"><div class="console item coin"></div><div class="ml-2">{{ save.coin }}</div></v-col>
       <v-col cols="auto"><div class="bgo door"></div><div class="ml-2">{{ save.floor }}</div></v-col>
-      <v-col cols="auto"><div class="key">HP</div><div class="ml-2">{{ save.hp }}</div></v-col>
-      <v-spacer></v-spacer>
-      <v-col cols="auto"><div class="console item coin"></div><div class="ml-2">{{ save.coin }}</div></v-col>
     </v-row>
 
     <v-fade-transition>
@@ -20,7 +26,6 @@
               </div>
             </div>
             <div class="p i" :style="playerStyle"></div>
-            <v-progress-linear :value="save.hp"></v-progress-linear>
           </div>
         </div>
 
@@ -60,6 +65,9 @@
   }
   .bgo {
     position: relative;
+  }
+  .value {
+    color: white;
   }
 }
 .maze-scene {
@@ -469,6 +477,19 @@ export default Vue.extend({
     },
     isEnd(): boolean {
       return this.mode === 'end'
+    },
+    hpBarColor(): string {
+      if(this.save.hpMax === 0) {
+        return 'red'
+      }
+      const r = this.save.hp / this.save.hpMax
+      if(r < 0.3) {
+        return 'red'
+      } else if(r< 0.6) {
+        return 'yellow darken-3'
+      } else {
+        return 'blue darken-2'
+      }
     }
   },
   watch: {
