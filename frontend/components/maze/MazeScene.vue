@@ -308,11 +308,11 @@ export default Vue.extend({
             if(o === MAP_OBJECT.CHEST1) {
               const rr = Math.random()
               if(rr < 0.4) {
-                _v = Math.floor(5 + Math.random() * 4)
+                _v = Math.floor(2 + Math.random() * 3)
                 this.save.mattock += _v
                 this.showMessage('get-mattock', _v)
               } else if(rr < 0.8) {
-                _v = Math.floor(3 + Math.random() * 3)
+                _v = Math.floor(3 + Math.random() * 2)
                 this.save.portion += _v
                 this.showMessage('get-plus-portion', _v)
               } else {
