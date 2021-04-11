@@ -44,7 +44,8 @@ export class Maze {
     return maze
   }
   setObjects(floor:number, sx:number, sy:number, maze: number[][]) {
-    // 鍵と扉は必ず一つずつある
+    // 金鍵と扉は必ず一つずつある
+    maze[sy - 2][sx - 2] = MAP_OBJECT.DOOR
     while(true) {
       let x = Math.floor(Math.random() * (sx - 3)) + 3
       let y = Math.floor(Math.random() * (sy - 3)) + 3
@@ -53,7 +54,6 @@ export class Maze {
         break
       }
     }
-    maze[sy - 2][sx - 2] = MAP_OBJECT.DOOR
 
     // floor によって出現率が違う
     const rates = [
