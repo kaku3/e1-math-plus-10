@@ -21,9 +21,14 @@
             </div>
             <div class="p i" :style="playerStyle"></div>
           </div>
-          <Message ref="msg" />
-          <Tutorial v-if="isTutorial" :px="px" :py="py" />
         </div>
+        <Tutorial v-if="isTutorial" :px="px" :py="py" />
+
+        <v-row>
+          <v-col>
+            <Message ref="msg" />
+          </v-col>
+        </v-row>
 
         <v-row>
           <v-col>
@@ -58,7 +63,7 @@
 .maze-scene {
   display: flex;
   align-items: center;
-  min-height: 256px;
+  min-height: 192px;
 
   .maze-container {
     position: relative;
@@ -397,7 +402,7 @@ export default Vue.extend({
         break
       case MAP_OBJECT.PEAK:
         v = Math.min(30 + this.save.floor, 60)
-        this.save.hp = Math.max(this.save.hp - v, 1)
+        this.save.hp = Math.max(this.save.hp - v, 0)
         this.showMessage('damage', v)
         getItem = false
         break

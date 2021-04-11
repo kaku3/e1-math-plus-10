@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="message-main-container">
     <v-slide-y-reverse-transition>
       <div v-if="show" class="message-container">
         {{ message }}
@@ -9,11 +9,9 @@
 </template>
 <style lang="scss" scoped src="./main.scss" />
 <style lang="scss" scoped>
-.main-container {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 0;
+.message-main-container {
   width: 100%;
+  min-height: 2rem;
   font-family: 'Press Start 2P', 'DotGothic16';
 
   .message-container {
@@ -21,9 +19,10 @@
     text-align: left;
     width: 100%;
     font-size: .8rem;
-    color: black;
-    background-color: white;
+    color: white;
+    background-color: transparent;
     border-radius: 4px;
+    border: 1px solid white;
 
     animation: pop .5s ease-in 0;
 

@@ -54,9 +54,10 @@
   font-family: 'Press Start 2P', 'DotGothic16';
 
   .message-container {
+    margin: .5rem;
     padding: .25rem .5rem;
     text-align: left;
-    width: 100%;
+    width: calc(100% - 1rem);
     font-size: .8rem;
     color: black;
     background-color: white;
