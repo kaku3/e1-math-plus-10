@@ -33,3 +33,9 @@ export function NullScoreEntity(mode:GameMode):ScoreEntity {
   return { mode, name, score, createdAt }
 }
 
+export interface MazeScoreEntity {
+  name: string
+  floor: number
+  coin: number
+  createdAt: number
+}

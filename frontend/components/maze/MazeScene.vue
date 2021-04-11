@@ -48,7 +48,11 @@
       </div>
       <div v-else-if="isEnd">
         <MazeEnd :result="mazeResult" @start-floor="onStartFloor" />
+        <MazeRanking ref="ranking" />
       </div>
+    </v-fade-transition>
+    <v-fade-transition>
+      <MazeInstruction v-if="!isEnd" />
     </v-fade-transition>
   </div>
 </template>
@@ -84,6 +88,9 @@
 import Vue from 'vue'
 import { PropType } from 'vue'
 
+import { getModule } from 'vuex-module-decorators'
+import AccountStore from '~/store/AccountStore'
+
 import { Maze, MAP_OBJECT } from '~/components/maze/Maze'
 
 import GamePad from '~/components/maze/GamePad.vue'
@@ -94,7 +101,15 @@ import Message from '~/components/maze/Message.vue'
 
 import Tutorial from '~/components/maze/Tutorial.vue'
 
+import MazeInstruction from '~/components/maze/MazeInstruction.vue'
+
+import MazeRanking from '~/components/maze/MazeRanking.vue'
+
+
 import { MazeSave, NewSave, resetSave } from '~/models/MazeSave'
+
+import { MazeScoreEntity } from '~/models/Score'
+import { entryMazeScore } from '~/utils/score'
 
 import firebase from '@/plugins/firebase'
 
@@ -104,7 +119,9 @@ export default Vue.extend({
     MazeShop,
     MazeEnd,
     Message,
-    Tutorial
+    Tutorial,
+    MazeInstruction,
+    MazeRanking,
   },
   props: {
     save: {
@@ -263,7 +280,7 @@ export default Vue.extend({
         this.setResult()
         resetSave(this.save)
         this.saveData()
-        this.mode = 'end'
+        this.showResult()
         return
       }
 
@@ -279,6 +296,20 @@ export default Vue.extend({
         floor: this.save.floor,
         coin: this.save.coin
       }
+      const e:MazeScoreEntity = {
+        name: this.accountStore.account.name,
+        floor: this.save.floor,
+        coin: this.save.coin,
+        createdAt: new Date().getTime(),
+      }
+      entryMazeScore(e)
+    },
+    showResult() {
+      this.mode = 'end'
+      this.$nextTick(() => {
+        //@ts-ignore
+        this.$refs['ranking'].getRankings()
+      })
     },
     saveData() {
       const db = firebase.firestore()
@@ -466,7 +497,7 @@ export default Vue.extend({
           this.init()
         } else {
           this.saveData()
-          this.mode = 'end'
+          this.showResult()
         }
       }
     },
@@ -477,6 +508,10 @@ export default Vue.extend({
   },
 
   computed: {
+    accountStore() : AccountStore {
+      return getModule(AccountStore, this.$store) as AccountStore
+    },
+
     playerStyle(): object {
       return {
         top: `${this.py * 16 - 16}px`,
