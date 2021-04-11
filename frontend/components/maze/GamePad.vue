@@ -30,7 +30,7 @@
            <v-icon>mdi-arrow-left-drop-circle</v-icon>
           </v-btn>
         </v-col>
-        <v-col cols="auto">
+        <v-col cols="ml-auto">
           <v-btn
             depressed
             @pointerdown="onClick(6)"
