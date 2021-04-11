@@ -1,6 +1,6 @@
 <template>
   <div v-if="isReady">
-    <v-row class="game-console">
+    <v-row v-if="!isEnd" class="game-console">
       <v-col cols="auto">HP</v-col>
       <v-col cols="4">
         <v-progress-linear :color="hpBarColor" :value="save.hp" width="60" height="18">
@@ -47,7 +47,7 @@
         <MazeShop :save="save" @start-floor="onStartFloor" />
       </div>
       <div v-else-if="isEnd">
-        <MazeEnd :save="save" @start-floor="onStartFloor" />
+        <MazeEnd :result="mazeResult" @start-floor="onStartFloor" />
       </div>
     </v-fade-transition>
   </div>
@@ -88,7 +88,7 @@ import { Maze, MAP_OBJECT } from '~/components/maze/Maze'
 
 import GamePad from '~/components/maze/GamePad.vue'
 import MazeShop from '~/components/maze/MazeShop.vue'
-import MazeEnd from '~/components/maze/MazeEnd.vue'
+import { default as MazeEnd, MazeResult } from '~/components/maze/MazeEnd.vue'
 
 import Message from '~/components/maze/Message.vue'
 
@@ -122,7 +122,8 @@ export default Vue.extend({
       },
       px: 1,
       py: 1,
-      mode: 'game'
+      mode: 'game',
+      mazeResult: {} as MazeResult
     }
   },
   mounted () {
@@ -258,19 +259,33 @@ export default Vue.extend({
       this.maze[y][x].obj = null
     },
     goalFloor(): void {
+      if(this.save.floor === 20) {
+        this.setResult()
+        resetSave(this.save)
+        this.saveData()
+        this.mode = 'end'
+        return
+      }
+
       this.save.floor++
       if(this.save.floor === 1) {
         this.save.playCount++
       }
-
       this.saveData()
       this.mode = 'shop'
+    },
+    setResult() {
+      this.mazeResult = {
+        floor: this.save.floor,
+        coin: this.save.coin
+      }
     },
     saveData() {
       const db = firebase.firestore()
       const q = db.collection('mazeSaves').doc(this.save.uid)
       q.set(this.save)
     },
+
     onStartFloor() {
       console.log('+ onStartFloor', this.mode)
       this.mode = 'game'
@@ -302,7 +317,7 @@ export default Vue.extend({
       if(v === 1) {
         if(this.save.portion > 0) {
           this.save.portion--
-          _v = Math.floor(Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 5))
+          _v = Math.floor(Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 3))
           this.save.hp = Math.min (this.save.hp + _v, this.save.hpMax)
           this.showMessage('use-plus-portion', _v)
         }
@@ -379,7 +394,7 @@ export default Vue.extend({
       console.log({x, y})
       console.log(this.save)
 
-      this.save.hp -= Math.min(3, Math.floor(this.save.floor / 10) + 1)
+      this.save.hp -= Math.min(2, Math.floor(this.save.floor / 10) + 1)
       this.save.hp = Math.max(0, this.save.hp)
 
       console.log(this.save.hp)
@@ -426,7 +441,7 @@ export default Vue.extend({
         this.showMessage('get-plus-portion', 1)
         break
       case MAP_OBJECT.PEAK:
-        v = Math.min(20 + Math.floor(this.save.floor / 2), 40)
+        v = Math.min(20 + Math.floor(this.save.floor / 5) * 5, 40)
         this.save.hp = Math.max(this.save.hp - v, 0)
         this.showMessage('damage', v)
         getItem = false
@@ -443,6 +458,8 @@ export default Vue.extend({
 
       if(this.save.hp === 0) {
         console.log('game over')
+        this.setResult()
+
         const floor = this.save.floor
         resetSave(this.save)
         if(floor === 0) {

@@ -44,26 +44,18 @@ export class Maze {
       return maze
     }
 
-    let sx = Math.min(7 + Math.floor(floor / 2) * 2, 21)
-    let sy = Math.min(7 + Math.floor(floor / 3) * 2, 21)
+    const sxs = [
+      7, 9, 7, 5, 11, 7, 9, 7, 5, 11,
+      13, 11, 15, 13, 11, 7, 15, 19, 13, 21,
+    ]
+    const sys = [
+      7, 7, 9, 15, 11, 7, 9, 13, 7, 15,
+      13, 11, 15, 13, 11, 7, 15, 19, 13, 21,
+    ]
+    let ix = (floor - 1) % sxs.length
 
-    if(floor > 10) {
-      if((floor % 2) === 0) {
-        sx -= 4
-      }
-      if((floor % 4) === 0) {
-        sy -= 4
-      }
-    }
-
-    if(floor % 10 == 0) {
-      sx = 5
-      sy = 11
-    } else if(floor % 5 == 0) {
-      sx = 21
-      sy = 5
-    }
-
+    let sx = sxs[ix]
+    let sy = sys[ix]
 
     const maze = this.generate(sx, sy)
     this.setObjects(floor, sx, sy, maze)
@@ -89,12 +81,12 @@ export class Maze {
       [ MAP_OBJECT.PLUS_PORTION, Math.max(0.01, 0.02 - floor * 0.001) ],
       [ MAP_OBJECT.PLUS0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.RANDOM0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
-      [ MAP_OBJECT.CHEST2, Math.max(0.01, 0.03 - floor * 0.001) ],
-      [ MAP_OBJECT.CHEST1, Math.max(0.01, 0.03 - floor * 0.001) ],
+      [ MAP_OBJECT.CHEST2, Math.max(0.05, 0.1 - floor * 0.005) ],
+      [ MAP_OBJECT.CHEST1, Math.max(0.02, 0.1 - floor * 0.005) ],
       [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.04 - floor * 0.001) ],
-      [ MAP_OBJECT.KEY1, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.01) ],
-      [ MAP_OBJECT.PEAK, Math.min(0.6, 0.3 + floor * 0.001) ],
+      [ MAP_OBJECT.KEY1, Math.max(0.01, 0.1 - floor * 0.005) ],
+      [ MAP_OBJECT.PEAK, Math.min(0.5, 0.3 + floor * 0.01) ],
     ]
     for(let r = 1; r < sy - 1; r++) {
       for(let c = 1; c < sx - 1; c++) {

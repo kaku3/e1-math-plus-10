@@ -61,7 +61,7 @@ export default Vue.extend({
           if(v > 0) {
             this.message = `HP が ${v} かいふくした`
           } else {
-            this.message = `HP が ${-v} へってしまった`
+            this.message = `HP が ${-v} へってしまった!`
           }
           break
         case 'get-mattock':
