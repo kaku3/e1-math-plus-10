@@ -109,13 +109,16 @@ export default Vue.extend({
 
   computed: {
     mattockPrice() : number {
-      return 5 + Math.floor(this.save.shop_mattock / 4)
+      const v = this.save.shop_mattock
+      return 5 + v + Math.floor(v / 10) * 10
     },
     portionPrice() : number {
-      return 10 + Math.floor(this.save.shop_portion / 2)
+      const v = this.save.shop_portion
+      return 10 + v + Math.floor(v / 5) * 10
     },
     key1Price() : number {
-      return 5 + Math.floor(this.save.shop_key1 / 5)
+      const v = this.save.shop_key1
+      return 5 + v + Math.floor(v / 5) * 10
     },
     key2Price() : number {
       return 50 + this.save.shop_key2
