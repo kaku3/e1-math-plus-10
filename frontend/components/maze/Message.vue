@@ -92,9 +92,13 @@ export default Vue.extend({
           break
       }
       this.show = true
-      window.setTimeout(() => {
+      if(this.timerId !== -1) {
+        window.clearTimeout(this.timerId)
+      }
+      this.timerId = window.setTimeout(() => {
         this.show = false
-      }, 3000)
+        this.timerId = -1
+      }, 2000)
     }
   }
 })
