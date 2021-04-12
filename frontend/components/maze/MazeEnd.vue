@@ -54,7 +54,7 @@ export default Vue.extend({
   },
   computed: {
     isClear(): boolean {
-      return this.result.floor === 20
+      return this.result.floor === 21
     }
   }
 

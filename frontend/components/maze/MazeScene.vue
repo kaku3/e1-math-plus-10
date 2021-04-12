@@ -286,7 +286,8 @@ export default Vue.extend({
       this.maze[y][x].obj = null
     },
     goalFloor(): void {
-      if(this.save.floor === 20) {
+      this.save.floor++
+      if(this.save.floor === 21) {
         this.setResult()
         resetSave(this.save)
         this.saveData()
@@ -294,7 +295,6 @@ export default Vue.extend({
         return
       }
 
-      this.save.floor++
       if(this.save.floor === 1) {
         this.save.playCount++
       }

@@ -15,7 +15,7 @@
               {{o.rank}}
             </td>
             <td class="ranking-item name">
-              <span v-if="isClear(o)">
+              <span v-if="isClear(o)" class="icon">
                 <div class="p w"></div>
               </span>
               <span v-else>
@@ -36,15 +36,18 @@
 <style lang="scss" scoped>
 .maze-ranking-container {
   font-family: 'Press Start 2P', 'DotGothic16';
-
   .me > * {
     background-color: #90A4AE;
   }
   .ranking-item {
     font-size: .6rem;
   }
-  .p {
-    top: 26px;
+  .name .icon {
+    position: relative;
+
+    .p {
+      top: -16px;
+    }
   }
 }
 
@@ -95,7 +98,7 @@ export default Vue.extend({
       console.log(this.rankings)
     },
     isClear(o:any) {
-      return o.floor === 20
+      return o.floor === 21
     },
     isMe(o:any): boolean {
       return o.uid === this.uid
