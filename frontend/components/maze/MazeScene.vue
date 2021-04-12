@@ -126,6 +126,9 @@ import bgmShop from '~/assets/maze/bgm/shop.mp3'
 import bgmDungeon0 from '~/assets/maze/bgm/dungeon0.mp3'
 import bgmDungeon1 from '~/assets/maze/bgm/dungeon1.mp3'
 
+import bgmClear from '~/assets/maze/bgm/clear.mp3'
+import bgmOver from '~/assets/maze/bgm/over.mp3'
+
 export default Vue.extend({
   components: {
     GamePad,
@@ -307,6 +310,7 @@ export default Vue.extend({
         resetSave(this.save)
         this.saveData()
         this.showResult()
+        this.playClearBgm()
         return
       }
 
@@ -354,6 +358,24 @@ export default Vue.extend({
     playShopBgm() {
       this.stopBgm()
       const bgm = new Audio(bgmShop)
+      bgm.loop = true
+      bgm.volume = 0.1
+      bgm.play()
+      //@ts-ignore
+      this.bgm = bgm
+    },
+    playOverBgm() {
+      this.stopBgm()
+      const bgm = new Audio(bgmOver)
+      bgm.loop = true
+      bgm.volume = 0.1
+      bgm.play()
+      //@ts-ignore
+      this.bgm = bgm
+    },
+    playClearBgm() {
+      this.stopBgm()
+      const bgm = new Audio(bgmClear)
       bgm.loop = true
       bgm.volume = 0.1
       bgm.play()
@@ -564,6 +586,7 @@ export default Vue.extend({
         } else {
           this.saveData()
           this.showResult()
+          this.playOverBgm()
         }
       }
     },
