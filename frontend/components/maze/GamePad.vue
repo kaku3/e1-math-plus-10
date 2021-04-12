@@ -90,7 +90,7 @@ export default Vue.extend({
   mounted () {
     window.addEventListener('keydown', this.onKeyDown)
   },
-  destroyed() {
+  destroyed () {
     window.removeEventListener('keydown', this.onKeyDown)
   },
   methods: {

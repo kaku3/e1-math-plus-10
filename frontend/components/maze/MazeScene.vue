@@ -122,6 +122,9 @@ import seCoin from '~/assets/maze/se/coin.mp3'
 import sePick from '~/assets/maze/se/pick.mp3'
 import seDoor from '~/assets/maze/se/door.mp3'
 
+import bgmShop from '~/assets/maze/bgm/shop.mp3'
+import bgmDungeon0 from '~/assets/maze/bgm/dungeon0.mp3'
+import bgmDungeon1 from '~/assets/maze/bgm/dungeon1.mp3'
 
 export default Vue.extend({
   components: {
@@ -150,14 +153,23 @@ export default Vue.extend({
       px: 1,
       py: 1,
       mode: 'game',
-      mazeResult: {} as MazeResult
+      mazeResult: {} as MazeResult,
+      bgm: null
     }
   },
   mounted () {
     this.init()
     window.setTimeout(() => {
       this.isReady = true
+      if(this.isShop) {
+        this.playShopBgm()
+      } else {
+        this.playDungeonBgm()
+      }
     }, 1000)
+  },
+  destroyed () {
+    this.stopBgm()
   },
   methods: {
     init() {
@@ -286,6 +298,9 @@ export default Vue.extend({
       this.maze[y][x].obj = null
     },
     goalFloor(): void {
+      if(this.bgm) {
+        this.stopBgm()
+      }
       this.save.floor++
       if(this.save.floor === 21) {
         this.setResult()
@@ -300,6 +315,7 @@ export default Vue.extend({
       }
       this.saveData()
       this.mode = 'shop'
+      this.playShopBgm()
     },
     setResult() {
       this.mazeResult = {
@@ -326,11 +342,38 @@ export default Vue.extend({
       const q = db.collection('mazeSaves').doc(this.save.uid)
       q.set(this.save)
     },
+    playDungeonBgm() {
+      this.stopBgm()
+      const bgm = new Audio((this.save.floor < 10) ? bgmDungeon0 : bgmDungeon1)
+      bgm.loop = true
+      bgm.volume = 0.1
+      bgm.play()
+      //@ts-ignore
+      this.bgm = bgm
+    },
+    playShopBgm() {
+      this.stopBgm()
+      const bgm = new Audio(bgmShop)
+      bgm.loop = true
+      bgm.volume = 0.1
+      bgm.play()
+      //@ts-ignore
+      this.bgm = bgm
+    },
+    stopBgm() {
+      if(this.bgm) {
+        //@ts-ignore
+        this.bgm.pause()
+      }
+    },
 
     onStartFloor() {
       console.log('+ onStartFloor', this.mode)
       this.mode = 'game'
       this.init()
+
+      this.playDungeonBgm()
+
       console.log('- onStartFloor', this.mode)
     },
 
@@ -511,7 +554,7 @@ export default Vue.extend({
       this.py = y
 
       if(this.save.hp === 0) {
-        console.log('game over')
+        this.stopBgm()
         this.setResult()
 
         const floor = this.save.floor
