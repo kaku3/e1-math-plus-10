@@ -12,36 +12,40 @@
             <div class="item-count">{{ save.portion }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto">
+        <v-spacer></v-spacer>
+        <v-col cols="3">
           <v-btn
-            large
+            class="key"
             depressed
             @pointerdown="onClick(2)"
             color="cyan lighten-4">
             <v-icon>mdi-arrow-up-drop-circle</v-icon>
           </v-btn>
         </v-col>
+        <v-col cols="2"></v-col>
       </v-row>
       <v-row dense>
-        <v-col cols="2"></v-col>
+        <v-col cols="1"></v-col>
         <v-col cols="3">
           <v-btn outlined @pointerdown="onClick(3)" color="cyan lighten-4" :disabled="save.key1 == 0">
             <div class="item key1"></div>
             <div class="item-count">{{ save.key1 }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto">
+        <v-col cols="1"></v-col>
+        <v-col cols="3">
           <v-btn
-            large
+            class="key"
             depressed
             @pointerdown="onClick(4)"
             color="cyan lighten-4">
             <v-icon>mdi-arrow-left-drop-circle</v-icon>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto">
+        <v-col cols="1"></v-col>
+        <v-col cols="3">
           <v-btn
-            large
+            class="key"
             depressed
             @pointerdown="onClick(6)"
             color="cyan lighten-4">
@@ -50,22 +54,24 @@
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col cols="3"></v-col>
+        <v-col cols="1"></v-col>
         <v-col cols="3">
           <v-btn outlined @pointerdown="onClick(7)" color="cyan lighten-4" :disabled="save.key2 == 0">
             <div class="item key2"></div>
             <div class="item-count">{{ save.key2 }}</div>
           </v-btn>
         </v-col>
-        <v-col cols="ml-auto">
+        <v-spacer></v-spacer>
+        <v-col cols="3">
           <v-btn
-            large
+            class="key"
             depressed
             @pointerdown="onClick(8)"
             color="cyan lighten-4">
             <v-icon>mdi-arrow-down-drop-circle</v-icon>
           </v-btn>
         </v-col>
+        <v-col cols="2"></v-col>
       </v-row>
     </v-card-text>
   </v-card>
@@ -87,6 +93,10 @@
     display: inline-block;
     color: white;
     font-size: .6rem;
+  }
+  .key {
+    width: 48px;
+    height: 48px;
   }
 }
 
