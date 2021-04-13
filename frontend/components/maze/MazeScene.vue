@@ -15,17 +15,19 @@
 
     <v-fade-transition>
       <div v-if="isGame">
-        <div class="maze-scene" :style="sceneStyle">
-          <div class="maze-container">
-            <div class="maze-bg">
-              <div v-for="(cols, r) in maze" :key="r">
-                <div v-for="(col, c) in cols" :key="c" :class="col.cls">
-                  {{ col }}
-                  <div v-if="col.obj" :class="col.obj"></div>
+        <div class="maze-scene-container">
+          <div class="maze-scene" :style="sceneStyle">
+            <div class="maze-container">
+              <div class="maze-bg">
+                <div v-for="(cols, r) in maze" :key="r">
+                  <div v-for="(col, c) in cols" :key="c" :class="col.cls">
+                    {{ col }}
+                    <div v-if="col.obj" :class="col.obj"></div>
+                  </div>
                 </div>
               </div>
+              <div class="p i" :style="playerStyle"></div>
             </div>
-            <div class="p i" :style="playerStyle"></div>
           </div>
         </div>
 
@@ -74,10 +76,18 @@
     color: white;
   }
 }
+.maze-scene-container {
+  display: inline-block;
+  width: 336px;
+  height: 192px;
+  overflow: auto;
+}
 .maze-scene {
   display: flex;
   align-items: center;
   min-height: 192px;
+  transform-origin: 50% 0;
+  transform: scale(1.5);
 
   .maze-container {
     position: relative;
@@ -120,6 +130,7 @@ import seDown from '~/assets/maze/se/down.mp3'
 import seUp from '~/assets/maze/se/up.mp3'
 import seCoin from '~/assets/maze/se/coin.mp3'
 import sePick from '~/assets/maze/se/pick.mp3'
+import seChest from '~/assets/maze/se/chest.mp3'
 import seDoor from '~/assets/maze/se/door.mp3'
 
 import bgmShop from '~/assets/maze/bgm/shop.mp3'
@@ -346,6 +357,23 @@ export default Vue.extend({
       const q = db.collection('mazeSaves').doc(this.save.uid)
       q.set(this.save)
     },
+    playSe(se:string) {
+      const ses = {
+        'move': { f: seMove, v: 1 },
+        'mattock': { f: seMattock, v: 1 },
+        'down': { f: seDown, v: 0.8 },
+        'up': { f: seUp, v: 1 },
+        'coin': { f: seCoin, v: 0.6 },
+        'pick': { f: sePick, v: 1 },
+        'chest': { f: seChest, v: 1 },
+        'door': { f: seDoor, v: 1 }
+      }
+      //@ts-ignore
+      const _se = ses[se]
+      const audio = new Audio(_se.f)
+      audio.volume = _se.v
+      audio.play()
+    },
     playDungeonBgm() {
       this.stopBgm()
       const bgm = new Audio((this.save.floor < 10) ? bgmDungeon0 : bgmDungeon1)
@@ -457,7 +485,7 @@ export default Vue.extend({
               this.showMessage('get-coin', _v)
             }
             this.removeFloorObject(this.px, this.py)
-            new Audio(sePick).play()
+            this.playSe('chest')
           }
         }
       }
@@ -469,7 +497,7 @@ export default Vue.extend({
           if(this.save.key2 > 0) {
             this.save.key2--
             this.goalFloor()
-            new Audio(seDoor).play()
+            this.playSe('door')
           }
         }
       }
@@ -491,7 +519,7 @@ export default Vue.extend({
               bg: true,
               floor: true
             }
-            new Audio(seMattock).play()
+            this.playSe('mattock')
 
           } else {
             return
@@ -514,33 +542,33 @@ export default Vue.extend({
       case MAP_OBJECT.COIN:
         this.save.coin += 10
         this.showMessage('get-coin', 10)
-        new Audio(seCoin).play()
+        this.playSe('coin')
         break
       case MAP_OBJECT.KEY1:
         this.save.key1++
         this.showMessage('get-key1', 1)
-        new Audio(sePick).play()
+        this.playSe('pick')
         break
       case MAP_OBJECT.KEY2:
         this.save.key2++
         this.showMessage('get-key2', 1)
-        new Audio(sePick).play()
+        this.playSe('pick')
         break
       case MAP_OBJECT.PLUS0_PORTION:
         v = Math.floor(Math.random() * this.save.hpMax / 5) + 5
         this.save.hp = Math.min (this.save.hp + v, this.save.hpMax)
         console.log(this.save.hp)
         this.showMessage('get-plus0-portion', v)
-        new Audio(seUp).play()
+        this.playSe('up')
         break
       case MAP_OBJECT.RANDOM0_PORTION:
         // 若干回復しやすい
         if(Math.random() < 0.6) {
           v = Math.floor(Math.random() * this.save.hpMax / 4 + 2)
-          new Audio(seUp).play()
+          this.playSe('up')
         } else {
           v = -Math.floor(Math.random() * this.save.hpMax / 5 + 2)
-          new Audio(seDown).play()
+          this.playSe('down')
         }
         this.save.hp += v
         this.save.hp = Math.min (this.save.hp, this.save.hpMax)
@@ -550,22 +578,22 @@ export default Vue.extend({
       case MAP_OBJECT.MATTOCK:
         this.save.mattock++
         this.showMessage('get-mattock', 1)
-        new Audio(sePick).play()
+        this.playSe('pick')
         break
       case MAP_OBJECT.PLUS_PORTION:
         this.save.portion++
         this.showMessage('get-plus-portion', 1)
-        new Audio(sePick).play()
+        this.playSe('pick')
         break
       case MAP_OBJECT.PEAK:
         v = Math.min(20 + Math.floor(this.save.floor / 5) * 5, 40)
         this.save.hp = Math.max(this.save.hp - v, 0)
         this.showMessage('damage', v)
-        new Audio(seDown).play()
+        this.playSe('down')
         getItem = false
         break
       default:
-        new Audio(seMove).play()
+        this.playSe('move')
         getItem = false
       }
       if(getItem) {

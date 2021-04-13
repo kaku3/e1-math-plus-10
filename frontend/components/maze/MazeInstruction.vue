@@ -51,6 +51,10 @@
   .console.bgo {
     position: relative;
   }
+
+  .v-list--dense {
+    min-height: 24px;
+  }
 }
 
 </style>

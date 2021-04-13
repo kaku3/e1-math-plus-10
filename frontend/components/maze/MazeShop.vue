@@ -70,7 +70,7 @@ import { PropType } from 'vue'
 
 import { MazeSave, NewSave, resetSave } from '~/models/MazeSave'
 
-import seCoin from '~/assets/maze/se/coin.mp3'
+import seBuy from '~/assets/maze/se/buy.mp3'
 import seDoor from '~/assets/maze/se/door.mp3'
 
 export default Vue.extend({
@@ -89,28 +89,28 @@ export default Vue.extend({
       this.save.mattock++
       this.save.shop_mattock++
 
-      new Audio(seCoin).play()
+      new Audio(seBuy).play()
     },
     buyPortion() {
       this.save.coin -= this.portionPrice
       this.save.portion++
       this.save.shop_portion++
 
-      new Audio(seCoin).play()
+      new Audio(seBuy).play()
     },
     buyKey1() {
       this.save.coin -= this.key1Price
       this.save.key1++
       this.save.shop_key1++
 
-      new Audio(seCoin).play()
+      new Audio(seBuy).play()
     },
     buyKey2() {
       this.save.coin -= this.key2Price
       this.save.key2++
       this.save.shop_key2++
 
-      new Audio(seCoin).play()
+      new Audio(seBuy).play()
     },
     startFloor() {
       console.log('+ MazeShop:start')
