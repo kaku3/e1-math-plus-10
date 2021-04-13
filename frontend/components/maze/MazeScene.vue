@@ -368,7 +368,7 @@ export default Vue.extend({
       this.stopBgm()
       const bgm = new Audio(bgmOver)
       bgm.loop = true
-      bgm.volume = 0.1
+      bgm.volume = 0.25
       bgm.play()
       //@ts-ignore
       this.bgm = bgm
@@ -377,7 +377,7 @@ export default Vue.extend({
       this.stopBgm()
       const bgm = new Audio(bgmClear)
       bgm.loop = true
-      bgm.volume = 0.1
+      bgm.volume = 0.25
       bgm.play()
       //@ts-ignore
       this.bgm = bgm
