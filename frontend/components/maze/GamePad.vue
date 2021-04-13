@@ -23,7 +23,7 @@
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col cols="3"></v-col>
+        <v-col cols="2"></v-col>
         <v-col cols="3">
           <v-btn outlined @pointerdown="onClick(3)" color="cyan lighten-4" :disabled="save.key1 == 0">
             <div class="item key1"></div>
