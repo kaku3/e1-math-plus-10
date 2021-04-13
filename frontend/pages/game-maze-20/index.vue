@@ -16,7 +16,7 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: 'めいろ５０'
+      title: 'めいろ２０'
     }
   },
   // async asyncData(context: Context) {
