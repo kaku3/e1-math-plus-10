@@ -86,8 +86,8 @@
   display: flex;
   align-items: center;
   min-height: 192px;
-  transform-origin: 50% 0;
-  transform: scale(1.5);
+  transform-origin: 0 0;
+  transform: scale(1.25);
 
   .maze-container {
     position: relative;
