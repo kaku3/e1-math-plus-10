@@ -1,23 +1,8 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <v-form v-model="valid">
-        <v-text-field
-          v-model="name"
-          label="にっくねーむ"
-        >
-        </v-text-field>
-      </v-form>
-      * 個人を特定できる名前を登録しないでください
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn @click="updateName" color="primary">こうしん</v-btn>
-    </v-card-actions>
-    <v-snackbar v-model="showUpdateMessage">
-      こうしんしました
-    </v-snackbar>
-  </v-card>
+  <div>
+    <AccountName :name="name" @update-name="updateName" />
+    <AccountIconEditor />
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -29,22 +14,19 @@ import AccountStore from '~/store/AccountStore'
 export default Vue.extend({
   data() {
     return {
-      valid: false,
       name: '',
-      showUpdateMessage: false
     }
   },
   mounted () {
     this.name = this.accountStore.account.name
   },
   methods: {
-    updateName() {
-      if(this.name === '') {
+    updateName(name: string) {
+      if(name === '') {
         return
       }
-      const name = this.name
+      this.name = name
       this.accountStore.update({ name })
-      this.showUpdateMessage = true
     }
   },
   computed: {
