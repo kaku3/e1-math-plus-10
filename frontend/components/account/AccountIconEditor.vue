@@ -1,5 +1,15 @@
 <template>
   <v-card>
+    <v-card-actions>
+      <v-btn icon><v-icon large>mdi-content-save</v-icon></v-btn>
+      <v-spacer></v-spacer>
+      <v-btn-toggle v-model="tool">
+        <v-btn icon><v-icon large>mdi-square-medium</v-icon></v-btn>
+        <v-btn icon><v-icon large>mdi-border-horizontal</v-icon></v-btn>
+        <v-btn icon><v-icon large>mdi-border-vertical</v-icon></v-btn>
+        <v-btn icon><v-icon large>mdi-pencil</v-icon></v-btn>
+      </v-btn-toggle>
+    </v-card-actions>
     <div class="pixel-container">
       <table>
         <tr v-for="(row, y) in ps" :key="y">
@@ -69,14 +79,30 @@ export default Vue.extend({
       ps: [] as Object[][],
       cs: [] as Object[],
       ca: 0,
-      colorEdit: false
+      colorEdit: false,
+      tool: 2
     }
   },
   mounted () {
-    this.ps = Array(16)
-    for(let y = 0; y < this.ps.length; y++) {
-      this.ps[y] = Array(16).fill(0)
-    }
+    this.ps = [
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0,11,11,11,11,11,11,11,11,11,11, 0, 0, 0, 0 ],
+      [ 0, 0, 0,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0, 0 ],
+      [ 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11, 4,11,11,11,11, 4,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11, 4,11,11,11,11, 4,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11, 4,11,11,11,11, 4,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0 ],
+      [ 0, 0,11,11,11, 4, 4, 4, 4, 4, 4, 4, 4,11,11,11, 0, 0 ],
+      [ 0, 0, 0,11,11,11,11,11,11,11,11,11,11,11,11, 0, 0, 0 ],
+      [ 0, 0, 0, 0,11,11,11,11,11,11,11,11,11,11, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    ]
+
     this.cs = [
       '#000000',
       '#F44336',
@@ -118,9 +144,43 @@ export default Vue.extend({
       this.ca = c
     },
     tapPixel(x:number, y:number) {
-      this.ps[y].splice(x, 1, this.ca)
+      switch(this.tool) {
+      case 0:
+        for(let yy = y - 2; yy < y + 2; yy++) {
+          let _y = Math.max(0, yy)
+          _y = Math.min(_y, 15)
+          for(let xx = x - 2; xx < x + 2; xx++) {
+            let _x = Math.max(0, xx)
+            _x = Math.min(_x, 15)
+            this.setPixel(_x, _y)
+          }
+        }
+        break
+      case 1:
+        for(let xx = x - 2; xx < x + 2; xx++) {
+          let _x = Math.max(0, xx)
+          _x = Math.min(_x, 15)
+          this.setPixel(_x, y)
+        }
+        break
+      case 2:
+        for(let yy = y - 2; yy < y + 2; yy++) {
+          let _y = Math.max(0, yy)
+          _y = Math.min(_y, 15)
+          this.setPixel(x, _y)
+        }
+        break
+      case 3:
+        this.setPixel(x, y)
+        break
+      }
+
       this.cs.splice(this.ca, 1, this.cs[this.ca])
+    },
+    setPixel(x:number, y:number) {
+      this.ps[y].splice(x, 1, this.ca)
     }
+
   }
 })
 </script>
