@@ -1,7 +1,7 @@
 <template>
   <div>
     <AccountName :name="name" @update-name="updateName" />
-    <AccountIconEditor />
+    <IconEditor />
   </div>
 </template>
 <script lang="ts">
