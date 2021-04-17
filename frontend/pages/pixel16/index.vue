@@ -1,6 +1,22 @@
 <template>
   <div class="page-container">
     <v-row>
+      <v-spacer></v-spacer>
+      <v-col cols="auto">
+        <v-btn
+          class="btn-new"
+          fab
+          dark
+          color="primary"
+          to="/pixel16/new"
+        >
+          <v-icon dark>
+            mdi-plus
+          </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="6" v-for="(o, i) in icons" :key="i">
         <v-card>
           <IconView :icon="o.icon" class="icon" />
@@ -9,17 +25,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn
-      class="btn-new"
-      fab
-      dark
-      color="primary"
-      to="/pixel16/new"
-    >
-      <v-icon dark>
-        mdi-plus
-      </v-icon>
-    </v-btn>
+    <Chat room="all" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -27,11 +33,6 @@
   width: 100%;
 }
 
-.btn-new {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-}
 </style>
 <script lang="ts">
 import Vue from 'vue'
