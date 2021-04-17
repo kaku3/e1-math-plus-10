@@ -68,7 +68,7 @@ export default function nav() {
         ]
       },
       {
-        section: 'おたのしみ',
+        section: 'おまけ',
         cls: 'games',
         items: [
           {
@@ -79,6 +79,14 @@ export default function nav() {
               params: {
                 mode: 'maze20',
               }
+            }
+          },
+          {
+            icon: 'mdi-image-edit-outline',
+            title: 'ピクセル１６',
+            to: {
+              name: 'pixel16',
+              params: {}
             }
           },
         ]
