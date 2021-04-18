@@ -41,6 +41,7 @@
       <v-divider></v-divider>
     </v-list>
     <v-card-actions>
+      <v-btn color="cyan lighten-3" depressed small to="/">HOME</v-btn>
       <v-spacer></v-spacer>
       <v-btn color="cyan lighten-3" depressed small @click="startFloor">start</v-btn>
     </v-card-actions>

@@ -26,7 +26,7 @@
                   </div>
                 </div>
               </div>
-              <div class="p i" :style="playerStyle"></div>
+              <MazePlayer :style="playerStyle" :icon="accountIcon" class="player" />
             </div>
           </div>
         </div>
@@ -91,6 +91,11 @@
 
   .maze-container {
     position: relative;
+    .player {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 </style>
@@ -627,6 +632,9 @@ export default Vue.extend({
   computed: {
     accountStore() : AccountStore {
       return getModule(AccountStore, this.$store) as AccountStore
+    },
+    accountIcon(): string {
+      return this.accountStore.account.icon
     },
 
     playerStyle(): object {
