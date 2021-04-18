@@ -56,19 +56,26 @@ export default class AccountStore extends VuexModule {
     this.account = account
     console.log(this.account, account)
   }
-
-  @Action({ commit: 'setAccount' })
-  async updateName(name: string) {
+  @Mutation
+  setAccountName(name: string) {
     this.account.name = name
 
-    this.setAccount(this.account)
-    return this.account
   }
-  @Action({ commit: 'setAccount' })
-  async updateIcon(icon: string) {
+  @Mutation
+  setAccountIcon(icon: string) {
     this.account.icon = icon
 
-    this.setAccount(this.account)
+  }
+
+  @Action
+  async updateName(name: string) {
+    this.setAccountName(name)
+    return this.account
+  }
+  @Action
+  async updateIcon(icon: string) {
+
+    this.setAccountIcon(icon)
     return this.account
   }
 }

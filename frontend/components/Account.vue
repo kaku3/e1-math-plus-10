@@ -1,7 +1,7 @@
 <template>
   <div>
     <AccountName :name="name" @update-name="updateName" />
-    <IconEditor @save="updateIcon" />
+    <IconEditor :icon="accountIcon" @save="updateIcon" />
     <v-snackbar v-model="showMessage">
       {{message}}
     </v-snackbar>
@@ -42,6 +42,9 @@ export default Vue.extend({
   computed: {
     accountStore() : AccountStore {
       return getModule(AccountStore, this.$store) as AccountStore
+    },
+    accountIcon(): string {
+      return this.accountStore.account.icon
     },
   }
 })
