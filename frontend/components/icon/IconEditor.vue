@@ -56,7 +56,7 @@
     &.c0:before {
       display: block;
       float: left;
-      width: 100%;
+      width: 0;
       height: 16px;
       line-height: 1;
       color: white;
