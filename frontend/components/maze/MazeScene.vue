@@ -15,8 +15,8 @@
 
     <v-fade-transition>
       <div v-if="isGame">
-        <div class="maze-scene-container">
-          <div class="maze-scene" :style="sceneStyle">
+        <div class="maze-scene-container" ref="mazeSceneContainer">
+          <div class="maze-scene" :style="sceneStyle" ref="mazeScene">
             <div class="maze-container">
               <div class="maze-bg">
                 <div v-for="(cols, r) in maze" :key="r">
@@ -81,13 +81,21 @@
   width: 336px;
   height: 192px;
   overflow: auto;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+      display:none;
+  }
 }
+
 .maze-scene {
   display: flex;
   align-items: center;
-  min-height: 192px;
+  min-height: 104px;
   transform-origin: 0 0;
-  transform: scale(1.25);
+  transform: scale(2);
 
   .maze-container {
     position: relative;
@@ -185,6 +193,9 @@ export default Vue.extend({
       } else {
         this.playDungeonBgm()
       }
+      this.$nextTick(() => {
+        this.scroll()
+      })
     }, 1000)
   },
   destroyed () {
@@ -263,6 +274,8 @@ export default Vue.extend({
       }
       this.px = 1
       this.py = 1
+
+      this.scroll()
     },
     getFloorObject(v: MAP_OBJECT) {
       const obj = {
@@ -434,19 +447,19 @@ export default Vue.extend({
 
     onTap(v:number): void {
       if(v === 4) {
-        this.moveTo(this.px - 1, this.py)
+        this.move(-1, 0)
         return
       }
       if(v === 6) {
-        this.moveTo(this.px + 1, this.py)
+        this.move(1, 0)
         return
       }
       if(v === 2) {
-        this.moveTo(this.px, this.py - 1)
+        this.move(0, -1)
         return
       }
       if(v === 8) {
-        this.moveTo(this.px, this.py + 1)
+        this.move(0, 1)
         return
       }
 
@@ -507,7 +520,42 @@ export default Vue.extend({
         }
       }
     },
-    moveTo(x:number, y:number) {
+    scroll() {
+      // スクロール
+      //@ts-ignore
+      const container = this.$refs['mazeSceneContainer'] as HTMLElement
+      //@ts-ignore
+      const scene = this.$refs['mazeScene'] as HTMLElement
+
+      if(!container || !scene) {
+        return
+      }
+
+      const xx = this.px * 16 * 2
+      const yy = this.py * 16 * 2
+
+      console.log(scene.clientWidth, scene.clientHeight)
+      console.log(container.scrollTop, container.scrollLeft, container.clientWidth, container.clientHeight, xx, yy)
+
+      console.log('abcd')
+      if(yy > container.scrollTop + container.clientHeight * 0.55) {
+        container.scrollTop = yy - container.clientHeight * 0.55
+      } else if(yy < container.scrollTop + container.clientHeight * 0.45) {
+        container.scrollTop = yy - container.clientHeight * 0.45
+      }
+
+      if(xx > container.scrollLeft + container.clientWidth * 0.55) {
+        container.scrollLeft = xx - container.clientWidth * 0.55
+      } else if(xx < container.scrollLeft + container.clientWidth * 0.45) {
+        container.scrollLeft = xx - container.clientWidth * 0.45
+      }
+      console.log(container.scrollLeft, container.scrollTop)
+    },
+
+    move(dx:number, dy:number) {
+      const x = this.px + dx
+      const y = this.py + dy
+
       //@ts-ignore
       const o = this.maze[y][x].v as MAP_OBJECT
       if(o == MAP_OBJECT.WALL) {
@@ -525,7 +573,6 @@ export default Vue.extend({
               floor: true
             }
             this.playSe('mattock')
-
           } else {
             return
           }
@@ -533,8 +580,8 @@ export default Vue.extend({
           return
         }
       }
+
       console.log({x, y})
-      console.log(this.save)
 
       this.save.hp -= Math.min(2, Math.floor(this.save.floor / 10) + 1)
       this.save.hp = Math.max(0, this.save.hp)
@@ -607,6 +654,8 @@ export default Vue.extend({
 
       this.px = x
       this.py = y
+
+      this.scroll()
 
       if(this.save.hp === 0) {
         this.stopBgm()
