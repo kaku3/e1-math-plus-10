@@ -2,10 +2,7 @@
   <v-card>
     <v-card-text class="game-pad cyan darken-2" dark>
       <v-row dense>
-        <v-col cols="3" class="white--text lighten-4">
-          <div class="item mattock"></div>
-          <div class="item-count">{{ save.mattock }}</div>
-        </v-col>
+        <v-col cols="1"></v-col>
         <v-col cols="3">
           <v-btn outlined @pointerdown="onClick(1)" color="cyan lighten-4" :disabled="save.portion == 0">
             <div class="item plus-portion"></div>

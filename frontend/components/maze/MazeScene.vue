@@ -1,14 +1,6 @@
 <template>
   <div v-if="isReady">
-    <v-row v-if="!isEnd" class="game-console">
-      <v-col cols="auto">HP</v-col>
-      <v-col cols="4">
-        <v-progress-linear :color="hpBarColor" :value="save.hp" width="60" height="18">
-          <template v-slot:default="{ value }">
-            <div class="value">{{ value }}</div>
-          </template>
-        </v-progress-linear>
-      </v-col>
+    <v-row v-if="!isEnd" class="game-console" dense>
       <v-col cols="mr-auto text-right"><div class="console item coin"></div><div class="ml-2">{{ save.coin }}</div></v-col>
       <v-col cols="auto"><div class="bgo door"></div><div class="ml-2">{{ save.floor }}</div></v-col>
     </v-row>
@@ -36,6 +28,25 @@
         <v-row>
           <v-col>
             <Message ref="msg" />
+          </v-col>
+        </v-row>
+        <v-row v-if="!isEnd" class="game-console" dense>
+          <v-col cols="auto">HP</v-col>
+          <v-col cols="4">
+            <v-progress-linear :color="hpBarColor" :value="save.hp" width="60" height="18">
+              <template v-slot:default="{ value }">
+                <div class="value">{{ value }}</div>
+              </template>
+            </v-progress-linear>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto" class="white--text lighten-4">
+            <div class="item mattock"></div>
+            <div class="item-count">{{ save.mattock }}</div>
+          </v-col>
+          <v-col cols="auto" class="white--text lighten-4">
+            <div class="item sword"></div>
+            <div class="item-count">{{ save.mattock }}</div>
           </v-col>
         </v-row>
 
@@ -75,6 +86,11 @@
   .value {
     color: white;
   }
+
+  .item {
+    position: relative;
+    margin-right: .25rem;
+  }
 }
 .maze-scene-container {
   display: inline-block;
@@ -95,7 +111,7 @@
   align-items: center;
   min-height: 104px;
   transform-origin: 0 0;
-  transform: scale(2);
+  transform: scale(1.5);
 
   .maze-container {
     position: relative;
@@ -300,6 +316,9 @@ export default Vue.extend({
           break
         case MAP_OBJECT.MATTOCK:
           cls = 'mattock'
+          break
+        case MAP_OBJECT.SWORD:
+          cls = 'sword'
           break
         case MAP_OBJECT.PLUS_PORTION:
           cls = 'plus-portion'
@@ -531,8 +550,8 @@ export default Vue.extend({
         return
       }
 
-      const xx = this.px * 16 * 2
-      const yy = this.py * 16 * 2
+      const xx = this.px * 16 * 1.5
+      const yy = this.py * 16 * 1.5
 
       console.log(scene.clientWidth, scene.clientHeight)
       console.log(container.scrollTop, container.scrollLeft, container.clientWidth, container.clientHeight, xx, yy)
@@ -630,6 +649,11 @@ export default Vue.extend({
       case MAP_OBJECT.MATTOCK:
         this.save.mattock++
         this.showMessage('get-mattock', 1)
+        this.playSe('pick')
+        break
+      case MAP_OBJECT.SWORD:
+        this.save.sword++
+        this.showMessage('get-sword', 1)
         this.playSe('pick')
         break
       case MAP_OBJECT.PLUS_PORTION:

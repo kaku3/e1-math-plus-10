@@ -7,6 +7,7 @@ export interface MazeSave {
   hp: number
   coin: number
   mattock: number
+  sword: number
   portion: number
   key1: number
   key2: number
@@ -28,6 +29,7 @@ export function NewSave(id: string): MazeSave {
     hp : 100,
     coin : 0,
     mattock : 0,
+    sword : 0,
     portion : 0,
     key1 : 0,
     key2 : 0,
@@ -46,6 +48,7 @@ export function resetSave(save: MazeSave) {
   save.hp = 100
   save.coin = 0
   save.mattock = 0
+  save.sword = 0
   save.portion = 0
   save.key1 = 0
   save.key2 = 0

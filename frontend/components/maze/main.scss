@@ -75,6 +75,10 @@
     background: url(~assets/maze/item-tileset.png);
     background-position: -144px -80px;
   }
+  &.sword {
+    background: url(~assets/maze/item-tileset.png);
+    background-position: -112px -96px;
+  }
   &.plus0-portion {
     background: url(~assets/maze/item-tileset.png);
     background-position: -48px 0;
@@ -102,6 +106,7 @@
   background: url(~assets/maze/item-tileset.png);
   &.plus-portion { background-position: 0 0; }
   &.mattock { background-position: -144px -80px; }
+  &.sword { background-position: -112px -96px; }
   &.key1 {
     background: url(~assets/maze/bg-tileset.png);
     background-position: -128px -288px;

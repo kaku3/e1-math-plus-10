@@ -239,6 +239,10 @@ export default Vue.extend({
     },
 
     onSave() {
+      console.log('save')
+      if(this.isNull) {
+        return
+      }
       const uid = sessionStorage.getItem('uid') || ''
       const d = new Date()
       this.$emit('save', {
@@ -250,6 +254,12 @@ export default Vue.extend({
         timestamp: d.getTime(),
         createdAt: d.setHours(0,0,0,0)
       })
+    }
+  },
+  computed: {
+    isNull(): boolean {
+      //@ts-ignore
+      return this.ps.filter((xx:number[]) => xx.reduce((v, c) => v + c) !== 0).length == 0
     }
   }
 })

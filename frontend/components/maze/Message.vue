@@ -18,7 +18,7 @@
     padding: .25rem .5rem;
     text-align: left;
     width: 100%;
-    font-size: .8rem;
+    font-size: 1rem;
     color: white;
     background-color: transparent;
     border-radius: 4px;
@@ -69,6 +69,13 @@ export default Vue.extend({
             this.message = `つるはしを てにいれた`
           } else {
             this.message = `つるはしを ${v} てにいれた`
+          }
+          break
+        case 'get-sword':
+          if(v === 1) {
+            this.message = `つるぎを てにいれた`
+          } else {
+            this.message = `つるぎを ${v} てにいれた`
           }
           break
         case 'get-plus-portion':
