@@ -117,8 +117,8 @@ export default Vue.extend({
       this.message = ''
       this.battleMessages = [
         `${names[e]}をたおした!`,
-        `カタナを${s}　つかった`,
-        `コイン${c}を　てにいれた`
+        `カタナを　${s}つかった`,
+        `コインを　${c}てにいれた`
       ]
       if(d > 0) {
         this.battleMessages.push(`${d} のダメージ!`)

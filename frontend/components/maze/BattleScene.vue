@@ -31,7 +31,7 @@
 
     animation:
       a-scene-start .5s ease-in-out 0s forwards,
-      a-scene-kill .1s ease-in-out 1s forwards;
+      a-scene-kill .1s step-end 1.5s forwards;
 
     @keyframes a-scene-start {
       0%   { height: 0; opacity: 0; }
@@ -108,7 +108,6 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.init(MAP_OBJECT.ENEMY1)
   },
   methods: {
     init(e:MAP_OBJECT) {
