@@ -31,11 +31,11 @@
       </v-list-item>
       <v-divider></v-divider>
       <v-list-item>
-        <div class="console item key2 mr-2"></div>
-        <v-list-item-content>{{ save.key2 }}</v-list-item-content>
+        <div class="console item sword mr-2"></div>
+        <v-list-item-content>{{ save.sword }}</v-list-item-content>
         <v-list-item-icon size="120">
-          <div class="item coin"></div><div class="value">{{ key2Price }}</div>
-          <v-btn class="ml-2" color="teal lighten-3" depressed x-small :disabled="!canBuy(key2Price)" @click="buyKey2()">buy</v-btn>
+          <div class="item coin"></div><div class="value">{{ swordPrice }}</div>
+          <v-btn class="ml-2" color="teal lighten-3" depressed x-small :disabled="!canBuy(swordPrice)" @click="buySword()">buy</v-btn>
         </v-list-item-icon>
       </v-list-item>
       <v-divider></v-divider>
@@ -106,10 +106,10 @@ export default Vue.extend({
 
       new Audio(seBuy).play()
     },
-    buyKey2() {
-      this.save.coin -= this.key2Price
-      this.save.key2++
-      this.save.shop_key2++
+    buySword() {
+      this.save.coin -= this.swordPrice
+      this.save.sword++
+      this.save.shop_sword++
 
       new Audio(seBuy).play()
     },
@@ -128,14 +128,14 @@ export default Vue.extend({
     },
     portionPrice() : number {
       const v = this.save.shop_portion
-      return 15 + v + Math.floor(v / 5) * 20
+      return 15 + v + Math.floor(v / 5) * 20 + Math.floor(v / 10) * 50
     },
     key1Price() : number {
       const v = this.save.shop_key1
-      return 10 + v + Math.floor(v / 3) * 6
+      return 10 + v + Math.floor(v / 3) * 6 + Math.floor(v / 20) * 10
     },
-    key2Price() : number {
-      return 50 + this.save.shop_key2 * 25
+    swordPrice() : number {
+      return 200 + this.save.shop_sword * 20
     },
   }
 })

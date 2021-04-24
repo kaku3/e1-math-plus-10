@@ -578,7 +578,14 @@ export default Vue.extend({
       if(this.save.sword >= s) {
         this.save.sword -= s
       } else {
-        d = (s - this.save.sword) * 10
+        d = (s - this.save.sword)
+        if(e == MAP_OBJECT.ENEMY3) {
+          d *= 10 + Math.max(0, floor - 15) * 2
+        } else if(e == MAP_OBJECT.ENEMY4) {
+          d *= 10 + Math.max(0, floor - 18) * 4
+        } else {
+          d *= 10
+        }
         s = this.save.sword
         this.save.sword = 0
         this.save.hp -= d

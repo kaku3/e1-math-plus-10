@@ -17,7 +17,7 @@ export interface MazeSave {
   shop_mattock: number
   shop_portion: number
   shop_key1: number
-  shop_key2: number
+  shop_sword: number
 }
 
 
@@ -39,7 +39,7 @@ export function NewSave(id: string): MazeSave {
     shop_mattock: 0,
     shop_portion: 0,
     shop_key1: 0,
-    shop_key2: 0,
+    shop_sword: 0,
   }
 }
 export function resetSave(save: MazeSave) {
@@ -57,6 +57,6 @@ export function resetSave(save: MazeSave) {
   save.shop_mattock = 0
   save.shop_portion = 0
   save.shop_key1 = 0
-  save.shop_key2 = 0
+  save.shop_sword = 0
 
 }
