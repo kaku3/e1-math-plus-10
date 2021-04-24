@@ -434,6 +434,11 @@ export default Vue.extend({
     },
 
     onTap(v:number): void {
+      //@ts-ignore
+      if(this.$refs['battleScene'].isShow) {
+        return
+      }
+
       if(v === 4) {
         this.move(-1, 0)
         return

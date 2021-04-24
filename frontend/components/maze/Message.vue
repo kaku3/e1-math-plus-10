@@ -11,8 +11,11 @@
 <style lang="scss" scoped src="./main.scss" />
 <style lang="scss" scoped>
 .message-main-container {
-  width: 100%;
+  position: absolute;
+  top: 200px;
+  width: calc(100% - 24px);
   min-height: 2rem;
+  z-index: 1;
   font-family: 'Press Start 2P', 'DotGothic16';
 
   .message-container {
@@ -21,9 +24,9 @@
     width: 100%;
     font-size: 1rem;
     color: white;
-    background-color: transparent;
+    background-color: rgba(38,50,56, 0.75);
     border-radius: 4px;
-    border: 1px solid white;
+    border: 1px solid white!important;
 
     animation: pop .5s ease-in 0;
 

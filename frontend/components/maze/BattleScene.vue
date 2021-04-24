@@ -2,13 +2,13 @@
   <v-fade-transition>
     <div class="battle-scene-container" v-if="show">
       <div class="battle-scene">
-        <div class="character player">
-          <MazePlayer :icon="icon" />
-        </div>
         <div class="character enemy">
           <div>
             <div :class="`bgo ${enemy}`"></div>
           </div>
+        </div>
+        <div class="character player">
+          <MazePlayer :icon="icon" />
         </div>
       </div>
     </div>

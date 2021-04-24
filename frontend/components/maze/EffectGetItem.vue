@@ -10,12 +10,13 @@
   top: 160px;
   left: 50%;
   transform: translate(-50%, 0);
-  z-index: 1;
+  z-index: 100;
 
   .item {
     position: absolute;
 
     &.mattock {
+      opacity: 0;
       &.n1 { animation: a-mattock .75s ease-in 0s forwards; }
       &.n2 { animation: a-mattock .75s ease-in .1s forwards; }
       &.n3 { animation: a-mattock .75s ease-in .2s forwards; }
@@ -35,6 +36,7 @@
     }
 
     &.sword {
+      opacity: 0;
       &.n1 { animation: a-sword .75s ease-in 0s forwards; }
       &.n2 { animation: a-sword .75s ease-in .1s forwards; }
       &.n3 { animation: a-sword .75s ease-in .2s forwards; }
@@ -54,6 +56,7 @@
     }
 
     &.plus-portion {
+      opacity: 0;
       &.n1 { animation: a-plus-portion .8s ease-in 0s forwards; }
       &.n2 { animation: a-plus-portion .8s ease-in .1s forwards; }
       &.n3 { animation: a-plus-portion .8s ease-in .2s forwards; }
@@ -95,6 +98,7 @@
     }
 
     &.coin {
+      opacity: 0;
       &.n1 { animation: a-coin .4s ease-in 0s forwards; }
       &.n2 { animation: a-coin .4s ease-in .1s forwards; }
       &.n3 { animation: a-coin .4s ease-in .2s forwards; }
