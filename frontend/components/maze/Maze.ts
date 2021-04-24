@@ -112,12 +112,12 @@ export class Maze {
       [ MAP_OBJECT.PLUS_PORTION, Math.max(0.01, 0.02 - floor * 0.001) ],
       [ MAP_OBJECT.PLUS0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.RANDOM0_PORTION, Math.max(0.01, 0.05 - floor * 0.001) ],
+      [ MAP_OBJECT.SWORD, Math.max(0.03, 0.1 - floor * 0.002) ],
+      [ MAP_OBJECT.KEY1, Math.max(0.03, 0.2 - floor * 0.005) ],
       [ MAP_OBJECT.CHEST2, Math.max(0.05, 0.1 - floor * 0.005) ],
       [ MAP_OBJECT.CHEST1, Math.max(0.02, 0.1 - floor * 0.005) ],
       [ MAP_OBJECT.MATTOCK, Math.max(0.02, 0.04 - floor * 0.001) ],
-      [ MAP_OBJECT.SWORD, Math.max(0.03, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.01) ],
-      [ MAP_OBJECT.KEY1, Math.max(0.01, 0.1 - floor * 0.005) ],
       [ MAP_OBJECT.PEAK, Math.min(0.6, 0.3 + floor * 0.03) ],
     ]
     const enemyRates = [

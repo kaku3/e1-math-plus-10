@@ -479,16 +479,22 @@ export default Vue.extend({
                 _v = Math.floor(3 + Math.random() * 2)
                 this.pickItem(MAP_OBJECT.PLUS_PORTION, _v)
               } else if(rr < 0.95) {
-                _v = Math.floor(5 + Math.random() * 2)
+                _v = Math.floor(5 + Math.random() * 10)
                 this.pickItem(MAP_OBJECT.SWORD, _v)
               } else {
                 this.showMessage('empty-chest', 0)
               }
             }
             if(o === MAP_OBJECT.CHEST2) {
-              _v = Math.floor(this.save.floor / 5) * 30 + 20
-              _v = Math.floor(_v * (0.8 + Math.random()))
-              this.getCoin(_v, 9)
+              const rr = Math.random()
+              if(rr < 0.8) {
+                _v = Math.floor(this.save.floor / 10) * 300 + Math.floor(this.save.floor / 5) * 30 + 20
+                _v = Math.floor(_v * (0.8 + Math.random()))
+                this.getCoin(_v, 9)
+              } else {
+                _v = Math.floor(5 + Math.random() * 3)
+                this.pickItem(MAP_OBJECT.SWORD, _v)
+              }
             }
             this.removeFloorObject(this.px, this.py)
             this.playSe('chest')
@@ -555,7 +561,7 @@ export default Vue.extend({
     },
     onBattleEnd(e:MAP_OBJECT) {
       const floor = this.save.floor
-      let s = (e - MAP_OBJECT.ENEMY0) + 1
+      let s = Math.ceil((e - MAP_OBJECT.ENEMY0) / 2)  + 1
       let d = 0
       let c = 0
       switch(e) {
