@@ -560,49 +560,14 @@ export default Vue.extend({
     },
 
     battle(e:MAP_OBJECT) {
-      console.log(e)
       //@ts-ignore
-      this.$refs['battleScene'].init(e)
+      this.$refs['battleScene'].init(e, this.save)
     },
-    onBattleEnd(e:MAP_OBJECT) {
-      const floor = this.save.floor
-      let s = Math.ceil((e - MAP_OBJECT.ENEMY0) / 2)  + 1
-      let d = 0
-      let c = 0
-      switch(e) {
-      case MAP_OBJECT.ENEMY0:
-        c = Math.floor(20 + floor * 5)
-        break
-      case MAP_OBJECT.ENEMY1:
-        c = Math.floor(50 + floor * 20)
-        break
-      case MAP_OBJECT.ENEMY2:
-        c = Math.floor(100 + floor * 30)
-        break
-      case MAP_OBJECT.ENEMY3:
-        c = Math.floor(200 + floor * 50)
-        break
-      case MAP_OBJECT.ENEMY4:
-        c = Math.floor(500 + floor * 100)
-        break
-      }
-      if(this.save.sword >= s) {
-        this.save.sword -= s
-      } else {
-        d = (s - this.save.sword)
-        if(e == MAP_OBJECT.ENEMY3) {
-          d *= 10 + Math.max(0, floor - 15) * 2
-        } else if(e == MAP_OBJECT.ENEMY4) {
-          d *= 10 + Math.max(0, floor - 18) * 4
-        } else {
-          d *= 10
-        }
-        s = this.save.sword
-        this.save.sword = 0
-        this.save.hp -= d
-      }
-      this.save.hp = Math.max(0, this.save.hp)
-      this.save.coin += c
+    onBattleEnd(o:any) {
+      const e:MAP_OBJECT = o.e
+      const s = o.s
+      const d = o.d
+      const c = o.c
 
       //@ts-ignore
       this.$refs['msg'].showBattleMessage(e - MAP_OBJECT.ENEMY0, s, d, c)
