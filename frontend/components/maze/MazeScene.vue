@@ -559,19 +559,19 @@ export default Vue.extend({
       let c = 0
       switch(e) {
       case MAP_OBJECT.ENEMY0:
-        c = Math.floor(20 + floor / 4)
+        c = Math.floor(20 + floor * 5)
         break
       case MAP_OBJECT.ENEMY1:
-        c = Math.floor(50 + floor / 2)
+        c = Math.floor(50 + floor * 20)
         break
       case MAP_OBJECT.ENEMY2:
-        c = Math.floor(100 + floor / 4)
+        c = Math.floor(100 + floor * 30)
         break
       case MAP_OBJECT.ENEMY3:
-        c = Math.floor(200 + floor / 4)
+        c = Math.floor(200 + floor * 50)
         break
       case MAP_OBJECT.ENEMY4:
-        c = Math.floor(500 + Math.random() * 50)
+        c = Math.floor(500 + floor * 100)
         break
       }
       if(this.save.sword >= s) {

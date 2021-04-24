@@ -95,7 +95,15 @@
     }
 
     &.coin {
-      &.n1 { animation: a-coin .5s ease-in 0s forwards; }
+      &.n1 { animation: a-coin .4s ease-in 0s forwards; }
+      &.n2 { animation: a-coin .4s ease-in .1s forwards; }
+      &.n3 { animation: a-coin .4s ease-in .2s forwards; }
+      &.n4 { animation: a-coin .4s ease-in .3s forwards; }
+      &.n5 { animation: a-coin .4s ease-in .4s forwards; }
+      &.n6 { animation: a-coin .4s ease-in .5s forwards; }
+      &.n7 { animation: a-coin .4s ease-in .6s forwards; }
+      &.n8 { animation: a-coin .4s ease-in .7s forwards; }
+      &.n9 { animation: a-coin .4s ease-in .8s forwards; }
 
       @keyframes a-coin {
         0%   { transform: translate(0, 0) scale(5); opacity: 0; }
