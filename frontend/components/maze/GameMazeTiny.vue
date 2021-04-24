@@ -27,6 +27,9 @@ export default Vue.extend({
       //@ts-ignore
       this.save = r.data()
       // データ形式変更対応
+      if(!this.save.sword) {
+        this.save.sword = 0
+      }
       if(!this.save.shop_sword) {
         this.save.shop_sword = 0
       }

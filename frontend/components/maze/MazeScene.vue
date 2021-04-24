@@ -738,7 +738,8 @@ export default Vue.extend({
       this.overIfDead()
     },
     overIfDead() {
-      if(this.save.hp === 0) {
+      if(this.save.hp <= 0 || !this.save.hp) {
+        this.save.hp = 0
         this.stopBgm()
         this.setResult()
 
