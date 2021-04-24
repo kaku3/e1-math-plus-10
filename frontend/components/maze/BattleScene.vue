@@ -106,6 +106,7 @@ export default Vue.extend({
   },
   methods: {
     init(e:MAP_OBJECT) {
+      this.e = e
       this.show = true
       if(this.timerId !== -1) {
         window.clearTimeout(this.timerId)

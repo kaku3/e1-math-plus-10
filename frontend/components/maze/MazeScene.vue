@@ -549,6 +549,7 @@ export default Vue.extend({
     },
 
     battle(e:MAP_OBJECT) {
+      console.log(e)
       //@ts-ignore
       this.$refs['battleScene'].init(e)
     },
