@@ -122,10 +122,10 @@ export class Maze {
     ]
     const enemyRates = [
       [ MAP_OBJECT.ENEMY0, Math.max(0, 1.0 - floor * 0.1) ],
-      [ MAP_OBJECT.ENEMY1, Math.max(0, floor >= 7 ? 1.0 - floor * 0.1 : 0) ],
-      [ MAP_OBJECT.ENEMY2, Math.max(0, floor >= 12 ? 0.4 - floor * 0.05 : 0) ],
-      [ MAP_OBJECT.ENEMY3, Math.max(0, floor >= 15 ? 0.6 - floor * 0.05 : 0) ],
-      [ MAP_OBJECT.ENEMY4, Math.max(0, floor >= 18 ? 0.8 - floor * 0.05 : 0) ],
+      [ MAP_OBJECT.ENEMY1, Math.max(0, floor >= 7 ? 1.0 - (floor - 7) * 0.1 : 0) ],
+      [ MAP_OBJECT.ENEMY2, Math.max(0, floor >= 12 ? 0.4 - (floor - 12) * 0.05 : 0) ],
+      [ MAP_OBJECT.ENEMY3, Math.max(0, floor >= 15 ? 0.6 - (floor - 15) * 0.05 : 0) ],
+      [ MAP_OBJECT.ENEMY4, Math.max(0, floor >= 18 ? 0.8 - (floor - 18) * 0.05 : 0) ],
     ]
 
     for(let r = 1; r < sy - 1; r++) {
