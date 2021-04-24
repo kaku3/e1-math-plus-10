@@ -14,14 +14,44 @@ export enum MAP_OBJECT {
   CHEST1 = 30,
   CHEST2 = 31,
   PEAK = 40,
-  DOOR = 50
+  DOOR = 50,
+  ENEMY0 = 128,
+  ENEMY1 = 129,
+  ENEMY2 = 130,
+  ENEMY3 = 131,
+  ENEMY4 = 132,
 }
+
+const objectClasses = [
+  { o: MAP_OBJECT.COIN, c: 'coin' },
+  { o: MAP_OBJECT.KEY1, c : 'key1' },
+  { o: MAP_OBJECT.KEY2, c : 'key2' },
+  { o: MAP_OBJECT.PLUS0_PORTION, c : 'plus0-portion' },
+  { o: MAP_OBJECT.RANDOM0_PORTION, c : 'random0-portion' },
+  { o: MAP_OBJECT.MATTOCK, c : 'mattock' },
+  { o: MAP_OBJECT.SWORD, c : 'sword' },
+  { o: MAP_OBJECT.PLUS_PORTION, c : 'plus-portion' },
+  { o: MAP_OBJECT.CHEST1, c : 'chest1' },
+  { o: MAP_OBJECT.CHEST2, c : 'chest2' },
+  { o: MAP_OBJECT.PEAK, c : 'peak' },
+  { o: MAP_OBJECT.DOOR, c : 'door' },
+  { o: MAP_OBJECT.ENEMY0, c : 'e0' },
+  { o: MAP_OBJECT.ENEMY1, c : 'e1' },
+  { o: MAP_OBJECT.ENEMY2, c : 'e2' },
+  { o: MAP_OBJECT.ENEMY3, c : 'e3' },
+  { o: MAP_OBJECT.ENEMY4, c : 'e4' },
+]
 
 export class Maze {
   random: Random
   constructor(seed: number = 0) {
     this.random = new Random(seed)
   }
+
+  static getObjectClass(o:MAP_OBJECT):string | null {
+    return objectClasses.find(v => v.o === o)?.c || null
+  }
+
 
   generateFloor(floor:number): MAP_OBJECT[][] {
     if(floor === 0) {
@@ -88,8 +118,16 @@ export class Maze {
       [ MAP_OBJECT.SWORD, Math.max(0.03, 0.05 - floor * 0.001) ],
       [ MAP_OBJECT.COIN, Math.max(0.2, 0.5 - floor * 0.01) ],
       [ MAP_OBJECT.KEY1, Math.max(0.01, 0.1 - floor * 0.005) ],
-      [ MAP_OBJECT.PEAK, Math.min(0.5, 0.3 + floor * 0.01) ],
+      [ MAP_OBJECT.PEAK, Math.min(0.6, 0.3 + floor * 0.03) ],
     ]
+    const enemyRates = [
+      [ MAP_OBJECT.ENEMY0, Math.max(0, 1.0 - floor * 0.1) ],
+      [ MAP_OBJECT.ENEMY1, Math.max(0, floor >= 7 ? 1.0 - floor * 0.1 : 0) ],
+      [ MAP_OBJECT.ENEMY2, Math.max(0, floor >= 12 ? 0.4 - floor * 0.1 : 0) ],
+      [ MAP_OBJECT.ENEMY3, Math.max(0, floor >= 15 ? 0.4 - floor * 0.1 : 0) ],
+      [ MAP_OBJECT.ENEMY4, Math.max(0, floor >= 18 ? 0.6 - floor * 0.1 : 0) ],
+    ]
+
     for(let r = 1; r < sy - 1; r++) {
       for(let c = 1; c < sx - 1; c++) {
         if(maze[r][c] !== MAP_OBJECT.FLOOR) {
@@ -104,6 +142,25 @@ export class Maze {
         }
       }
     }
+    // peak を敵に置き換える
+    if(floor >= 5) {
+      for(let r = 1; r < sy - 1; r++) {
+        for(let c = 1; c < sx - 1; c++) {
+          if(maze[r][c] !== MAP_OBJECT.PEAK) {
+            continue
+          }
+          if(rnd.nextFloat1() > 0.5) {
+            for(const rr of enemyRates) {
+              if(rr[1] > rnd.nextFloat1()) {
+                maze[r][c] = rr[0]
+                break
+              }
+            }
+          }
+        }
+      }
+    }
+
     maze[1][1] = MAP_OBJECT.FLOOR
   }
 

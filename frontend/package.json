@@ -46,6 +46,7 @@
     "nuxt-webfontloader": "^1.1.0",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
     "vue-jest": "^3.0.4"
   }
 }

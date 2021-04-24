@@ -22,6 +22,7 @@
             </div>
           </div>
         </div>
+        <EffectGetItem ref="effectGetItem" />
 
         <Tutorial v-if="isTutorial" :px="px" :py="py" />
 
@@ -46,7 +47,7 @@
           </v-col>
           <v-col cols="auto" class="white--text lighten-4">
             <div class="item sword"></div>
-            <div class="item-count">{{ save.mattock }}</div>
+            <div class="item-count">{{ save.sword }}</div>
           </v-col>
         </v-row>
 
@@ -136,6 +137,7 @@ import GamePad from '~/components/maze/GamePad.vue'
 import MazeShop from '~/components/maze/MazeShop.vue'
 import { default as MazeEnd, MazeResult } from '~/components/maze/MazeEnd.vue'
 
+import EffectGetItem from '~/components/maze/EffectGetItem.vue'
 import Message from '~/components/maze/Message.vue'
 
 import Tutorial from '~/components/maze/Tutorial.vue'
@@ -174,6 +176,7 @@ export default Vue.extend({
     GamePad,
     MazeShop,
     MazeEnd,
+    EffectGetItem,
     Message,
     Tutorial,
     MazeInstruction,
@@ -297,46 +300,9 @@ export default Vue.extend({
       const obj = {
         bgo: true
       }
-      let cls = ''
-      switch(v) {
-        case MAP_OBJECT.COIN:
-          cls = 'coin'
-          break
-        case MAP_OBJECT.KEY1:
-          cls = 'key1'
-          break
-        case MAP_OBJECT.KEY2:
-          cls = 'key2'
-          break
-        case MAP_OBJECT.PLUS0_PORTION:
-          cls = 'plus0-portion'
-          break
-        case MAP_OBJECT.RANDOM0_PORTION:
-          cls = 'random0-portion'
-          break
-        case MAP_OBJECT.MATTOCK:
-          cls = 'mattock'
-          break
-        case MAP_OBJECT.SWORD:
-          cls = 'sword'
-          break
-        case MAP_OBJECT.PLUS_PORTION:
-          cls = 'plus-portion'
-          break
-        case MAP_OBJECT.CHEST1:
-          cls = 'chest1'
-          break
-        case MAP_OBJECT.CHEST2:
-          cls = 'chest2'
-          break
-        case MAP_OBJECT.PEAK:
-          cls = 'peak'
-          break
-        case MAP_OBJECT.DOOR:
-          cls = 'door'
-          break
-        default:
-          return null
+      const cls = Maze.getObjectClass(v)
+      if(!cls) {
+        return
       }
       //@ts-ignore
       obj[cls] = true
@@ -503,14 +469,15 @@ export default Vue.extend({
 
             if(o === MAP_OBJECT.CHEST1) {
               const rr = Math.random()
-              if(rr < 0.5) {
+              if(rr < 0.4) {
                 _v = Math.floor(2 + Math.random() * 3)
-                this.save.mattock += _v
-                this.showMessage('get-mattock', _v)
-              } else if(rr < 0.9) {
+                this.pickItem(MAP_OBJECT.MATTOCK, _v)
+              } else if(rr < 0.7) {
                 _v = Math.floor(3 + Math.random() * 2)
-                this.save.portion += _v
-                this.showMessage('get-plus-portion', _v)
+                this.pickItem(MAP_OBJECT.PLUS_PORTION, _v)
+              } else if(rr < 0.95) {
+                _v = Math.floor(5 + Math.random() * 2)
+                this.pickItem(MAP_OBJECT.SWORD, _v)
               } else {
                 this.showMessage('empty-chest', 0)
               }
@@ -518,8 +485,7 @@ export default Vue.extend({
             if(o === MAP_OBJECT.CHEST2) {
               _v = Math.floor(this.save.floor / 5) * 30 + 20
               _v = Math.floor(_v * (0.8 + Math.random()))
-              this.save.coin += _v
-              this.showMessage('get-coin', _v)
+              this.getCoin(_v, 9)
             }
             this.removeFloorObject(this.px, this.py)
             this.playSe('chest')
@@ -539,6 +505,82 @@ export default Vue.extend({
         }
       }
     },
+    pickItem(o:MAP_OBJECT, count:number) {
+      let message = ''
+      switch(o) {
+      case MAP_OBJECT.KEY1:
+        this.save.key1 += count
+        message = 'get-key1'
+        break
+      case MAP_OBJECT.KEY2:
+        this.save.key2 += count
+        message = 'get-key2'
+        break
+
+      case MAP_OBJECT.MATTOCK:
+        this.save.mattock += count
+        message = 'get-mattock'
+        break
+      case MAP_OBJECT.SWORD:
+        this.save.sword += count
+        message = 'get-sword'
+        break
+      case MAP_OBJECT.PLUS_PORTION:
+        this.save.portion += count
+        message = 'get-plus-portion'
+        break
+      }
+      if(message !== '') {
+        this.showMessage(message, count)
+        this.playSe('pick')
+        //@ts-ignore
+        this.$refs['effectGetItem'].init(o, count)
+      }
+    },
+    getCoin(count: number, effectCount: number) {
+      this.save.coin += count
+      this.showMessage('get-coin', count)
+      this.playSe('coin')
+      //@ts-ignore
+      this.$refs['effectGetItem'].init(MAP_OBJECT.COIN, effectCount)
+    },
+
+    battle(e:MAP_OBJECT) {
+      const floor = this.save.floor
+      let s = (e - MAP_OBJECT.ENEMY0) + 1
+      let d = 0
+      let c = 0
+      switch(e) {
+      case MAP_OBJECT.ENEMY0:
+        c = Math.floor(20 + floor / 4)
+        break
+      case MAP_OBJECT.ENEMY1:
+        c = Math.floor(50 + floor / 2)
+        break
+      case MAP_OBJECT.ENEMY2:
+        c = Math.floor(100 + floor / 4)
+        break
+      case MAP_OBJECT.ENEMY3:
+        c = Math.floor(200 + floor / 4)
+        break
+      case MAP_OBJECT.ENEMY4:
+        c = Math.floor(500 + Math.random() * 50)
+        break
+      }
+      if(this.save.sword >= s) {
+        this.save.sword -= s
+      } else {
+        s -= this.save.sword
+        d = s * 10
+        this.save.sword = 0
+        this.save.hp -= d
+      }
+      //@ts-ignore
+      this.$refs['msg'].showBattleMessage(e - MAP_OBJECT.ENEMY0, d, c)
+      //@ts-ignore
+      this.$refs['effectGetItem'].init(MAP_OBJECT.COIN, e - MAP_OBJECT.ENEMY0 + 1)
+    },
+
     scroll() {
       // スクロール
       //@ts-ignore
@@ -556,7 +598,6 @@ export default Vue.extend({
       console.log(scene.clientWidth, scene.clientHeight)
       console.log(container.scrollTop, container.scrollLeft, container.clientWidth, container.clientHeight, xx, yy)
 
-      console.log('abcd')
       if(yy > container.scrollTop + container.clientHeight * 0.55) {
         container.scrollTop = yy - container.clientHeight * 0.55
       } else if(yy < container.scrollTop + container.clientHeight * 0.45) {
@@ -603,27 +644,12 @@ export default Vue.extend({
       console.log({x, y})
 
       this.save.hp -= Math.min(2, Math.floor(this.save.floor / 10) + 1)
-      this.save.hp = Math.max(0, this.save.hp)
-
-      console.log(this.save.hp)
 
       let getItem = true
       let v = 0
       switch(o) {
       case MAP_OBJECT.COIN:
-        this.save.coin += 10
-        this.showMessage('get-coin', 10)
-        this.playSe('coin')
-        break
-      case MAP_OBJECT.KEY1:
-        this.save.key1++
-        this.showMessage('get-key1', 1)
-        this.playSe('pick')
-        break
-      case MAP_OBJECT.KEY2:
-        this.save.key2++
-        this.showMessage('get-key2', 1)
-        this.playSe('pick')
+        this.getCoin(10, 1)
         break
       case MAP_OBJECT.PLUS0_PORTION:
         v = Math.floor(Math.random() * this.save.hpMax / 5) + 5
@@ -646,20 +672,12 @@ export default Vue.extend({
         this.save.hp = Math.max (this.save.hp, 1)
         this.showMessage('get-random0-portion', v)
         break
+      case MAP_OBJECT.KEY1:
+      case MAP_OBJECT.KEY2:
       case MAP_OBJECT.MATTOCK:
-        this.save.mattock++
-        this.showMessage('get-mattock', 1)
-        this.playSe('pick')
-        break
       case MAP_OBJECT.SWORD:
-        this.save.sword++
-        this.showMessage('get-sword', 1)
-        this.playSe('pick')
-        break
       case MAP_OBJECT.PLUS_PORTION:
-        this.save.portion++
-        this.showMessage('get-plus-portion', 1)
-        this.playSe('pick')
+        this.pickItem(o, 1)
         break
       case MAP_OBJECT.PEAK:
         v = Math.min(20 + Math.floor(this.save.floor / 5) * 5, 40)
@@ -668,6 +686,14 @@ export default Vue.extend({
         this.playSe('down')
         getItem = false
         break
+      case MAP_OBJECT.ENEMY0:
+      case MAP_OBJECT.ENEMY1:
+      case MAP_OBJECT.ENEMY2:
+      case MAP_OBJECT.ENEMY3:
+      case MAP_OBJECT.ENEMY4:
+        this.battle(o)
+        getItem = true
+        break
       default:
         this.playSe('move')
         getItem = false
@@ -675,6 +701,8 @@ export default Vue.extend({
       if(getItem) {
         this.removeFloorObject(x, y)
       }
+      this.save.hp = Math.max(0, this.save.hp)
+      console.log(this.save.hp)
 
       this.px = x
       this.py = y

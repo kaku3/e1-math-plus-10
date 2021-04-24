@@ -2,6 +2,7 @@
   <div class="message-main-container">
     <v-slide-y-reverse-transition>
       <div v-if="show" class="message-container">
+        <div v-for="(m, i) in battleMessages" :key="i">{{m}}</div>
         {{ message }}
       </div>
     </v-slide-y-reverse-transition>
@@ -43,12 +44,12 @@ export default Vue.extend({
     return {
       timerId: -1,
       show: false,
-      message: ''
+      message: '',
+      battleMessages: [] as String[]
     }
   },
   methods: {
     showMessage(m:string, v:number) {
-      console.log(m)
       switch(m) {
         case 'get-coin':
           this.message = `コインを ${v} てにいれた`
@@ -102,6 +103,28 @@ export default Vue.extend({
           this.message = `${v} のダメージ!`
           break
       }
+      this.battleMessages = []
+      this.setShow()
+    },
+    showBattleMessage(e: number, d:number, c:number) {
+      const names = [
+        'ザコ',
+        'ザコマスク',
+        'ナイト',
+        'マスクドナイト',
+        'ナイトメア',
+      ]
+      this.message = ''
+      this.battleMessages = [
+        `${names[e]}をたおした!`,
+        `コイン${c}を　てにいれた`
+      ]
+      if(d > 0) {
+        this.message = `${d} のダメージ!`
+      }
+      this.setShow()
+    },
+    setShow() {
       this.show = true
       if(this.timerId !== -1) {
         window.clearTimeout(this.timerId)
