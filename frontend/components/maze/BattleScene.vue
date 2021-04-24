@@ -55,16 +55,16 @@
         @if $i % 2 == 0 {
           animation:
             a-scene-line-start .5s ease-in-out 0s forwards,
-            a-scene-line-start-even .8s ease-in 0s forwards,
+            a-scene-line-start-even .8s ease-in #{$i/200}s forwards,
             a-scene-line-start-#{$i} .6s ease-in .1s forwards,
-            a-scene-line-kill-even .5s ease-out 1.3s forwards;
+            a-scene-line-kill-even .5s ease-out #{1.3 + $i/200}s forwards;
 
         } @else {
           animation:
             a-scene-line-start .5s ease-in-out 0s forwards,
-            a-scene-line-start-odd .8s ease-in 0s forwards,
+            a-scene-line-start-odd .8s ease-in #{$i/200}s forwards,
             a-scene-line-start-#{$i} .6s ease-in .1s forwards,
-            a-scene-line-kill-odd .5s ease-out 1.3s forwards;
+            a-scene-line-kill-odd .5s ease-out #{1.3 + $i/200}s forwards;
         }
 
         @keyframes a-scene-line-start-#{$i} {
@@ -87,11 +87,11 @@
     }
     @keyframes a-scene-line-kill-even {
       0%   { left: 0; opacity: 1; }
-      100% { left: 100%; opacity: 0; transform: scale(2); }
+      100% { left: 100%; opacity: 0; transform: scale(3); }
     }
     @keyframes a-scene-line-kill-odd {
       0%   { right: 0; opacity: 1; }
-      100% { right: 100%; opacity: 0; transform: scale(2); }
+      100% { right: 100%; opacity: 0; transform: scale(3); }
     }
   }
 }
