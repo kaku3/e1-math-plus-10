@@ -31,7 +31,7 @@
 
     animation:
       a-scene-start .5s ease-in-out 0s forwards,
-      a-scene-kill .1s step-end 1.5s forwards;
+      a-scene-kill .1s step-end 1s forwards;
 
     @keyframes a-scene-start {
       0%   { height: 0; opacity: 0; }
