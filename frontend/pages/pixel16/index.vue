@@ -35,6 +35,8 @@
     padding: .1rem .25rem!important;
     line-height: 1;
     font-size: .9rem;
+    max-height: 2rem;
+    overflow: hidden;
   }
   .v-card__text {
     padding: .25rem!important;
