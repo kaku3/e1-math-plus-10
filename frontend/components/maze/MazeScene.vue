@@ -583,6 +583,7 @@ export default Vue.extend({
         this.save.sword = 0
         this.save.hp -= d
       }
+      this.save.coin += c
 
       //@ts-ignore
       this.$refs['msg'].showBattleMessage(e - MAP_OBJECT.ENEMY0, s, d, c)

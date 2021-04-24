@@ -26,14 +26,19 @@
   height: 120px;
 
   .battle-scene {
-    background-color: red;
+    background-color: #607D8B;
     width: 100%;
 
-    animation: scene .5s ease-in-out 0s forwards;
+    animation:
+      a-scene-start .5s ease-in-out 0s forwards,
+      a-scene-kill .1s ease-in-out 1s forwards;
 
-    @keyframes scene {
+    @keyframes a-scene-start {
       0%   { height: 0; opacity: 0; }
       100% { height: 100%; opacity: 1; }
+    }
+    @keyframes a-scene-kill {
+      100% { background-color: #FF0000; }
     }
   }
 }
@@ -67,7 +72,7 @@
     @keyframes a-enemy {
       0%   { right: -64px; }
       20%  { right: 32px;  }
-      40%  { right: 40px;  }
+      40%  { right: 40px; }
       42%  { right: 35%; transform: rotate(0); }
       50%  { transform: rotate(-4deg); }
       55%  { right: 50%; transform: rotate(-90deg); }
@@ -103,6 +108,7 @@ export default Vue.extend({
     }
   },
   mounted () {
+    this.init(MAP_OBJECT.ENEMY1)
   },
   methods: {
     init(e:MAP_OBJECT) {
