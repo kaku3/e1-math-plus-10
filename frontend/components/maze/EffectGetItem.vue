@@ -1,11 +1,11 @@
 <template>
-  <div class="effect-chest" v-if="show">
+  <div class="effect-item" v-if="show">
     <div v-for="i of count" :key="i" :class="`item ${item} n${i}`"></div>
   </div>
 </template>
 <style lang="scss" scoped src="./main.scss" />
 <style lang="scss" scoped>
-.effect-chest {
+.effect-item {
   position: absolute;
   top: 160px;
   left: 50%;
@@ -98,7 +98,8 @@
       &.n1 { animation: a-coin .5s ease-in 0s forwards; }
 
       @keyframes a-coin {
-        0%   { transform: translate(0, 0) scale(5); opacity: 1; }
+        0%   { transform: translate(0, 0) scale(5); opacity: 0; }
+        1%   { transform: translate(0, 0) scale(5); opacity: 1; }
         95%  { transform: translate(calc(50vw - 80px), -140px) scale(1); opacity: 1; }
         100% { opacity: 0; }
       }

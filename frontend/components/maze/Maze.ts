@@ -123,9 +123,9 @@ export class Maze {
     const enemyRates = [
       [ MAP_OBJECT.ENEMY0, Math.max(0, 1.0 - floor * 0.1) ],
       [ MAP_OBJECT.ENEMY1, Math.max(0, floor >= 7 ? 1.0 - floor * 0.1 : 0) ],
-      [ MAP_OBJECT.ENEMY2, Math.max(0, floor >= 12 ? 0.4 - floor * 0.1 : 0) ],
-      [ MAP_OBJECT.ENEMY3, Math.max(0, floor >= 15 ? 0.4 - floor * 0.1 : 0) ],
-      [ MAP_OBJECT.ENEMY4, Math.max(0, floor >= 18 ? 0.6 - floor * 0.1 : 0) ],
+      [ MAP_OBJECT.ENEMY2, Math.max(0, floor >= 12 ? 0.4 - floor * 0.05 : 0) ],
+      [ MAP_OBJECT.ENEMY3, Math.max(0, floor >= 15 ? 0.6 - floor * 0.05 : 0) ],
+      [ MAP_OBJECT.ENEMY4, Math.max(0, floor >= 18 ? 0.8 - floor * 0.05 : 0) ],
     ]
 
     for(let r = 1; r < sy - 1; r++) {
@@ -143,13 +143,13 @@ export class Maze {
       }
     }
     // peak を敵に置き換える
-    if(floor >= 5) {
+    if(floor >= 3) {
       for(let r = 1; r < sy - 1; r++) {
         for(let c = 1; c < sx - 1; c++) {
           if(maze[r][c] !== MAP_OBJECT.PEAK) {
             continue
           }
-          if(rnd.nextFloat1() > 0.5) {
+          if(rnd.nextFloat1() > 0.2) {
             for(const rr of enemyRates) {
               if(rr[1] > rnd.nextFloat1()) {
                 maze[r][c] = rr[0]

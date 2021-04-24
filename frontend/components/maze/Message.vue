@@ -74,9 +74,9 @@ export default Vue.extend({
           break
         case 'get-sword':
           if(v === 1) {
-            this.message = `つるぎを てにいれた`
+            this.message = `カタナを てにいれた`
           } else {
-            this.message = `つるぎを ${v} てにいれた`
+            this.message = `カタナを ${v} てにいれた`
           }
           break
         case 'get-plus-portion':
@@ -106,7 +106,7 @@ export default Vue.extend({
       this.battleMessages = []
       this.setShow()
     },
-    showBattleMessage(e: number, d:number, c:number) {
+    showBattleMessage(e: number, s:number, d:number, c:number) {
       const names = [
         'ザコ',
         'ザコマスク',
@@ -117,11 +117,13 @@ export default Vue.extend({
       this.message = ''
       this.battleMessages = [
         `${names[e]}をたおした!`,
+        `カタナを${s}　つかった`,
         `コイン${c}を　てにいれた`
       ]
       if(d > 0) {
-        this.message = `${d} のダメージ!`
+        this.battleMessages.push(`${d} のダメージ!`)
       }
+
       this.setShow()
     },
     setShow() {

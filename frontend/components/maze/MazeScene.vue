@@ -22,6 +22,7 @@
             </div>
           </div>
         </div>
+        <BattleScene ref="battleScene" :icon="accountIcon" @end="onBattleEnd" />
         <EffectGetItem ref="effectGetItem" />
 
         <Tutorial v-if="isTutorial" :px="px" :py="py" />
@@ -33,7 +34,7 @@
         </v-row>
         <v-row v-if="!isEnd" class="game-console" dense>
           <v-col cols="auto">HP</v-col>
-          <v-col cols="4">
+          <v-col cols="6">
             <v-progress-linear :color="hpBarColor" :value="save.hp" width="60" height="18">
               <template v-slot:default="{ value }">
                 <div class="value">{{ value }}</div>
@@ -137,6 +138,7 @@ import GamePad from '~/components/maze/GamePad.vue'
 import MazeShop from '~/components/maze/MazeShop.vue'
 import { default as MazeEnd, MazeResult } from '~/components/maze/MazeEnd.vue'
 
+import BattleScene from '~/components/maze/BattleScene.vue'
 import EffectGetItem from '~/components/maze/EffectGetItem.vue'
 import Message from '~/components/maze/Message.vue'
 
@@ -176,6 +178,7 @@ export default Vue.extend({
     GamePad,
     MazeShop,
     MazeEnd,
+    BattleScene,
     EffectGetItem,
     Message,
     Tutorial,
@@ -546,6 +549,10 @@ export default Vue.extend({
     },
 
     battle(e:MAP_OBJECT) {
+      //@ts-ignore
+      this.$refs['battleScene'].init(e)
+    },
+    onBattleEnd(e:MAP_OBJECT) {
       const floor = this.save.floor
       let s = (e - MAP_OBJECT.ENEMY0) + 1
       let d = 0
@@ -570,13 +577,14 @@ export default Vue.extend({
       if(this.save.sword >= s) {
         this.save.sword -= s
       } else {
-        s -= this.save.sword
-        d = s * 10
+        d = (s - this.save.sword) * 10
+        s = this.save.sword
         this.save.sword = 0
         this.save.hp -= d
       }
+
       //@ts-ignore
-      this.$refs['msg'].showBattleMessage(e - MAP_OBJECT.ENEMY0, d, c)
+      this.$refs['msg'].showBattleMessage(e - MAP_OBJECT.ENEMY0, s, d, c)
       //@ts-ignore
       this.$refs['effectGetItem'].init(MAP_OBJECT.COIN, e - MAP_OBJECT.ENEMY0 + 1)
     },
