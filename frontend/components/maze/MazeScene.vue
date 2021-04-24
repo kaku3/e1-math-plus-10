@@ -583,12 +583,15 @@ export default Vue.extend({
         this.save.sword = 0
         this.save.hp -= d
       }
+      this.save.hp = Math.max(0, this.save.hp)
       this.save.coin += c
 
       //@ts-ignore
       this.$refs['msg'].showBattleMessage(e - MAP_OBJECT.ENEMY0, s, d, c)
       //@ts-ignore
       this.$refs['effectGetItem'].init(MAP_OBJECT.COIN, e - MAP_OBJECT.ENEMY0 + 1)
+
+      this.overIfDead()
     },
 
     scroll() {
@@ -719,6 +722,9 @@ export default Vue.extend({
 
       this.scroll()
 
+      this.overIfDead()
+    },
+    overIfDead() {
       if(this.save.hp === 0) {
         this.stopBgm()
         this.setResult()
@@ -734,6 +740,7 @@ export default Vue.extend({
         }
       }
     },
+
     showMessage(m:string, v:number) {
       //@ts-ignore
       this.$refs['msg'].showMessage(m, v)
