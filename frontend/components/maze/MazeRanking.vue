@@ -17,7 +17,7 @@
             <td class="ranking-item name">
               <span v-if="isClear(o)" class="icon">
                 <div v-if="!o.icon" class="p w"></div>
-                <IconView v-else :icon="o.icon" size="16" :transpalent=true class="icon" />
+                <IconView v-else :icon="o.icon" size="24" :transpalent=true class="icon" />
               </span>
               <span v-else>
                 <v-icon>mdi-grave-stone</v-icon>
