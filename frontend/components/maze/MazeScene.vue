@@ -343,8 +343,10 @@ export default Vue.extend({
         floor: this.save.floor,
         coin: this.save.coin
       }
+      const icon = this.save.floor === 21 ? this.accountStore.account.icon : ''
       const e:MazeScoreEntity = {
         name: this.accountStore.account.name,
+        icon: icon,
         floor: this.save.floor,
         coin: this.save.coin,
         createdAt: new Date().getTime(),

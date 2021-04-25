@@ -16,13 +16,12 @@ export function entryHiscore(e: ScoreEntity) {
 export function entryMazeScore(e: MazeScoreEntity) {
   const uid = sessionStorage.getItem('uid') || ''
 
-  const db = firebase.firestore()
-  db.collection('mazeScores').add({
+  const o = {
+    ...e,
     uid: uid,
-    name: e.name,
-    floor: e.floor,
-    coin: e.coin,
-    createdAt: new Date(e.createdAt).setHours(0,0,0,0),
-    timestamp: e.createdAt
-  })
+    createdAt: new Date(e.createdAt).setHours(0,0,0,0)
+  }
+
+  const db = firebase.firestore()
+  db.collection('mazeScores').add(o)
 }
