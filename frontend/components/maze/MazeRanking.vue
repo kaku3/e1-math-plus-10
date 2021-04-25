@@ -16,7 +16,8 @@
             </td>
             <td class="ranking-item name">
               <span v-if="isClear(o)" class="icon">
-                <div class="p w"></div>
+                <div v-if="!o.icon" class="p w"></div>
+                <IconView v-else :icon="o.icon" size="16" :transpalent=true class="icon" />
               </span>
               <span v-else>
                 <v-icon>mdi-grave-stone</v-icon>
@@ -82,7 +83,7 @@ export default Vue.extend({
       const r = await q.get()
       this.rankings = r.docs.map(d => {
         const r = d.data()
-        return Object.assign({ rank: rank++ }, r)
+        return { ...r, rank: rank++ }
       })
       // 同率処理
       for(let i = 1; i < this.rankings.length; i++) {
