@@ -6,7 +6,10 @@
           <tr>
             <th class="text-center"></th>
             <th class="text-left">NAME</th>
-            <th class="text-center"><div>FLOOR</div><div>(COIN)</div></th>
+            <th class="text-center">
+              <div class="blue-grey--text text--darken-3">FLOOR</div>
+              <div class="blue-grey--text">COIN</div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -17,15 +20,16 @@
             <td class="ranking-item name">
               <span v-if="isClear(o)" class="icon">
                 <div v-if="!o.icon" class="p w"></div>
-                <IconView v-else :icon="o.icon" size="24" :transpalent=true class="icon" />
+                <IconView v-else :icon="o.icon" :size="size(o)" :transpalent=true class="icon" />
               </span>
               <span v-else>
                 <v-icon>mdi-grave-stone</v-icon>
               </span>
-              <span>{{o.name}}</span>
+              <span class="n">{{o.name}}</span>
             </td>
             <td class="ranking-item floor-coin">
-              {{o.floor}}({{o.coin}})
+              <div class="blue-grey--text text--darken-3">{{o.floor | FLOOR }}</div>
+              <div class="blue-grey--text">{{o.coin}}</div>
             </td>
           </tr>
         </tbody>
@@ -43,11 +47,23 @@
   .ranking-item {
     font-size: .6rem;
   }
-  .name .icon {
-    position: relative;
-
-    .p {
-      top: -16px;
+  .rank {
+    padding: 0;
+    width: 2rem;
+  }
+  .name {
+    text-align: left;
+    .icon {
+      position: relative;
+      display: inline-block;
+      margin-top: 4px;
+      min-width: 16px;
+      .p {
+        top: -24px;
+      }
+    }
+    .n {
+      display: inline-block;
     }
   }
 }
@@ -57,6 +73,10 @@
 import Vue from 'vue'
 
 import firebase from '~/plugins/firebase'
+
+function FLOOR(v: number) {
+  return v === 21 ? 'ALL' : v
+}
 
 export default Vue.extend({
   data() {
@@ -103,8 +123,14 @@ export default Vue.extend({
     },
     isMe(o:any): boolean {
       return o.uid === this.uid
+    },
+    size(o:any): number {
+      return o.rank <= 10 ? 48 : 32
     }
 
+  },
+  filters: {
+    FLOOR
   }
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-card class="info-container blue-grey lighten-4">
-    <div>Maze Shop</div>
+    <div class="shop-title blue-grey lighten-1">Maze Shop</div>
     <v-list class="info-container blue-grey lighten-4" dense>
       <v-divider></v-divider>
       <v-list-item>
@@ -43,6 +43,7 @@
     <v-card-actions>
       <v-btn color="cyan lighten-3" depressed small to="/">HOME</v-btn>
       <v-spacer></v-spacer>
+      <MazePlayer :icon="accountIcon" class="player" />
       <v-btn color="cyan lighten-3" depressed small @click="startFloor">start</v-btn>
     </v-card-actions>
   </v-card>
@@ -52,6 +53,13 @@
 .info-container {
   font-size: .6rem;
   font-family: 'Press Start 2P', cursive;
+
+  .shop-title {
+    padding: .5rem 0;
+  }
+  .v-list {
+    padding: 0;
+  }
 
   .console.bgo {
     position: relative;
@@ -63,11 +71,20 @@
     display: inline-block;
   }
 }
+.player {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  transform: translate(-16px, -16px) scale(2);
+}
 
 </style>
 <script lang="ts">
 import Vue from 'vue'
 import { PropType } from 'vue'
+
+import { getModule } from 'vuex-module-decorators'
+import AccountStore from '~/store/AccountStore'
 
 import { MazeSave, NewSave, resetSave } from '~/models/MazeSave'
 
@@ -122,6 +139,13 @@ export default Vue.extend({
   },
 
   computed: {
+    accountStore() : AccountStore {
+      return getModule(AccountStore, this.$store) as AccountStore
+    },
+    accountIcon(): string {
+      return this.accountStore.account.icon
+    },
+
     mattockPrice() : number {
       const v = this.save.shop_mattock
       return 10 + v + Math.floor(v / 3) * 5 + Math.floor(v / 10) * 30

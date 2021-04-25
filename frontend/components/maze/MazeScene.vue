@@ -68,7 +68,7 @@
     <v-fade-transition>
       <MazeInstruction v-if="!isEnd" />
     </v-fade-transition>
-    <MazeRanking ref="ranking" v-if="isTutorial || isEnd" />
+    <MazeRanking ref="ranking" v-if="isTutorial || !isGame" />
   </div>
 </template>
 <style lang="scss" scoped src="./main.scss" />
