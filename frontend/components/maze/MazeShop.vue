@@ -135,7 +135,8 @@ export default Vue.extend({
       return 10 + v + Math.floor(v / 3) * 6 + Math.floor(v / 20) * 10
     },
     swordPrice() : number {
-      return 200 + this.save.shop_sword * 20
+      const v = this.save.shop_sword
+      return 100 + v * 10 + Math.floor(v / 5) * 50
     },
   }
 })
