@@ -7,8 +7,8 @@
             <th class="text-center"></th>
             <th class="text-left">NAME</th>
             <th class="text-center">
-              <div class="blue-grey--text text--darken-3">FLOOR</div>
-              <div class="blue-grey--text">COIN</div>
+              <div class="blue-grey--text text--darken-4">FLOOR</div>
+              <div class="blue-grey--text text--darken-2">COIN</div>
             </th>
           </tr>
         </thead>
@@ -28,8 +28,8 @@
               <span class="n">{{o.name}}</span>
             </td>
             <td class="ranking-item floor-coin">
-              <div class="blue-grey--text text--darken-3">{{o.floor | FLOOR }}</div>
-              <div class="blue-grey--text">{{o.coin}}</div>
+              <div class="blue-grey--text text--darken-4">{{o.floor | FLOOR }}</div>
+              <div class="blue-grey--text text--darken-2">{{o.coin}}</div>
             </td>
           </tr>
         </tbody>
