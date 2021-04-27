@@ -483,10 +483,10 @@ export default Vue.extend({
                 _v = Math.floor(2 + Math.random() * 3)
                 this.pickItem(MAP_OBJECT.MATTOCK, _v)
               } else if(rr < 0.7) {
-                _v = Math.floor(3 + Math.random() * 2)
+                _v = Math.floor(2 + Math.random() * 2)
                 this.pickItem(MAP_OBJECT.PLUS_PORTION, _v)
               } else if(rr < 0.95) {
-                _v = Math.floor(5 + Math.random() * 5)
+                _v = Math.floor(3 + Math.random() * 3)
                 this.pickItem(MAP_OBJECT.SWORD, _v)
               } else {
                 this.showMessage('empty-chest', 0)
@@ -495,12 +495,16 @@ export default Vue.extend({
             if(o === MAP_OBJECT.CHEST2) {
               const rr = Math.random()
               if(rr < 0.8) {
-                _v = Math.floor(this.save.floor / 10) * 800 + Math.floor(this.save.floor / 5) * 100 + 20
+                _v = Math.floor(this.save.floor / 10) * 800 + Math.floor(this.save.floor / 5) * 100 + 50
                 _v = Math.floor(_v * (0.8 + Math.random()))
                 this.getCoin(_v, 9)
               } else {
-                _v = Math.floor(4 + Math.random() * 3)
-                this.pickItem(MAP_OBJECT.SWORD, _v)
+                _v = Math.floor(2 + Math.random() * 2)
+                if(Math.random() < 0.3) {
+                  this.pickItem(MAP_OBJECT.KEY1, _v)
+                } else {
+                  this.pickItem(MAP_OBJECT.SWORD, _v)
+                }
               }
             }
             this.removeFloorObject(this.px, this.py)
@@ -647,7 +651,7 @@ export default Vue.extend({
       let v = 0
       switch(o) {
       case MAP_OBJECT.COIN:
-        this.getCoin(10, 1)
+        this.getCoin(Math.max(10, this.save.floor * 10), 1)
         break
       case MAP_OBJECT.PLUS0_PORTION:
         v = Math.floor(Math.random() * this.save.hpMax / 5) + 5

@@ -77,6 +77,10 @@
 
     &.key1 {
       &.n1 { animation: a-key1 .8s ease-in 0s forwards; }
+      &.n2 { animation: a-key1 .8s ease-in .1s forwards; }
+      &.n3 { animation: a-key1 .8s ease-in .2s forwards; }
+      &.n4 { animation: a-key1 .8s ease-in .3s forwards; }
+      &.n5 { animation: a-key1 .8s ease-in .4s forwards; }
 
       @keyframes a-key1 {
         0%   { transform: translate(0, 48px) scale(1); opacity: 0; }

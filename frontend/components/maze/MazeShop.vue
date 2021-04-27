@@ -148,19 +148,19 @@ export default Vue.extend({
 
     mattockPrice() : number {
       const v = this.save.shop_mattock
-      return 10 + v + Math.floor(v / 3) * 5 + Math.floor(v / 10) * 30
+      return 10 + v + Math.floor(v / 3) * 10 + Math.floor(v / 10) * 100
     },
     portionPrice() : number {
       const v = this.save.shop_portion
-      return 15 + v + Math.floor(v / 5) * 20 + Math.floor(v / 10) * 50
+      return 15 + v + Math.floor(v / 5) * 50 + Math.floor(v / 10) * 100
     },
     key1Price() : number {
       const v = this.save.shop_key1
-      return 10 + v + Math.floor(v / 3) * 6 + Math.floor(v / 20) * 10
+      return 10 + Math.floor(v / 4) * 20 + Math.floor(v / 20) * 50
     },
     swordPrice() : number {
       const v = this.save.shop_sword
-      return 100 + v * 10 + Math.floor(v / 5) * 50
+      return 50 + v * 10 + Math.floor(v / 10) * 100
     },
   }
 })
