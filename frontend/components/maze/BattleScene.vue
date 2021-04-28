@@ -218,7 +218,7 @@ export default Vue.extend({
         c = Math.floor(1000 + floor * 50)
         break
       case MAP_OBJECT.ENEMY4:
-        c = Math.floor(500 + floor * 100)
+        c = Math.floor(1000 + floor * 100)
         break
       }
       if(save.sword >= s) {

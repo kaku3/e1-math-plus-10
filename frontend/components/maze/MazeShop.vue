@@ -160,7 +160,7 @@ export default Vue.extend({
     },
     swordPrice() : number {
       const v = this.save.shop_sword
-      return 50 + v * 10 + Math.floor(v / 10) * 100
+      return 50 + v * 10 + Math.floor(v / 10) * 80
     },
   }
 })
