@@ -464,7 +464,7 @@ export default Vue.extend({
       if(v === 1) {
         if(this.save.portion > 0) {
           this.save.portion--
-          _v = Math.floor(Math.random() * (this.save.hpMax / 2) + (this.save.hpMax / 4))
+          _v = Math.floor(Math.random() * (this.save.hpMax / 3) + (this.save.hpMax / 4))
           this.save.hp = Math.min (this.save.hp + _v, this.save.hpMax)
           this.showMessage('use-plus-portion', _v)
         }
