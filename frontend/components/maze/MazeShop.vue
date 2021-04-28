@@ -152,7 +152,7 @@ export default Vue.extend({
     },
     portionPrice() : number {
       const v = this.save.shop_portion
-      return 15 + v + Math.floor(v / 5) * 50 + Math.floor(v / 10) * 100 + Math.floor(v / 20) * 100
+      return 15 + v + Math.floor(v / 5) * 50 + Math.floor(v / 10) * 100 + Math.floor(v / 20) * 500
     },
     key1Price() : number {
       const v = this.save.shop_key1
@@ -160,7 +160,7 @@ export default Vue.extend({
     },
     swordPrice() : number {
       const v = this.save.shop_sword
-      return 50 + v * 10 + Math.floor(v / 10) * 80
+      return 50 + Math.floor(v / 3) * 10 + Math.floor(v / 10) * 60
     },
   }
 })
