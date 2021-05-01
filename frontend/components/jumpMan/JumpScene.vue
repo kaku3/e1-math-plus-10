@@ -185,7 +185,7 @@ export default Vue.extend({
       this.setSteps(mapGroup, 0)
     },
     setSteps(mapGroup:Konva.Group, sceneY:number) {
-      const random = new Random(0)
+      const random = new Random((new Date()).getTime())
 
       const steps = [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ]
       const wMaxs = [ 2, 6, 6, 0, 3, 4, 2, 3, 3, 0, 6 ]
