@@ -390,7 +390,7 @@ export default Vue.extend({
               this.py = r.y - this.scrollY
               this.statusNext = PLAYER_STATUS.JUMP4
 
-              this.sy = -this.py / 40
+              this.sy = Math.min(-this.py / 40, 48)
             }
           }
           if(this.dir == DIRECTION.RIGHT) {
@@ -495,7 +495,7 @@ export default Vue.extend({
       }
       this.calcSceneY()
       if(oldSceneY != this.sceneY) {
-        console.log(oldSceneY, this.sceneY)
+        console.log(oldSceneY, this.sceneY, this.sy)
         this.setSteps(mapGroup, this.sceneY)
       }
 
