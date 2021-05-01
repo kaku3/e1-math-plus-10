@@ -136,7 +136,7 @@ export default Vue.extend({
         this.values[JUMP_CHARACTERS.MOUNTAINKING] = s.mul99Sprint10.count
 
         for(let n = 1; n < JumpCharacters.length; n++) {
-          if(jumpSaveUtil.hasCharacter(n) && this.values[n] == -1) {
+          if(jumpSaveUtil.hasCharacter(n) || this.values[n] == -1) {
             continue
           }
 
@@ -144,7 +144,6 @@ export default Vue.extend({
           if((cond == 'GE' && this.values[n] >= value)
           || (cond == 'LE' && Math.floor(this.values[n]) <= value)
           ){
-            console.log(n)
             jumpSaveUtil.getCharacter(n)
           }
         }
