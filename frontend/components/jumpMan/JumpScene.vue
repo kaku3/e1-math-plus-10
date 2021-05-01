@@ -188,7 +188,7 @@ export default Vue.extend({
       const random = new Random((new Date()).getTime())
 
       const steps = [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ]
-      const wMaxs = [ 4, 8, 6, 0, 3, 4, 4, 6, 3, 0, 6 ]
+      const wMaxs = [ 4, 8, 6, 0, 3, 4, 12, 6, 4, 0, 6 ]
 
       const cw = 16
       const ch = 48
