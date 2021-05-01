@@ -219,7 +219,7 @@ export default Vue.extend({
             const rr = random.nextFloat1()
             let w = 0
             if(rr < 0.6) {
-              w = random.nextInt(2, wMax)
+              w = random.nextInt(3, wMax)
             } else if(rr < 0.65) {
               w = 2
             }
