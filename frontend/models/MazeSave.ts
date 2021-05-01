@@ -1,5 +1,3 @@
-import Random from '~/utils/Random'
-
 export interface MazeSave {
   uid: string
   seed: number

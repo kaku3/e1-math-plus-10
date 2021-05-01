@@ -1,0 +1,510 @@
+<template>
+  <div id="game-canvas"></div>
+</template>
+<style lang="scss" scoped>
+#game-canvas {
+  width: 320px;
+  height: 480px;
+  background-color: #222;
+}
+</style>
+<script lang="ts">
+import Vue from 'vue'
+
+import Konva from 'konva'
+import Random from '~/utils/Random'
+
+import { JumpCharacter, JumpCharacters } from '~/models/JumpSave'
+
+const XMAX = 320-8
+const XMIN = 8
+
+const GROUND_HEIGHT = 64
+
+enum PLAYER_STATUS {
+  NULL,
+  WALK,
+  JUMP0, // 溜め
+  JUMP1,
+  JUMP2,
+  JUMP3,
+  JUMP4,
+}
+
+enum DIRECTION {
+  RIGHT,
+  LEFT
+}
+
+type DataType = {
+  mode: string
+  px: number
+  py: number
+  sx: number  // 移動速度(x)
+  sy: number  // スクロール速度(y)
+  scrollY: number // スクロール量
+  sceneY: number  // 画面換算
+  dir: DIRECTION,
+  status: PLAYER_STATUS
+  statusNext: PLAYER_STATUS
+  jp: number  // jump power
+  time: number,
+  score: number,
+  life: number,
+  character: JumpCharacter
+}
+
+let stage: Konva.Stage
+let layer: Konva.Layer
+
+let consoleGroup:Konva.Group
+let scoreText:Konva.Text
+let lifeText:Konva.Text
+
+let mapGroup:Konva.Group
+
+let player:Konva.Group
+let playerSprite:Konva.Sprite
+let loop:Konva.Animation
+
+export default Vue.extend({
+  data(): DataType {
+    return {
+      mode: 'init',
+      px: 160,
+      py: 0,
+      sx: 56,
+      sy: 0,
+      scrollY: 0,
+      sceneY: 0,
+      dir: DIRECTION.RIGHT,
+      status: PLAYER_STATUS.NULL,
+      statusNext: PLAYER_STATUS.WALK,
+      jp: 0,
+      time: 0,
+      score: 0,
+      life: 0,
+      character: JumpCharacters[0]
+    }
+  },
+  mounted () {
+  },
+  methods: {
+    init(character:number) {
+      if(stage) {
+        stage.destroy()
+      }
+      this.character = JumpCharacters[character]
+
+      const canvas = document.querySelector('#game-canvas')
+      const width = canvas?.clientWidth
+      const height = canvas?.clientHeight
+
+      stage = new Konva.Stage({
+        container: 'game-canvas',
+        width,
+        height,
+      })
+      layer = new Konva.Layer()
+      loop = new Konva.Animation((frame) => {
+        this.exec(frame)
+      })
+
+      mapGroup = new Konva.Group({
+        x: 0,
+        y: this.scrollY
+      })
+      consoleGroup = new Konva.Group()
+      this.initConsole(consoleGroup)
+
+      player = this.initPlayer(mapGroup, character)
+
+      layer.add(mapGroup)
+      layer.add(consoleGroup)
+      stage.add(layer)
+
+      this.initGamePad()
+
+      this.startGame()
+    },
+    initGamePad() {
+      stage.on('touchstart', () => {
+        if(this.mode == 'game') {
+          if(this.status === PLAYER_STATUS.WALK) {
+            this.statusNext = PLAYER_STATUS.JUMP0
+          }
+        } else if(this.mode == 'over') {
+          this.$emit('over', this.score)
+          loop.stop()
+        }
+      })
+      stage.on('touchend', () => {
+        if(this.status === PLAYER_STATUS.JUMP0) {
+          this.statusNext = PLAYER_STATUS.JUMP1
+        }
+      })
+    },
+    initConsole(consoleGroup:Konva.Group) {
+      scoreText = new Konva.Text({
+          x: 8,
+          y: 8,
+          text: 'SCORE 0',
+          fontSize: 12,
+          fontFamily: 'Press Start 2P',
+          fill: '#ECEFF1'
+      })
+      lifeText = new Konva.Text({
+          x: 320 - 8 - 12 * 6,
+          y: 8,
+          text: 'LIFE 0',
+          fontSize: 12,
+          fontFamily: 'Press Start 2P',
+          fill: '#ECEFF1'
+      })
+      consoleGroup.add(scoreText)
+      consoleGroup.add(lifeText)
+    },
+
+    initMap(mapGroup:Konva.Group) {
+      mapGroup.destroyChildren()
+
+      let x = 0
+      let y = 0
+      let width = stage.width()
+      let height = GROUND_HEIGHT
+
+      mapGroup.add(
+        new Konva.Rect({
+          x,
+          y,
+          width,
+          height,
+          fill: '#607D8B'
+        })
+      )
+      this.setSteps(mapGroup, 0)
+    },
+    setSteps(mapGroup:Konva.Group, sceneY:number) {
+      const random = new Random(0)
+
+      const steps = [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ]
+      const wMaxs = [ 2, 6, 6, 0, 3, 4, 2, 3, 3, 0, 6 ]
+
+      const cw = 16
+      const ch = 48
+      const ww = Math.floor(stage.width() / cw)
+
+      const xxs = [
+        { step: 3, x0: 0, x1: ww, space: 1 },
+        { step: 2, x0: ww/4, x1: ww*3/4, space: 3 },
+        { step: 1, x0: ww/3, x1: ww*2/3, space: 0 },
+      ]
+
+      for(let y = ch, n = 0; y < stage.height(); y += ch + random.nextInt(0, 4) * ch / 4, n++) {
+
+        while(true) {
+          const step = steps[n % steps.length]  // 足場の個数
+
+          if(step === 0) {
+            break
+          }
+          const wMax = wMaxs[n % steps.length]
+
+          const xx = xxs.find(xx => xx.step === step)
+          let set = 0
+          let steps_ = []
+
+          //@ts-ignore
+          for(let x = xx.x0 + ((y>>1)%2); x < xx.x1; x += 2) {
+            const rr = random.nextFloat1()
+            let w = 0
+            if(rr < 0.6) {
+              w = random.nextInt(2, wMax)
+            } else if(rr < 0.65) {
+              w = 2
+            }
+            if(w > 0) {
+              set++
+              if(step == 3 && set == step) {
+                //@ts-ignore
+                w = xx.x1 - x
+              }
+              steps_.push({
+                x: x,
+                w: w
+              })
+              //@ts-ignore
+              x += w + xx.space
+            }
+          }
+          if(set == step) {
+            const yy = sceneY * stage.height()
+            steps_.forEach(f => {
+              const r = new Konva.Rect({
+                x: f.x * cw,
+                y: -y - yy,
+                width: cw * f.w,
+                height: 12,
+                fill: '#607D8B'
+              })
+              mapGroup.add(r)
+            })
+            break
+          }
+        }
+      }
+      player.moveToTop()
+
+      // 画面外の床を消去
+      const dy = stage.height() * 1.5
+      mapGroup.getChildren(r => {
+        return r.getClientRect().y > dy
+      }).each(r => r.destroy())
+    },
+
+    initPlayer(mapGroup:Konva.Group, character:number): Konva.Group {
+      const cy = character * 32
+      const x = this.px
+      const y = this.py
+
+      const g = new Konva.Group({
+        x,
+        y
+      })
+
+
+      const idle = [0,1,2,3].flatMap(x => {
+        return [ x * 32, cy, 32, 32]
+      })
+      const walk = [0,1,2,3].flatMap(x => {
+        return [ x * 32 + 128, cy, 32, 32]
+      })
+      const jump0 = [ 64, cy, 32, 32, 64, cy, 32, 32 ]
+      const [ jump1, jump2, jump3, jump4 ] = [0,1,2,3].map(x => {
+        return [ x * 32 + 128, cy, 32, 32, x * 32 + 128, cy, 32, 32 ]
+      })
+      const image = new Image()
+      image.onload = () => {
+        playerSprite = new Konva.Sprite({
+          x: 0,
+          y: 0,
+          scaleX: 2,
+          scaleY: 2,
+          offsetX: 16,
+          offsetY: 32,
+          image,
+          animations: {
+            idle,
+            walk,
+            jump0,
+            jump1,
+            jump2,
+            jump3,
+            jump4,
+          },
+          animation: 'idle',
+          frameRate: 10,
+          frameIndex: 0,
+        })
+        g.add(playerSprite)
+        mapGroup.add(g)
+        playerSprite.start()
+      }
+      image.src = require('~/assets/jump/characters.png')
+      return g
+    },
+    execPlayer(frame:any) {
+      if(!playerSprite || this.mode != 'game') {
+        return
+      }
+      const ox = this.px
+
+      let dx = this.sx * this.character.status.spx * frame.timeDiff / 1000
+
+      if(this.status != this.statusNext) {
+        this.status = this.statusNext
+        switch(this.status) {
+          case PLAYER_STATUS.WALK:
+            playerSprite.animation('idle')
+            break
+          case PLAYER_STATUS.JUMP0:
+            playerSprite.animation('jump0')
+            this.jp = 0
+            break
+          case PLAYER_STATUS.JUMP1:
+            this.jp /= 3
+            this.jp = Math.min(this.jp, 400)
+            playerSprite.animation('jump1')
+            console.log(this.jp)
+            break
+          case PLAYER_STATUS.JUMP2:
+            playerSprite.animation('jump2')
+            break
+          case PLAYER_STATUS.JUMP3:
+            playerSprite.animation('jump3')
+            break
+          case PLAYER_STATUS.JUMP4:
+            playerSprite.animation('jump4')
+            this.score = Math.max(this.score, Math.floor(-this.py / 32))
+            scoreText.text(`SCORE ${this.score}`)
+            break
+        }
+      }
+      switch(this.status) {
+        case PLAYER_STATUS.WALK:
+          if(this.dir == DIRECTION.RIGHT) {
+            this.px += dx
+            this.px = Math.min(this.px, XMAX)
+            if(this.px === XMAX || !this.footCollision(this.px, this.py)) {
+              this.px = ox
+              this.dir = DIRECTION.LEFT
+              playerSprite.scaleX(-2)
+            }
+          } else {
+            this.px -= dx
+            this.px = Math.max(this.px, XMIN)
+            if(this.px === XMIN || !this.footCollision(this.px, this.py)) {
+              this.px = ox
+              this.dir = DIRECTION.RIGHT
+              playerSprite.scaleX(2)
+            }
+          }
+          player.x(this.px)
+          break
+        case PLAYER_STATUS.JUMP0:
+          this.jp += this.character.status.jp * frame.timeDiff
+          break
+
+        case PLAYER_STATUS.JUMP1:
+        case PLAYER_STATUS.JUMP3:
+          this.px += (this.dir == DIRECTION.RIGHT) ? dx : -dx
+          this.py -= this.jp * frame.timeDiff / 1000
+          this.jp -= 400 * frame.timeDiff / 1000
+          if(this.status == PLAYER_STATUS.JUMP1) {
+            if(this.jp < 0) {
+              this.statusNext = PLAYER_STATUS.JUMP2
+            }
+          }
+          if(this.status == PLAYER_STATUS.JUMP3) {
+            const node = this.footCollision(this.px, this.py)
+            if(node) {
+              const r = node.getClientRect()
+              this.py = r.y - this.scrollY
+              this.statusNext = PLAYER_STATUS.JUMP4
+
+              this.sy = -this.py / 40
+            }
+          }
+          if(this.dir == DIRECTION.RIGHT) {
+            this.px += dx
+            this.px = Math.min(this.px, XMAX)
+            if(this.px === XMAX) {
+              this.px = ox
+              this.dir = DIRECTION.LEFT
+              playerSprite.scaleX(-2)
+            }
+          } else {
+            this.px -= dx
+            this.px = Math.max(this.px, XMIN)
+            if(this.px === XMIN) {
+              this.px = ox
+              this.dir = DIRECTION.RIGHT
+              playerSprite.scaleX(2)
+            }
+          }
+
+          // 地面突き抜け判定
+          if(this.py >= 0) {
+            this.py = 0
+            this.statusNext = PLAYER_STATUS.JUMP4
+          }
+          player.x(this.px)
+          player.y(this.py)
+          break
+
+        case PLAYER_STATUS.JUMP2:
+          this.statusNext = PLAYER_STATUS.JUMP3
+          break
+        case PLAYER_STATUS.JUMP4:
+          this.statusNext = PLAYER_STATUS.WALK
+          break
+      }
+      if(this.scrollY - (stage.height() - GROUND_HEIGHT) - 96 > -this.py) {
+
+        if(--this.life === 0 ) {
+          this.mode = 'over'
+
+          consoleGroup.add(new Konva.Text({
+            x: 25,
+            y: 200,
+            text: 'GAME OVER',
+            fontSize: 30,
+            fontFamily: 'Press Start 2P',
+            fill: '#FF5722'
+          }))
+          layer.add(consoleGroup)
+        } else {
+          this.py = -(this.scrollY + stage.height())
+        }
+        lifeText.text(`LIFE ${this.life}`)
+      }
+    },
+    startGame() {
+      this.initMap(mapGroup)
+
+      this.px = stage.width() / 4
+      this.py = 0
+      this.dir = DIRECTION.RIGHT
+      this.status = PLAYER_STATUS.NULL
+      this.statusNext = PLAYER_STATUS.WALK
+      this.jp = 0
+      this.time = 0
+      this.score = 0
+      this.life = this.character.status.life
+
+      this.scrollY = stage.height() - GROUND_HEIGHT
+      this.calcSceneY()
+
+      lifeText.text(`LIFE ${this.life}`)
+
+      this.mode = 'game'
+      loop.start()
+    },
+    calcSceneY() {
+      this.sceneY = Math.floor(this.scrollY / stage.height())
+    },
+    footCollision(x:number, y:number): Konva.Node | null {
+      y += this.scrollY + 4  // 地面に埋める
+      const nodes = mapGroup.getChildren(o => {
+        if(o === player) {
+          return false
+        }
+        const r = o.getClientRect()
+        return  (r.x <= x && r.x + r.width >= x) &&
+                (r.y <= y && r.y + r.height >= y)
+      })
+      return nodes.length > 0 ? nodes[0] : null
+    },
+
+    exec(frame:any) {
+      this.time += frame.timeDiff
+
+      const oldSceneY = this.sceneY
+      if(this.status == PLAYER_STATUS.WALK && -this.py > this.scrollY - stage.height() / 2) {
+        this.scrollY += 64 * frame.timeDiff / 1000
+      } else {
+        this.scrollY += this.sy * this.character.status.spy * frame.timeDiff / 1000
+      }
+      this.calcSceneY()
+      if(oldSceneY != this.sceneY) {
+        console.log(oldSceneY, this.sceneY)
+        this.setSteps(mapGroup, this.sceneY)
+      }
+
+      mapGroup.y(this.scrollY)
+
+      this.execPlayer(frame)
+    },
+  }
+})
+</script>

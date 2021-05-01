@@ -1,6 +1,8 @@
 import firebase from '@/plugins/firebase'
 import { ScoreEntity, MazeScoreEntity } from '~/models/Score'
 
+import { StatisticUtil } from '~/models/Statistic'
+
 export function entryHiscore(e: ScoreEntity) {
   console.log(e)
   const db = firebase.firestore()
@@ -11,6 +13,9 @@ export function entryHiscore(e: ScoreEntity) {
     createdAt: new Date(e.createdAt).setHours(0,0,0,0),
     timestamp: e.createdAt
   })
+
+  const s = new StatisticUtil(e.mode)
+  s.update(e.score)
 }
 
 export function entryMazeScore(e: MazeScoreEntity) {
@@ -24,4 +29,7 @@ export function entryMazeScore(e: MazeScoreEntity) {
 
   const db = firebase.firestore()
   db.collection('mazeScores').add(o)
+
+  const s = new StatisticUtil('maze20')
+  s.update(e.floor)
 }

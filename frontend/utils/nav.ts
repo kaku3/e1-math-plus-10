@@ -73,7 +73,17 @@ export default function nav() {
         items: [
           {
             icon: 'mdi-gamepad-square-outline',
-            title: 'めいろ２０(β)',
+            title: 'JUMP MAN',
+            to: {
+              name: 'game-jump-man',
+              params: {
+                mode: 'jump-man',
+              }
+            }
+          },
+          {
+            icon: 'mdi-gamepad-square-outline',
+            title: 'めいろ２０',
             to: {
               name: 'game-maze-20',
               params: {

@@ -1,0 +1,20 @@
+.c {
+  display: inline-block;
+  background: url(~assets/jump/characters.png);
+  width: 32px;
+  height: 32px;
+
+  @for $i from 0 through 24 {
+    &.c#{$i} {
+      background-position: 0 #{-$i * 32} + px;
+      animation: a-idle-#{$i} .5s step-end 0s infinite;
+    }
+    @keyframes a-idle-#{$i} {
+      0%   { background-position: 0 #{-$i * 32} + px; }
+      25%  { background-position: -32px #{-$i * 32} + px; }
+      50%  { background-position: -64px #{-$i * 32} + px; }
+      75%  { background-position: -96px #{-$i * 32} + px; }
+      100% { background-position: 0 #{-$i * 32} + px; }
+    }
+  }
+}
