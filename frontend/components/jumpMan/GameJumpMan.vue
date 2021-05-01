@@ -23,6 +23,9 @@
     <v-row justify="center" v-if="isGame">
       <JumpScene ref="jump-scene" class="game-scene mt-4" @over="onOver" />
     </v-row>
+
+    <JumpRanking class="mt-4" />
+
     <v-snackbar v-model="showCondition">
       {{ condition }}
     </v-snackbar>
@@ -56,15 +59,22 @@
       font-size: .7rem;
     }
   }
+  .v-snack {
+    font-family: 'Press Start 2P', 'DotGothic16';
+  }
 }
 </style>
 <script lang="ts">
 import Vue from 'vue'
 
+import { getModule } from 'vuex-module-decorators'
+import AccountStore from '~/store/AccountStore'
+
 import JumpScene from '~/components/jumpMan/JumpScene.vue'
 
 import { JumpSaveUtil, JumpCharacters, JUMP_CHARACTERS  } from '~/models/JumpSave'
 import { StatisticUtil  } from '~/models/Statistic'
+import { entryJumpHiscore  } from '~/utils/score'
 
 const jumpSaveUtil = new JumpSaveUtil()
 
@@ -98,8 +108,15 @@ export default Vue.extend({
       this.condition = `${JumpCharacters[n].condition} (${this.values[n]})`
       this.showCondition = true
     },
-    onOver(score:number) {
+    onOver(score:number, character:number) {
       this.mode = 'title'
+
+      entryJumpHiscore({
+        name: this.accountStore.account.name,
+        character: character,
+        score,
+        createdAt: (new Date()).getTime()
+      })
 
       if(jumpSaveUtil.save.score < score) {
         jumpSaveUtil.save.score = score
@@ -156,6 +173,10 @@ export default Vue.extend({
     }
   },
   computed: {
+    accountStore() : AccountStore {
+      return getModule(AccountStore, this.$store) as AccountStore
+    },
+
     isTitle(): boolean {
       return this.mode == 'title'
     },

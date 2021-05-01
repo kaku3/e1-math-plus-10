@@ -40,3 +40,10 @@ export interface MazeScoreEntity {
   coin: number
   createdAt: number
 }
+
+export interface JumpScoreEntity {
+  name: string
+  character: number
+  score: number
+  createdAt: number
+}

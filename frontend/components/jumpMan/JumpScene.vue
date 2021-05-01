@@ -4,7 +4,7 @@
 <style lang="scss" scoped>
 #game-canvas {
   width: 320px;
-  height: 480px;
+  height: calc(100vh - 88px);
   background-color: #222;
 }
 </style>
@@ -134,7 +134,7 @@ export default Vue.extend({
             this.statusNext = PLAYER_STATUS.JUMP0
           }
         } else if(this.mode == 'over') {
-          this.$emit('over', this.score)
+          this.$emit('over', this.score, this.character.id)
           loop.stop()
         }
       })
