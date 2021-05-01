@@ -24,7 +24,7 @@
       <JumpScene ref="jump-scene" class="game-scene mt-4" @over="onOver" />
     </v-row>
 
-    <JumpRanking class="mt-4" />
+    <JumpRanking v-if="isTitle" class="mt-4" />
 
     <v-snackbar v-model="showCondition">
       {{ condition }}
