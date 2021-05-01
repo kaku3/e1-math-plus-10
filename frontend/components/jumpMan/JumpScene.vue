@@ -188,7 +188,7 @@ export default Vue.extend({
       const random = new Random((new Date()).getTime())
 
       const steps = [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ]
-      const wMaxs = [ 2, 6, 6, 0, 3, 4, 2, 3, 3, 0, 6 ]
+      const wMaxs = [ 4, 8, 6, 0, 3, 4, 4, 6, 3, 0, 6 ]
 
       const cw = 16
       const ch = 48
@@ -220,8 +220,6 @@ export default Vue.extend({
             let w = 0
             if(rr < 0.6) {
               w = random.nextInt(3, wMax)
-            } else if(rr < 0.65) {
-              w = 2
             }
             if(w > 0) {
               set++
