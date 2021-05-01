@@ -1,6 +1,6 @@
 import firebase from '@/plugins/firebase'
 
-export interface Statistic {
+export interface StatisticEntity {
   uid: string
 
   mode: string
@@ -25,7 +25,7 @@ export class StatisticUtil {
   uid: string
   mode: string
   sort: 'asc' | 'desc'
-  save: Statistic
+  save: StatisticEntity
 
   constructor(mode:string) {
     const uid = sessionStorage.getItem('uid') || ''
@@ -97,7 +97,7 @@ export class StatisticUtil {
     }
   }
 
-  newSave():Statistic {
+  newSave():StatisticEntity {
     return {
       uid: this.uid,
       mode: this.mode,

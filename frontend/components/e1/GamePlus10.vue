@@ -1,7 +1,7 @@
 <template>
   <div class="game">
     <v-card v-if="isEnd">
-      <Hiscore :gameMode="gameMode" :questionCount="questionCount" />
+      <Hiscore :gameMode="gameMode" :questionCount="questionCount"/>
     </v-card>
     <v-card>
       <v-card-text class="green lighten-4">
@@ -14,6 +14,7 @@
         </v-row>
       </v-card-text>
       <v-card-text v-if="isEnd" class="green lighten-5">
+        <StatisticComponent :statistic="statistic" :isSprint="isSprint" />
         <v-row class="ex-canvas text-center">
           <v-col cols="12" align-self="center">
             <v-btn
@@ -128,6 +129,8 @@ import GameMixin from '~/components/game/GameMixin.vue'
 
 import NumPad from '~/components/game/NumPad.vue'
 
+import StatisticComponent from '~/components/game/StatisticComponent.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
@@ -158,7 +161,8 @@ export default Vue.extend({
     GameMixin
   ],
   components: {
-    NumPad
+    NumPad,
+    StatisticComponent
   },
 
   props: {
@@ -188,7 +192,8 @@ export default Vue.extend({
       effects: {
         answer: '',
         answerTimerId: -1
-      }
+      },
+      statistic: null
     }
   },
   mounted() {
@@ -316,7 +321,7 @@ export default Vue.extend({
       this.gameTime = (new Date()).getTime() - this.gameStartTime
     },
 
-    addSprintScore() {
+    async addSprintScore() {
       const name = this.accountStore.account.name
       const mode = `${this.gameMode}-${this.questionCount}` as GameMode
       const score = this.getDisplayTime()
@@ -327,9 +332,10 @@ export default Vue.extend({
         createdAt: this.gameStartTime
       }
       this.scoreStore.addScore(e)
-      entryHiscore(e)
+      //@ts-ignore
+      this.statistic = await entryHiscore(e)
     },
-    addEndressScore() {
+    async addEndressScore() {
       if(this.score2 === 0) {
         return
       }
@@ -343,7 +349,8 @@ export default Vue.extend({
         createdAt: this.gameStartTime
       }
       this.scoreStore.addScore(e)
-      entryHiscore(e)
+      //@ts-ignore
+      this.statistic = await entryHiscore(e)
     }
   },
   computed: {

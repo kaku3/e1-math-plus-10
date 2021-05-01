@@ -12,6 +12,7 @@
         </v-row>
       </v-card-text>
       <v-card-text v-if="isEnd" class="green lighten-5">
+        <StatisticComponent :statistic="statistic" :isSprint="false" />
         <v-row class="ex-canvas text-center">
           <v-col cols="12" align-self="center">
             <v-btn
@@ -124,6 +125,8 @@ import GameMixin from '~/components/game/GameMixin.vue'
 
 import NumPad from '~/components/game/NumPad.vue'
 
+import StatisticComponent from '~/components/game/StatisticComponent.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
@@ -157,7 +160,8 @@ export default Vue.extend({
     GameMixin
   ],
   components: {
-    NumPad
+    NumPad,
+    StatisticComponent
   },
 
   data() {
@@ -179,7 +183,8 @@ export default Vue.extend({
       effects: {
         answer: '',
         answerTimerId: -1
-      }
+      },
+      statistic: null
     }
   },
   mounted() {
@@ -321,7 +326,7 @@ export default Vue.extend({
       return time === 0
     },
 
-    addSingleScore() {
+    async addSingleScore() {
       if(this.score2 === 0) {
         return
       }
@@ -335,7 +340,8 @@ export default Vue.extend({
         createdAt: this.gameStartTime
       }
       this.scoreStore.addScore(e)
-      entryHiscore(e)
+      //@ts-ignore
+      this.statistic = await entryHiscore(e)
     }
   },
   computed: {

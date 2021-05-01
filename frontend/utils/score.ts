@@ -3,7 +3,7 @@ import { ScoreEntity, MazeScoreEntity, JumpScoreEntity } from '~/models/Score'
 
 import { StatisticUtil } from '~/models/Statistic'
 
-export function entryHiscore(e: ScoreEntity) {
+export async function entryHiscore(e: ScoreEntity) {
   console.log(e)
   const db = firebase.firestore()
   db.collection('scores').add({
@@ -15,10 +15,11 @@ export function entryHiscore(e: ScoreEntity) {
   })
 
   const s = new StatisticUtil(e.mode)
-  s.update(e.score)
+  await s.update(e.score)
+  return s.save
 }
 
-export function entryMazeScore(e: MazeScoreEntity) {
+export async function entryMazeScore(e: MazeScoreEntity) {
   const uid = sessionStorage.getItem('uid') || ''
 
   const o = {
@@ -31,11 +32,12 @@ export function entryMazeScore(e: MazeScoreEntity) {
   db.collection('mazeScores').add(o)
 
   const s = new StatisticUtil('maze20')
-  s.update(e.floor)
+  await s.update(e.floor)
+  return s.save
 }
 
 
-export function entryJumpHiscore(e: JumpScoreEntity) {
+export async function entryJumpHiscore(e: JumpScoreEntity) {
   console.log(e)
   const db = firebase.firestore()
   db.collection('jumpScores').add({
@@ -47,5 +49,6 @@ export function entryJumpHiscore(e: JumpScoreEntity) {
   })
 
   const s = new StatisticUtil('jumpMan')
-  s.update(e.score)
+  await s.update(e.score)
+  return s.save
 }
