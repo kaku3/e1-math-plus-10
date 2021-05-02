@@ -417,9 +417,9 @@ export const JumpCharacters:JumpCharacter[] = [
     },
     mode: 'modeSingle',
     field: 'count',
-    condition: "ヒトケタス：1000回",
+    condition: "ヒトケタス：100回",
     cond: 'GE',
-    value: 1000,
+    value: 100,
     to: '/game-plus-single/modeSingle'
   },
 
@@ -434,9 +434,9 @@ export const JumpCharacters:JumpCharacter[] = [
     },
     mode: 'minusSprint-10',
     field: 'count',
-    condition: "ひきざん２０：10問モード1000回",
+    condition: "ひきざん２０：10問モード500回",
     cond: 'GE',
-    value: 1000,
+    value: 500,
     to: '/game-minus-20/modeSprint-10'
   },
   {
@@ -450,9 +450,9 @@ export const JumpCharacters:JumpCharacter[] = [
     },
     mode: 'mul99Sprint-10',
     field: 'count',
-    condition: "かけざん９９：10問モード1000回",
+    condition: "かけざん９９：10問モード300回",
     cond: 'GE',
-    value: 1000,
+    value: 300,
     to: '/game-mul-99/modeSprint-10'
   },
 
