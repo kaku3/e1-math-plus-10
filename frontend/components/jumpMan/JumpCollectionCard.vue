@@ -1,6 +1,12 @@
 <template>
   <v-card class="jump-collection-card mt-4" v-if="characters.length > 0">
-    <v-card-title class="head orange orange--text text--lighten-5">JUMP MAN COLLECTION</v-card-title>
+    <v-card-title class="head orange orange--text text--lighten-5">
+      <v-row>
+        <v-col cols="auto">JUMP MAN COLLECTION</v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto"><v-btn icon small to="/game-jump-man" color="orange lighten-5"><v-icon>mdi-play</v-icon></v-btn></v-col>
+      </v-row>
+    </v-card-title>
     <v-list dense>
       <template v-for="(c, i) in characters">
         <v-list-item :key="i">
