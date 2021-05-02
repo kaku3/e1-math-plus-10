@@ -12,7 +12,7 @@
           <div class="name white--text">{{o.name}}</div>
         </div>
         <div v-else>
-          <div class="frame" @click="onCondition(i)">
+          <div class="frame" :class="{ select: select == i }" @click="onCondition(i)">
             <div class="unknown yellow--text">?</div>
           </div>
           <div class="name white--text">unknown</div>
@@ -50,6 +50,11 @@
       border-radius: 4px;
       border: 4px solid #03A9F4;
 
+      &.select {
+        transition: border-color .5s;
+        border-color: #E1F5FE;
+      }
+
       > .unknown {
         margin-top: 8px;
         font-family: 'Press Start 2P', cursive;
@@ -85,6 +90,7 @@ export default Vue.extend({
   data () {
     return {
       mode: 'title',
+      select: -1,
       showCondition: false,
       condition: '',
       values: Array(JumpCharacters.length).fill(0),
@@ -97,6 +103,7 @@ export default Vue.extend({
   methods: {
     // ゲーム開始
     onStart(n:number) {
+      this.showCondition = false
       this.mode = 'game'
       this.$nextTick(() => {
         //@ts-ignore
@@ -105,6 +112,13 @@ export default Vue.extend({
     },
     // 取得条件を表示
     onCondition(n:number) {
+      if(this.select == n) {
+        this.$router.replace({ path: JumpCharacters[n].to })
+        return
+      }
+
+      this.select = n
+
       this.condition = `${JumpCharacters[n].condition} (${this.values[n]})`
       this.showCondition = true
     },

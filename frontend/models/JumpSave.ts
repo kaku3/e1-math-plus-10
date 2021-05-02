@@ -54,7 +54,8 @@ export interface JumpCharacter {
   field: string
   condition: string
   cond: 'GE' | 'LE'
-  value: number
+  value: number,
+  to: string
 }
 
 export const JumpCharacters:JumpCharacter[] = [
@@ -71,7 +72,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: '',
     condition: "なし",
     cond: 'GE',
-    value: 0
+    value: 0,
+    to: ''
   },
 
   {
@@ -87,7 +89,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "たして１０：３０問モードを10回",
     cond: 'GE',
-    value: 10
+    value: 10,
+    to: '/game-plus-10/modeSprint-30'
   },
 
   {
@@ -103,7 +106,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "ヒトケタス：10回",
     cond: 'GE',
-    value: 10
+    value: 10,
+    to: '/game-plus-single/modeSingle'
   },
 
   {
@@ -119,7 +123,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "ひきざん２０：３０問モードを10回",
     cond: 'GE',
-    value: 10
+    value: 10,
+    to: '/game-minus-20/minusSprint-30'
   },
   {
     id: JUMP_CHARACTERS.BLACKSMITH,
@@ -134,7 +139,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "かけざん９９：３０問モードを10回",
     cond: 'GE',
-    value: 10
+    value: 10,
+    to: '/game-mul-99/mul99Sprint-30'
   },
   {
     id: JUMP_CHARACTERS.ALCHEMIST,
@@ -149,7 +155,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "たして１０：１０問モード20秒",
     cond: 'LE',
-    value: 20
+    value: 20,
+    to: '/game-plus-10/modeSprint-10'
   },
 
   {
@@ -165,7 +172,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "たして１０：１０問モード8秒",
     cond: 'LE',
-    value: 8
+    value: 8,
+    to: '/game-plus-10/modeSprint-10'
   },
 
   {
@@ -181,7 +189,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "たして１０：１０問モード6秒",
     cond: 'LE',
-    value: 6
+    value: 6,
+    to: '/game-plus-10/modeSprint-10'
   },
   {
     id: JUMP_CHARACTERS.ARCHER,
@@ -196,7 +205,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "ヒトケタス：100万点",
     cond: 'GE',
-    value: 1000000
+    value: 1000000,
+    to: '/game-plus-single/modeSingle'
   },
 
   {
@@ -212,7 +222,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "ヒトケタス：300万点",
     cond: 'GE',
-    value: 3000000
+    value: 3000000,
+    to: '/game-plus-single/modeSingle'
   },
   {
     id: JUMP_CHARACTERS.BISHOP,
@@ -227,7 +238,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "ヒトケタス：400万点",
     cond: 'GE',
-    value: 4000000
+    value: 4000000,
+    to: '/game-plus-single/modeSingle'
   },
 
   {
@@ -243,7 +255,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "ひきざん２０：１０問モード30秒",
     cond: 'LE',
-    value: 30
+    value: 30,
+    to: '/game-minus-20/minusSprint-10'
   },
 
   {
@@ -259,7 +272,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "ひきざん２０：１０問モード9秒",
     cond: 'LE',
-    value: 9
+    value: 9,
+    to: '/game-minus-20/minusSprint-10'
   },
   {
     id: JUMP_CHARACTERS.HEAVYKNIGHT,
@@ -274,7 +288,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "ひきざん２０：１０問モード7秒",
     cond: 'LE',
-    value: 7
+    value: 7,
+    to: '/game-minus-20/minusSprint-10'
   },
 
   {
@@ -290,7 +305,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "かけざん９９：１０問モード30秒",
     cond: 'LE',
-    value: 30
+    value: 30,
+    to: '/game-mul-99/mul99Sprint-10'
   },
   {
     id: JUMP_CHARACTERS.ELITEKNIGHT,
@@ -305,7 +321,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "かけざん９９：１０問モード10秒",
     cond: 'LE',
-    value: 10
+    value: 10,
+    to: '/game-mul-99/mul99Sprint-10'
   },
   {
     id: JUMP_CHARACTERS.LARGEELITEKNIGHT,
@@ -320,7 +337,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "かけざん９９：１０問モード8秒",
     cond: 'LE',
-    value: 8
+    value: 8,
+    to: '/game-mul-99/mul99Sprint-10'
   },
 
   {
@@ -336,8 +354,10 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "めいろ２０：5階",
     cond: 'GE',
-    value: 5
-  }, {
+    value: 5,
+    to: '/game-maze-20'
+  },
+  {
     id: JUMP_CHARACTERS.NORMALNUN,
     name: "NORMAL NUN",
     status: {
@@ -350,8 +370,10 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "めいろ２０：15階",
     cond: 'GE',
-    value: 15
-  }, {
+    value: 15,
+    to: '/game-maze-20'
+  },
+  {
     id: JUMP_CHARACTERS.FATNUN,
     name: "FAT NUN",
     status: {
@@ -364,7 +386,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'score',
     condition: "めいろ２０：クリア",
     cond: 'GE',
-    value: 21
+    value: 21,
+    to: '/game-maze-20'
   },
 
   {
@@ -380,7 +403,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "たして１０：10問モード1000回",
     cond: 'GE',
-    value: 1000
+    value: 1000,
+    to: '/game-plus-10/modeSprint-10'
   },
   {
     id: JUMP_CHARACTERS.QUEEN,
@@ -395,7 +419,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "ヒトケタス：1000回",
     cond: 'GE',
-    value: 1000
+    value: 1000,
+    to: '/game-plus-single/modeSingle'
   },
 
   {
@@ -411,7 +436,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "ひきざん２０：10問モード1000回",
     cond: 'GE',
-    value: 1000
+    value: 1000,
+    to: '/game-minus-20/modeSprint-10'
   },
   {
     id: JUMP_CHARACTERS.MOUNTAINKING,
@@ -426,7 +452,8 @@ export const JumpCharacters:JumpCharacter[] = [
     field: 'count',
     condition: "かけざん９９：10問モード1000回",
     cond: 'GE',
-    value: 1000
+    value: 1000,
+    to: '/game-mul-99/modeSprint-10'
   },
 
 ]
