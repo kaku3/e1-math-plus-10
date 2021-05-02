@@ -50,7 +50,6 @@
 </style>
 <script lang="ts">
 import Vue from 'vue'
-import { PropType } from 'vue'
 
 import { JumpCharacter, JumpCharacters, JumpSaveUtil } from '~/models/JumpSave'
 import { StatisticEntity } from '~/models/Statistic'

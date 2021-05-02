@@ -452,6 +452,10 @@ export class JumpSaveUtil {
     return characters.map(c => {
       //@ts-ignore
       const value = statistic[c.field]
+      if(value == -1) {
+        return false
+      }
+      console.log(value, c.cond, c.value)
       if((c.cond == 'GE' && value >= c.value)
       || (c.cond == 'LE' && Math.floor(value) <= c.value)
       ){

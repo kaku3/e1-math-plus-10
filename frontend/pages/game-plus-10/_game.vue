@@ -9,6 +9,7 @@
     <Chat room="all" v-if="isEnd" />
 
     <GetStarScreen v-if="showGetStarScreen" :nextConditionCount="nextConditionCount" @dismiss="onDismissGetStarScreen" />
+    <JumpCollectionGetScreen ref="jumpCollectionGetScreen" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -29,6 +30,8 @@ import GamePlus10 from '~/components/e1/GamePlus10.vue'
 import ReadyScreen from '~/components/game/ReadyScreen.vue'
 import GetStarScreen from '~/components/effects/GetStarScreen.vue'
 
+import JumpCollectionGetScreen from '~/components/jumpMan/JumpCollectionGetScreen.vue'
+
 export default Vue.extend({
   mixins: [
     GamePageMixin
@@ -36,7 +39,8 @@ export default Vue.extend({
   components: {
     GamePlus10,
     ReadyScreen,
-    GetStarScreen
+    GetStarScreen,
+    JumpCollectionGetScreen
   },
   async asyncData(context: Context) {
     const params = context.params

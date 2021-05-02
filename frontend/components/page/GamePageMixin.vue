@@ -38,6 +38,9 @@ export default Vue.extend({
             const se = new Audio(seGetStar)
             se.play()
           }
+        } else {
+          //@ts-ignore
+          this.$refs['jumpCollectionGetScreen'].init(this.gameMode_)
         }
       } else if(mode === 'game') {
         this._starCount = this.dailyStarCount
@@ -49,6 +52,9 @@ export default Vue.extend({
 
     onDismissGetStarScreen() {
       this.showGetStarScreen = false
+
+      //@ts-ignore
+      this.$refs['jumpCollectionGetScreen'].init(this.gameMode_)
     }
   },
   computed: {
