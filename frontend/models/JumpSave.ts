@@ -1,5 +1,7 @@
 import firebase from '@/plugins/firebase'
 
+import { StatisticEntity } from '~/models/Statistic'
+
 export enum JUMP_CHARACTERS {
   TOWNS_FORK,
 
@@ -48,6 +50,8 @@ export interface JumpCharacter {
   id: JUMP_CHARACTERS
   name: string
   status: JumpCharacterStatus
+  mode: string
+  field: string
   condition: string
   cond: 'GE' | 'LE'
   value: number
@@ -63,6 +67,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 1
     },
+    mode: '',
+    field: '',
     condition: "なし",
     cond: 'GE',
     value: 0
@@ -77,7 +83,9 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 1
     },
-    condition: "たして１０：３０問モードを１０回",
+    mode: 'modeSprint-30',
+    field: 'count',
+    condition: "たして１０：３０問モードを10回",
     cond: 'GE',
     value: 10
   },
@@ -91,7 +99,9 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.95,
       life: 1
     },
-    condition: "ヒトケタス：１０回",
+    mode: 'modeSingle',
+    field: 'count',
+    condition: "ヒトケタス：10回",
     cond: 'GE',
     value: 10
   },
@@ -105,7 +115,9 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.95,
       life: 1
     },
-    condition: "ひきざん２０：３０問モードを１０回",
+    mode: 'minusSprint-30',
+    field: 'count',
+    condition: "ひきざん２０：３０問モードを10回",
     cond: 'GE',
     value: 10
   },
@@ -118,7 +130,9 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.95,
       life: 1
     },
-    condition: "かけざん９９：３０問モードを１０回",
+    mode: 'mul99Sprint-30',
+    field: 'count',
+    condition: "かけざん９９：３０問モードを10回",
     cond: 'GE',
     value: 10
   },
@@ -131,6 +145,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.8,
       life: 1
     },
+    mode: 'modeSprint-10',
+    field: 'score',
     condition: "たして１０：１０問モード20秒",
     cond: 'LE',
     value: 20
@@ -145,6 +161,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.6,
       life: 1
     },
+    mode: 'modeSprint-10',
+    field: 'score',
     condition: "たして１０：１０問モード8秒",
     cond: 'LE',
     value: 8
@@ -159,6 +177,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1.3,
       life: 1
     },
+    mode: 'modeSprint-10',
+    field: 'score',
     condition: "たして１０：１０問モード6秒",
     cond: 'LE',
     value: 6
@@ -172,6 +192,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1.2,
       life: 1
     },
+    mode: 'modeSingle',
+    field: 'score',
     condition: "ヒトケタス：100万点",
     cond: 'GE',
     value: 1000000
@@ -186,6 +208,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.9,
       life: 2
     },
+    mode: 'modeSingle',
+    field: 'score',
     condition: "ヒトケタス：300万点",
     cond: 'GE',
     value: 3000000
@@ -199,6 +223,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.9,
       life: 2
     },
+    mode: 'modeSingle',
+    field: 'score',
     condition: "ヒトケタス：400万点",
     cond: 'GE',
     value: 4000000
@@ -213,6 +239,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 2
     },
+    mode: 'minusSprint-10',
+    field: 'score',
     condition: "ひきざん２０：１０問モード30秒",
     cond: 'LE',
     value: 30
@@ -227,6 +255,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 2
     },
+    mode: 'minusSprint-10',
+    field: 'score',
     condition: "ひきざん２０：１０問モード9秒",
     cond: 'LE',
     value: 9
@@ -240,6 +270,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 3
     },
+    mode: 'minusSprint-10',
+    field: 'score',
     condition: "ひきざん２０：１０問モード7秒",
     cond: 'LE',
     value: 7
@@ -254,6 +286,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.8,
       life: 3
     },
+    mode: 'mul99Sprint-10',
+    field: 'score',
     condition: "かけざん９９：１０問モード30秒",
     cond: 'LE',
     value: 30
@@ -267,6 +301,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1.1,
       life: 2
     },
+    mode: 'mul99Sprint-10',
+    field: 'score',
     condition: "かけざん９９：１０問モード10秒",
     cond: 'LE',
     value: 10
@@ -280,6 +316,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1.1,
       life: 3
     },
+    mode: 'mul99Sprint-10',
+    field: 'score',
     condition: "かけざん９９：１０問モード8秒",
     cond: 'LE',
     value: 8
@@ -294,6 +332,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.8,
       life: 2
     },
+    mode: 'maze20',
+    field: 'score',
     condition: "めいろ２０：5階",
     cond: 'GE',
     value: 5
@@ -306,6 +346,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.9,
       life: 2
     },
+    mode: 'maze20',
+    field: 'score',
     condition: "めいろ２０：15階",
     cond: 'GE',
     value: 15
@@ -318,6 +360,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 0.7,
       life: 2
     },
+    mode: 'maze20',
+    field: 'score',
     condition: "めいろ２０：クリア",
     cond: 'GE',
     value: 21
@@ -332,6 +376,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 2
     },
+    mode: 'modeSprint-10',
+    field: 'count',
     condition: "たして１０：10問モード1000回",
     cond: 'GE',
     value: 1000
@@ -345,6 +391,8 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1,
       life: 3
     },
+    mode: 'modeSingle',
+    field: 'count',
     condition: "ヒトケタス：1000回",
     cond: 'GE',
     value: 1000
@@ -359,7 +407,9 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1.1,
       life: 3
     },
-    condition: "ひきざん２０：1000回",
+    mode: 'minusSprint-10',
+    field: 'count',
+    condition: "ひきざん２０：10問モード1000回",
     cond: 'GE',
     value: 1000
   },
@@ -372,7 +422,9 @@ export const JumpCharacters:JumpCharacter[] = [
       jp: 1.1,
       life: 4
     },
-    condition: "かけざん９９：1000回",
+    mode: 'mul99Sprint-10',
+    field: 'count',
+    condition: "かけざん９９：10問モード1000回",
     cond: 'GE',
     value: 1000
   },
@@ -395,6 +447,18 @@ export class JumpSaveUtil {
 
     this.uid = uid
     this.save = this.newSave()
+  }
+  static hasCharacters(characters:JumpCharacter[], statistic:StatisticEntity) {
+    return characters.map(c => {
+      //@ts-ignore
+      const value = statistic[c.field]
+      if((c.cond == 'GE' && value >= c.value)
+      || (c.cond == 'LE' && Math.floor(value) <= c.value)
+      ){
+        return true
+      }
+      return false
+    })
   }
 
   newSave():JumpSave {

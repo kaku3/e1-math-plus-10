@@ -79,6 +79,7 @@
 
     <NumPad ref="numPad" v-if="isGame" @tap="onTap"></NumPad>
 
+    <JumpCollectionCard v-if="isEnd" ref="jumpCollectionCard" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -131,6 +132,8 @@ import NumPad from '~/components/game/NumPad.vue'
 
 import StatisticComponent from '~/components/game/StatisticComponent.vue'
 
+import JumpCollectionCard from '~/components/jumpMan/JumpCollectionCard.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import AccountStore from '~/store/AccountStore'
 import ScoreStore from '~/store/ScoreStore'
@@ -162,7 +165,8 @@ export default Vue.extend({
   ],
   components: {
     NumPad,
-    StatisticComponent
+    StatisticComponent,
+    JumpCollectionCard
   },
 
   props: {
@@ -338,6 +342,8 @@ export default Vue.extend({
       this.scoreStore.addScore(e)
       //@ts-ignore
       this.statistic = await entryHiscore(e)
+      //@ts-ignore
+      this.$refs['jumpCollectionCard'].init(mode, this.statistic)
     },
     async addEndressScore() {
       if(this.score2 === 0) {
@@ -355,6 +361,8 @@ export default Vue.extend({
       this.scoreStore.addScore(e)
       //@ts-ignore
       this.statistic = await entryHiscore(e)
+      //@ts-ignore
+      this.$refs['jumpCollectionCard'].init(mode, this.statistic)
     }
   },
   computed: {
