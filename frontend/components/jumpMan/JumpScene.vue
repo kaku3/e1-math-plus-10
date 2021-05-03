@@ -307,8 +307,8 @@ export default Vue.extend({
                 x: f.x * cw,
                 y: -y - this.mapY,
                 width: cw * f.w,
-                height: 14,
-                fill: 'rgba(120,144,156, 0.8)',
+                height: 16,
+                fill: 'rgba(120,144,156, 0.85)',
                 stroke: '#263238',
                 strokeWidth: 1
               })
