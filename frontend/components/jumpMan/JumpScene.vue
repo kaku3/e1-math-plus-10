@@ -6,7 +6,7 @@
   margin: 24px 0;
   width: 320px;
   height: calc(100vh - 88px);
-  background-color: rgba(0,0,0, .25);
+  background-color: rgba(0,0,0, .1);
 }
 </style>
 <script lang="ts">
@@ -191,7 +191,7 @@ export default Vue.extend({
           y,
           width,
           height,
-          fill: '#607D8B'
+          fill: '#B0BEC5'
         })
       )
       this.setSteps(mapGroup, 0)
@@ -288,7 +288,9 @@ export default Vue.extend({
                 y: -y - yy,
                 width: cw * f.w,
                 height: 12,
-                fill: '#607D8B'
+                fill: 'rgba(120,144,156, 0.8)',
+                stroke: '#263238',
+                strokeWidth: 1
               })
               mapGroup.add(r)
             })
@@ -436,7 +438,7 @@ export default Vue.extend({
               this.statusNext = PLAYER_STATUS.JUMP4
 
               // スクロール速度
-              this.sy = Math.min(-this.py / 80, 32)
+              this.sy = Math.min(-this.py / 120, 36)
             }
           }
           if(this.dir == DIRECTION.RIGHT) {
@@ -537,7 +539,7 @@ export default Vue.extend({
 
       const oldSceneY = this.sceneY
       if(this.status == PLAYER_STATUS.WALK && -this.py > this.scrollY - stage.height() / 2) {
-        this.scrollY += 64 * frame.timeDiff / 1000
+        this.scrollY += 72 * frame.timeDiff / 1000
       } else {
         this.scrollY += this.sy * this.character.status.spy * frame.timeDiff / 1000
       }
