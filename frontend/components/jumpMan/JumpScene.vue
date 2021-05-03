@@ -51,6 +51,7 @@ type DataType = {
   sy: number  // スクロール速度(y)
   scrollY: number // スクロール量
   sceneY: number  // 画面換算
+  mapY: number  // 床を出した座標
   dir: DIRECTION,
   status: PLAYER_STATUS
   statusNext: PLAYER_STATUS
@@ -86,6 +87,7 @@ export default Vue.extend({
       sy: 0,
       scrollY: 0,
       sceneY: 0,
+      mapY: 0,
       dir: DIRECTION.RIGHT,
       status: PLAYER_STATUS.NULL,
       statusNext: PLAYER_STATUS.WALK,
@@ -130,6 +132,16 @@ export default Vue.extend({
 
       player = this.initPlayer(mapGroup, character)
 
+      layer.add(new Konva.Rect({
+          x: 0,
+          y: 0,
+          width,
+          height,
+          stroke: 'rgba(0,0,0, .25)',
+          strokeWidth: 2
+        })
+      )
+
       layer.add(mapGroup)
       layer.add(consoleGroup)
       stage.add(layer)
@@ -163,7 +175,10 @@ export default Vue.extend({
           text: 'SCORE 0',
           fontSize: 12,
           fontFamily: 'Press Start 2P',
-          fill: '#ECEFF1'
+          fill: '#ECEFF1',
+          shadowColor: 'black',
+          shadowOffset: { x: 0, y: 2 },
+          shadowOpacity: 0.5
       })
       lifeText = new Konva.Text({
           x: 320 - 8 - 12 * 6,
@@ -171,7 +186,10 @@ export default Vue.extend({
           text: 'LIFE 0',
           fontSize: 12,
           fontFamily: 'Press Start 2P',
-          fill: '#ECEFF1'
+          fill: '#ECEFF1',
+          shadowColor: 'black',
+          shadowOffset: { x: 0, y: 2 },
+          shadowOpacity: 0.5
       })
       consoleGroup.add(scoreText)
       consoleGroup.add(lifeText)
@@ -185,6 +203,7 @@ export default Vue.extend({
       let width = stage.width()
       let height = GROUND_HEIGHT
 
+      // 地面
       mapGroup.add(
         new Konva.Rect({
           x,
@@ -231,6 +250,7 @@ export default Vue.extend({
     },
 
     setSteps(mapGroup:Konva.Group, sceneY:number) {
+      console.log(`+ setSteps(${sceneY})`)
       const random = this.random
 
       const { steps, wMaxs } = this.getStageFloors()
@@ -245,7 +265,8 @@ export default Vue.extend({
         { step: 1, x0: ww/3, x1: ww*2/3, space: 0 },
       ]
 
-      for(let y = ch, n = 0; y < stage.height(); y += ch + random.nextInt(0, 4) * ch / 4, n++) {
+      let y = ch
+      for(let n = 0; y < stage.height(); y += ch + random.nextInt(0, 4) * ch / 4, n++) {
 
         while(true) {
           const step = steps[n % steps.length]  // 足場の個数
@@ -260,7 +281,7 @@ export default Vue.extend({
           let steps_ = []
 
           //@ts-ignore
-          for(let x = xx.x0 + ((y>>1)%2); x < xx.x1; x += 2) {
+          for(let x = xx.x0 + (n%2); x < xx.x1; x += 2) {
             const rr = random.nextFloat1()
             let w = 0
             if(rr < 0.6) {
@@ -281,13 +302,12 @@ export default Vue.extend({
             }
           }
           if(set == step) {
-            const yy = sceneY * stage.height()
             steps_.forEach(f => {
               const r = new Konva.Rect({
                 x: f.x * cw,
-                y: -y - yy,
+                y: -y - this.mapY,
                 width: cw * f.w,
-                height: 12,
+                height: 14,
                 fill: 'rgba(120,144,156, 0.8)',
                 stroke: '#263238',
                 strokeWidth: 1
@@ -298,6 +318,8 @@ export default Vue.extend({
           }
         }
       }
+      this.mapY += y
+
       player.moveToTop()
 
       // 画面外の床を消去
@@ -498,6 +520,9 @@ export default Vue.extend({
       }
     },
     startGame() {
+      console.log('+ startGame()')
+
+      this.mapY = 48
       this.initMap(mapGroup)
 
       this.px = stage.width() / 4
