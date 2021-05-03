@@ -83,12 +83,16 @@ import { entryJumpHiscore  } from '~/utils/score'
 
 const jumpSaveUtil = new JumpSaveUtil()
 
+import bgmTitle from '~/assets/jump/title.ogg'
+import bgmGame from '~/assets/jump/game.ogg'
+
 export default Vue.extend({
   components: {
     JumpScene
   },
   data () {
     return {
+      bgm: null,
       mode: 'title',
       select: -1,
       showCondition: false,
@@ -99,10 +103,15 @@ export default Vue.extend({
   },
   async mounted () {
     await this.update()
+    this.playBgm('title')
+  },
+  destroyed () {
+    this.stopBgm()
   },
   methods: {
     // ゲーム開始
     onStart(n:number) {
+      this.playBgm('game')
       this.showCondition = false
       this.mode = 'game'
       this.$nextTick(() => {
@@ -123,6 +132,7 @@ export default Vue.extend({
       this.showCondition = true
     },
     onOver(score:number, character:number) {
+      this.playBgm('title')
       this.mode = 'title'
 
       entryJumpHiscore({
@@ -184,7 +194,29 @@ export default Vue.extend({
           this.$set(this.hasCharacters, n, jumpSaveUtil.hasCharacter(n))
         }
       }
-    }
+    },
+    playBgm(file:string) {
+      this.stopBgm()
+      const bgms = {
+        'title': { f: bgmTitle, v: 0.4 },
+        'game': { f: bgmGame, v: 0.4 },
+      }
+      //@ts-ignore
+      const bgm_ = bgms[file]
+      const bgm = new Audio(bgm_.f)
+      bgm.loop = true
+      bgm.volume = bgm_.v
+      bgm.play()
+      //@ts-ignore
+      this.bgm = bgm
+    },
+    stopBgm() {
+      if(this.bgm) {
+        //@ts-ignore
+        this.bgm.pause()
+        this.bgm = null
+      }
+    },
   },
   computed: {
     accountStore() : AccountStore {

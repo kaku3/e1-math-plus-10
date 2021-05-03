@@ -16,6 +16,10 @@ import Random from '~/utils/Random'
 
 import { JumpCharacter, JumpCharacters } from '~/models/JumpSave'
 
+import seJump from '~/assets/jump/se-jump.mp3'
+import seLanding from '~/assets/jump/se-landing.mp3'
+import seDead from '~/assets/jump/se-dead.mp3'
+
 const XMAX = 320-8
 const XMIN = 8
 
@@ -140,6 +144,7 @@ export default Vue.extend({
       })
       stage.on('touchend', () => {
         if(this.status === PLAYER_STATUS.JUMP0) {
+          this.playSe('jump')
           this.statusNext = PLAYER_STATUS.JUMP1
         }
       })
@@ -424,6 +429,7 @@ export default Vue.extend({
           this.statusNext = PLAYER_STATUS.JUMP3
           break
         case PLAYER_STATUS.JUMP4:
+          this.playSe('landing')
           this.statusNext = PLAYER_STATUS.WALK
           break
       }
@@ -445,6 +451,7 @@ export default Vue.extend({
           this.py = -(this.scrollY + 32)
         }
         lifeText.text(`LIFE ${this.life}`)
+        this.playSe('dead')
       }
     },
     startGame() {
@@ -503,6 +510,19 @@ export default Vue.extend({
 
       this.execPlayer(frame)
     },
+
+    playSe(file:string) {
+      const ses = {
+        'jump': { f: seJump, v: 0.4 },
+        'landing': { f: seLanding, v: 0.4 },
+        'dead': { f: seDead, v: 0.4 },
+      }
+      //@ts-ignore
+      const se_ = ses[file]
+      const se = new Audio(se_.f)
+      se.volume = se_.v
+      se.play()
+    }
   }
 })
 </script>

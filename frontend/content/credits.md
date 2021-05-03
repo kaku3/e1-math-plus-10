@@ -15,10 +15,12 @@ description: Author of Graphics, Sounds, BGMs and so on, Thanks so much
 - [無料効果音で遊ぼう！](https://taira-komori.jpn.org/index.html)
 
 ## BGM
-- RoccoW
+- [RoccoW](https://freemusicarchive.org/music/RoccoW)
+- [OF FAR DIFFERENT NATURE](https://fardifferent.itch.io/)
 
 ## Planning / Programming
 - [kaku3](https://twitter.com/kaku3)
+
 
 <div class="text-center ma-4">
   <v-btn to="/"><v-icon>mdi-home</v-icon>ほーむ</v-btn>
