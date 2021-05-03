@@ -41,9 +41,7 @@ export async function entryJumpHiscore(e: JumpScoreEntity) {
   console.log(e)
   const db = firebase.firestore()
   db.collection('jumpScores').add({
-    name: e.name,
-    character: e.character,
-    score: e.score,
+    ...e,
     createdAt: new Date(e.createdAt).setHours(0,0,0,0),
     timestamp: e.createdAt
   })

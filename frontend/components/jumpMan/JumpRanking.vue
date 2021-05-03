@@ -58,9 +58,17 @@ import Vue from 'vue'
 import firebase from '~/plugins/firebase'
 
 export default Vue.extend({
+  props: {
+    stage: {
+      type: Number,
+      default: 0
+    }
+  },
+
   data() {
     const uid = sessionStorage.getItem('uid') || ''
     return {
+      timerId: -1,
       uid: uid,
       rankings: [] as Object[]
     }
@@ -74,6 +82,7 @@ export default Vue.extend({
       const startTime = (new Date()).setHours(0, 0, 0, 0)
       const db = firebase.firestore()
       const q = db.collection('jumpScores')
+        .where('stage', '==', this.stage)
         .orderBy('score', 'desc')
         .limit(100)
 
@@ -107,5 +116,17 @@ export default Vue.extend({
     }
 
   },
+  watch: {
+    stage: function(v: number) {
+      this.rankings = []
+      if(this.timerId != -1) {
+        window.clearTimeout(this.timerId)
+      }
+      this.timerId = window.setTimeout(() => {
+        this.timerId = -1
+        this.getRankings()
+      }, 3000)
+    }
+  }
 })
 </script>

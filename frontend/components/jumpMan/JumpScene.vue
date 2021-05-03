@@ -3,9 +3,10 @@
 </template>
 <style lang="scss" scoped>
 #game-canvas {
+  margin: 24px 0;
   width: 320px;
   height: calc(100vh - 88px);
-  background-color: #222;
+  background-color: rgba(0,0,0, .25);
 }
 </style>
 <script lang="ts">
@@ -41,6 +42,8 @@ enum DIRECTION {
 }
 
 type DataType = {
+  stg: number
+  random: Random
   mode: string
   px: number
   py: number
@@ -74,6 +77,8 @@ let loop:Konva.Animation
 export default Vue.extend({
   data(): DataType {
     return {
+      stg: 0,
+      random: new Random(),
       mode: 'init',
       px: 160,
       py: 0,
@@ -94,7 +99,9 @@ export default Vue.extend({
   mounted () {
   },
   methods: {
-    init(character:number) {
+    init(stg: number, character:number) {
+      this.stg = stg
+      this.random = new Random(stg)
       if(stage) {
         stage.destroy()
       }
@@ -138,7 +145,7 @@ export default Vue.extend({
             this.statusNext = PLAYER_STATUS.JUMP0
           }
         } else if(this.mode == 'over') {
-          this.$emit('over', this.score, this.character.id)
+          this.$emit('over', this.score, this.stg, this.character.id)
           loop.stop()
         }
       })
@@ -189,11 +196,44 @@ export default Vue.extend({
       )
       this.setSteps(mapGroup, 0)
     },
-    setSteps(mapGroup:Konva.Group, sceneY:number) {
-      const random = new Random((new Date()).getTime())
+    getStageFloors() {
+      const floors = [
+        {
+          steps: [ 3, 3, 1, 0, 3, 3, 1, 2, 3, 0, 2 ],
+          wMaxs: [ 4, 3, 6, 0, 5, 4, 12, 6, 4, 0, 6 ]
+        },
+        {
+          steps: [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ],
+          wMaxs: [ 4, 8, 6, 0, 5, 4, 12, 6, 4, 0, 6 ]
+        },
+        {
+          steps: [ 2, 2, 1, 0, 2, 3, 1, 3, 1, 0, 3 ],
+          wMaxs: [ 4, 8, 6, 0, 5, 4, 8, 4, 4, 0, 6 ]
+        },
+        {
+          steps: [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 1, 2 ],
+          wMaxs: [ 4, 8, 6, 0, 5, 4, 12, 6, 4, 2, 6 ]
+        },
+        {
+          steps: [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ],
+          wMaxs: [ 4, 8, 6, 0, 5, 4, 12, 6, 4, 0, 6 ]
+        },
+        {
+          steps: [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ],
+          wMaxs: [ 4, 7, 6, 0, 5, 4, 4, 6, 4, 0, 4 ]
+        },
+        {
+          steps: [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ],
+          wMaxs: [ 4, 8, 6, 0, 5, 4, 12, 6, 4, 0, 6 ]
+        },
+      ]
+      return floors[this.stg]
+    },
 
-      const steps = [ 3, 2, 1, 0, 2, 3, 1, 2, 3, 0, 2 ]
-      const wMaxs = [ 4, 8, 6, 0, 5, 4, 12, 6, 4, 0, 6 ]
+    setSteps(mapGroup:Konva.Group, sceneY:number) {
+      const random = this.random
+
+      const { steps, wMaxs } = this.getStageFloors()
 
       const cw = 16
       const ch = 48
@@ -395,7 +435,8 @@ export default Vue.extend({
               this.py = r.y - this.scrollY
               this.statusNext = PLAYER_STATUS.JUMP4
 
-              this.sy = Math.min(-this.py / 40, 48)
+              // スクロール速度
+              this.sy = Math.min(-this.py / 40, 24)
             }
           }
           if(this.dir == DIRECTION.RIGHT) {

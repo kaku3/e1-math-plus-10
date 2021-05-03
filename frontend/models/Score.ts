@@ -42,7 +42,9 @@ export interface MazeScoreEntity {
 }
 
 export interface JumpScoreEntity {
+  uid: string
   name: string
+  stage: number
   character: number
   score: number
   createdAt: number

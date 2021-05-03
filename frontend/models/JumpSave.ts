@@ -461,7 +461,7 @@ export const JumpCharacters:JumpCharacter[] = [
 export interface JumpSave {
   uid: string
   characterFlg: number
-  score: number
+  scores: number[]
   playCount: number
 }
 
@@ -496,7 +496,7 @@ export class JumpSaveUtil {
     return {
       uid: this.uid,
       characterFlg: 1,
-      score: 0,
+      scores: Array(7).fill(0),
       playCount: 0
     }
   }
@@ -508,6 +508,9 @@ export class JumpSaveUtil {
     if(r.exists) {
       //@ts-ignore
       this.save = r.data()
+      if(!this.save.scores) {
+        this.save.scores = Array(7).fill(0)
+      }
     } else {
       q.set(this.save)
     }

@@ -1,42 +1,52 @@
 <template>
-  <div class="game-container">
-    <v-row v-if="isTitle" justify="center">
-      <div class="game-title orange--text">JUMP MAN</div>
-    </v-row>
-    <v-row v-if="isTitle" justify="center">
-      <v-col cols="3" v-for="(o, i) in characters" :key="i" class="character text-center">
-        <div v-if="hasCharacters[i]">
-          <div class="frame" @click="onStart(i)">
-            <div :class="`c c${i}`"></div>
+  <div :class="`game-background-container bg-${bgs[stage]}`">
+    <div class="game-container" :class="{ title: isTitle }">
+      <v-row v-if="isTitle" justify="center">
+        <div class="game-title orange--text">JUMP MAN</div>
+      </v-row>
+      <v-carousel  v-if="isTitle" justify="center" :height="168" v-model="stage">
+        <v-carousel-item v-for="(bg, i) in bgs" :key="i">
+          <div :class="`bg bg-${bg}`"></div>
+        </v-carousel-item>
+      </v-carousel>
+      <v-row v-if="isTitle" justify="center" class="blue-grey darken-3">
+        <v-col cols="3" v-for="(o, i) in characters" :key="i" class="character text-center">
+          <div v-if="hasCharacters[i]">
+            <div class="frame" @click="onStart(i)">
+              <div :class="`c c${i}`"></div>
+            </div>
+            <div class="name white--text">{{o.name}}</div>
           </div>
-          <div class="name white--text">{{o.name}}</div>
-        </div>
-        <div v-else>
-          <div class="frame" :class="{ select: select == i }" @click="onCondition(i)">
-            <div class="unknown yellow--text">?</div>
+          <div v-else>
+            <div class="frame" :class="{ select: select == i }" @click="onCondition(i)">
+              <div class="unknown yellow--text">?</div>
+            </div>
+            <div class="name white--text">unknown</div>
           </div>
-          <div class="name white--text">unknown</div>
-        </div>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
 
-    <v-row justify="center" v-if="isGame">
-      <JumpScene ref="jump-scene" class="game-scene mt-4" @over="onOver" />
-    </v-row>
+      <v-row justify="center" v-if="isGame">
+        <JumpScene ref="jump-scene" class="game-scene" @over="onOver" />
+      </v-row>
 
-    <JumpRanking v-if="isTitle" class="mt-4" />
+      <JumpRanking v-if="isTitle" class="mt-4" :stage="stage" />
 
-    <v-snackbar v-model="showCondition">
-      {{ condition }}
-    </v-snackbar>
+      <v-snackbar v-model="showCondition">
+        {{ condition }}
+      </v-snackbar>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped src="./characters.scss" />
 <style lang="scss" scoped>
 .game-container {
+  &.title {
+    background-color: rgba(0,0,0, .5);
+  }
 
   .game-title {
-    padding: 1rem;
+    padding: 1.5rem 1.5rem .5rem;
     font-family: 'Press Start 2P', cursive;
     font-size: 4rem;
     letter-spacing: 1.2rem;
@@ -48,6 +58,7 @@
       width: 48px;
       height: 48px;
       border-radius: 4px;
+      background-color: rgba(0,0,0, .25);
       border: 4px solid #03A9F4;
 
       &.select {
@@ -61,12 +72,45 @@
       }
     }
     > .name {
-      font-size: .7rem;
+      font-size: .65rem;
+      line-height: 1.1;
+      text-shadow: 0 1px 1px rgba(0,0,0, .5);
     }
   }
   .v-snack {
     font-family: 'Press Start 2P', 'DotGothic16';
   }
+
+  .v-carousel {
+    margin: 8px 0 16px;
+    border-radius: 8px;
+
+    .bg {
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+  }
+
+}
+@for $i from 0 through 12 {
+  .bg-#{$i} {
+    background-image: url(~assets/bg/bg-#{$i}.jpg);
+  }
+}
+
+.game-background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+
+  background-color: #263238;
+  background-position: top center;
+  background-size: cover;
+
 }
 </style>
 <script lang="ts">
@@ -92,8 +136,10 @@ export default Vue.extend({
   },
   data () {
     return {
+      bgs: [ 11, 12, 7, 3, 6, 2, 4, ],
       bgm: null,
       mode: 'title',
+      stage: 0,
       select: -1,
       showCondition: false,
       condition: '',
@@ -109,6 +155,7 @@ export default Vue.extend({
     this.stopBgm()
   },
   methods: {
+
     // ゲーム開始
     onStart(n:number) {
       this.playBgm('game')
@@ -116,7 +163,7 @@ export default Vue.extend({
       this.mode = 'game'
       this.$nextTick(() => {
         //@ts-ignore
-        this.$refs['jump-scene'].init(n)
+        this.$refs['jump-scene'].init(this.stage, n)
       })
     },
     // 取得条件を表示
@@ -131,19 +178,23 @@ export default Vue.extend({
       this.condition = `${JumpCharacters[n].condition} (${this.values[n]})`
       this.showCondition = true
     },
-    onOver(score:number, character:number) {
+    onOver(score:number, stg:number, character:number) {
       this.playBgm('title')
       this.mode = 'title'
 
+      const uid = sessionStorage.getItem('uid') || ''
+
       entryJumpHiscore({
+        uid,
         name: this.accountStore.account.name,
+        stage: stg,
         character: character,
         score,
         createdAt: (new Date()).getTime()
       })
 
-      if(jumpSaveUtil.save.score < score) {
-        jumpSaveUtil.save.score = score
+      if(jumpSaveUtil.save.scores[stg] < score) {
+        jumpSaveUtil.save.scores[stg] = score
         jumpSaveUtil.save.playCount++
       }
       this.update()
