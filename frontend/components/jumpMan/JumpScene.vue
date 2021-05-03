@@ -436,7 +436,7 @@ export default Vue.extend({
               this.statusNext = PLAYER_STATUS.JUMP4
 
               // スクロール速度
-              this.sy = Math.min(-this.py / 40, 24)
+              this.sy = Math.min(-this.py / 80, 32)
             }
           }
           if(this.dir == DIRECTION.RIGHT) {
