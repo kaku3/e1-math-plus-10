@@ -23,8 +23,5 @@ description: Author of Graphics, Sounds, BGMs and so on, Thanks so much
 
 
 <div class="text-center ma-4">
-  <v-btn to="/"><v-icon>mdi-home</v-icon>ほーむ</v-btn>
-</div>
-<div class="text-center ma-4">
 &copy; 2021 kaku3
 </div>
