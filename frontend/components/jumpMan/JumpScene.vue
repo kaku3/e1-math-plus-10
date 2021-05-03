@@ -198,6 +198,8 @@ export default Vue.extend({
     initMap(mapGroup:Konva.Group) {
       mapGroup.destroyChildren()
 
+      this.mapY = 56
+
       let x = 0
       let y = 0
       let width = stage.width()
@@ -265,7 +267,7 @@ export default Vue.extend({
         { step: 1, x0: ww/3, x1: ww*2/3, space: 0 },
       ]
 
-      let y = ch
+      let y = 0
       for(let n = 0; y < stage.height(); y += ch + random.nextInt(0, 4) * ch / 4, n++) {
 
         while(true) {
@@ -522,7 +524,6 @@ export default Vue.extend({
     startGame() {
       console.log('+ startGame()')
 
-      this.mapY = 48
       this.initMap(mapGroup)
 
       this.px = stage.width() / 4

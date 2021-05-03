@@ -125,7 +125,7 @@ export default Vue.extend({
       this.timerId = window.setTimeout(() => {
         this.timerId = -1
         this.getRankings()
-      }, 3000)
+      }, 1500)
     }
   }
 })
