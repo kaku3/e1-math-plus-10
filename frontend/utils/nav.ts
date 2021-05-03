@@ -112,6 +112,17 @@ export default function nav() {
           },
         ]
       },
+      {
+        section: '',
+        cls: 'global',
+        items: [
+          {
+          icon: 'mdi-creative-commons',
+          title: 'クレジット表記',
+          to: '/credits',
+          }
+        ]
+      },
     ],
     miniVariant: false,
     title: '小１からのさんすうゲーム',

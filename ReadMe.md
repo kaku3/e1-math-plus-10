@@ -15,3 +15,6 @@ frontend/
     ↓コピーして書き換え
   env.development.js
 ```
+
+## クレジット
+[クレジット表記](https://github.com/kaku3/e1-math-plus-10/tree/master/frontend/content/credits.md)
