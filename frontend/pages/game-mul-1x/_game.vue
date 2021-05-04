@@ -1,0 +1,55 @@
+<template>
+  <div class="game-page">
+    <GameMul1x :gameMode="mode" :questionCount="count" @change-mode="onChangeMode" @ready="onReady" />
+    <ReadyScreen v-if="isReady" :readyCount="readyCount_" />
+
+    <div class="share-container" v-if="isEnd">
+      <Share />
+    </div>
+    <Chat room="all" v-if="isEnd" />
+
+    <GetStarScreen v-if="showGetStarScreen" :nextConditionCount="nextConditionCount" @dismiss="onDismissGetStarScreen" />
+    <JumpCollectionGetScreen ref="jumpCollectionGetScreen" />
+  </div>
+</template>
+<style lang="scss" scoped>
+.game-page {
+  min-height: calc(100vh - 80px);
+}
+.share-container {
+  position: fixed;
+  bottom:0;
+}
+</style>
+<script lang="ts">
+import Vue from 'vue'
+import { Context } from '@nuxt/types'
+
+import GamePageMixin from '~/components/page/GamePageMixin.vue'
+import GameMul1x from '~/components/e3/GameMul1x.vue'
+import ReadyScreen from '~/components/game/ReadyScreen.vue'
+import GetStarScreen from '~/components/effects/GetStarScreen.vue'
+
+import JumpCollectionGetScreen from '~/components/jumpMan/JumpCollectionGetScreen.vue'
+
+export default Vue.extend({
+  mixins: [
+    GamePageMixin
+  ],
+  components: {
+    GameMul1x,
+    ReadyScreen,
+    GetStarScreen,
+    JumpCollectionGetScreen
+  },
+  async asyncData(context: Context) {
+    const params = context.params
+    const [ mode, count ] = params.game.split('-')
+    return {
+      gameMode_: params.game,
+      mode: mode,
+      count: parseInt(count) || -1
+    }
+  },
+})
+</script>

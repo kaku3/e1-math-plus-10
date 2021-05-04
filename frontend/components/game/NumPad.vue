@@ -16,6 +16,11 @@
         <v-col cols="4"><v-btn @pointerdown="onClick(8)" :class="{ selected : isSelected(8) }">8</v-btn></v-col>
         <v-col cols="4"><v-btn @pointerdown="onClick(9)" :class="{ selected : isSelected(9) }">9</v-btn></v-col>
       </v-row>
+      <v-row justify="center" v-if="showFunctions">
+        <v-col cols="4"><v-btn @pointerdown="onClick(10)">C</v-btn></v-col>
+        <v-col cols="4"><v-btn @pointerdown="onClick(0)" :class="{ selected : isSelected(0) }">0</v-btn></v-col>
+        <v-col cols="4"><v-btn @pointerdown="onClick(11)">=</v-btn></v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -44,6 +49,10 @@ export default Vue.extend({
     mode: {
       type: String,
       default: 'tap'
+    },
+    showFunctions: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -56,7 +65,7 @@ export default Vue.extend({
   },
   methods: {
     reset() {
-      this.selected = Array(10).fill(false)
+      this.selected = Array(12).fill(false)
     },
     onClick(v: number) {
       if(this.mode === 'select') {

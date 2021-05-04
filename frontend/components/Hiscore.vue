@@ -89,6 +89,7 @@ export default Vue.extend({
       && this.gameMode !== 'modeSingle'
       && this.gameMode !== 'minusEndress'
       && this.gameMode !== 'mul99Endress'
+      && this.gameMode !== 'mul1xEndress'
       ) {
         return score.toFixed(2)
       }
@@ -135,6 +136,16 @@ export default Vue.extend({
         case 'mul99Endress':
           es = this.scoreStore.mul99EndressHiscores
           break
+
+        case 'mul1xSprint-10':
+          es = this.scoreStore.mul1xSprint10Hiscores
+          break
+        case 'mul1xSprint-30':
+          es = this.scoreStore.mul1xSprint30Hiscores
+          break
+        case 'mul1xEndress':
+          es = this.scoreStore.mul1xEndressHiscores
+          break
       }
       if(!es) {
         return []
@@ -175,6 +186,7 @@ export default Vue.extend({
       ||  this.gameMode == 'modeSingle'
       ||  this.gameMode == 'minusEndress'
       ||  this.gameMode == 'mul99Endress'
+      ||  this.gameMode == 'mul1xEndress'
       ) {
         return this.gameMode
       } else {

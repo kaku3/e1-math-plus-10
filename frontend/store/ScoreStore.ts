@@ -84,6 +84,27 @@ export default class ScoreStore extends VuexModule {
     return scores
   }
 
+  public get mul1xSprint10Hiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'mul1xSprint-10')
+      .sort((a, b) => a.score - b.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
+  public get mul1xSprint30Hiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'mul1xSprint-30')
+      .sort((a, b) => a.score - b.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
+  public get mul1xEndressHiscores(): ScoreEntity[] {
+    let scores = this.scores
+      .filter(v => v.mode === 'mul1xEndress')
+      .sort((a, b) => b.score - a.score)
+    scores = scores.slice(0, 10)
+    return scores
+  }
 
   @Mutation
   setScores(scores: ScoreEntity[]) {

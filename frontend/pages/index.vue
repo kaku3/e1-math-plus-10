@@ -35,6 +35,14 @@
       </v-col>
     </v-row>
 
+    <v-subheader>３ねんせい</v-subheader>
+    <v-row>
+      <v-col cols="12" md="6" lg="4">
+        <BannerMul1x />
+        <DailySummary game="mul-1x" />
+      </v-col>
+    </v-row>
+
     <v-row>
       <v-col cols="12">
         <DailyEntry />

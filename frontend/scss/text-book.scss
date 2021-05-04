@@ -1,0 +1,11 @@
+::v-deep {
+  .nuxt-content {
+    h1 {
+      margin-bottom: 1rem;
+    }
+    code {
+      padding: 0;
+      background-color: inherit!important;
+    }
+  }
+}

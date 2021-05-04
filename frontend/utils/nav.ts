@@ -68,6 +68,24 @@ export default function nav() {
         ]
       },
       {
+        section: '３ねんせい',
+        cls: 'e3',
+        items: [
+          {
+            section: '',
+            icon: 'mdi-playlist-edit',
+            title: 'かけざん１ｘ',
+            to: {
+              name: 'game-mul-1x',
+              params: {
+                mode: 'mul1xSprint',
+                count: 10
+              }
+            }
+          },
+        ]
+      },
+      {
         section: 'おまけ',
         cls: 'games',
         items: [
