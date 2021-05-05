@@ -146,10 +146,10 @@ import seAnswerNg from '~/assets/se/answer-ng.mp3'
 import seFinish from '~/assets/se/finish.mp3'
 import seEnd from '~/assets/se/end.mp3'
 
-const ANSWER_TIME_DEFAULT = 10000  // endress : 1問あたりの回答時間
+const ANSWER_TIME_DEFAULT = 20000  // endress : 1問あたりの回答時間
 const ANSWER_TIME_LEVELUP_COUNT = 5 // レベルアップ間隔
 const ANSWER_TIME_LEVELUP_TIME = 3000
-const ANSWER_TIME_MIN = 1200
+const ANSWER_TIME_MIN = 3200
 
 function time2(v: number) {
   return v.toFixed(2)
