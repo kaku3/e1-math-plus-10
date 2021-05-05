@@ -59,6 +59,7 @@ components/
   DailySummary.vue
 models/
   Score.ts
+  Statistic.ts
 store/
   ScoreStore.ts
 utils/

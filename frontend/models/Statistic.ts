@@ -19,6 +19,12 @@ const ascs = [
 
   'mul99Sprint-10',
   'mul99Sprint-30',
+
+  'mul1xSprint-10',
+  'mul1xSprint-30',
+
+  'mul9xSprint-10',
+  'mul9xSprint-30',
 ]
 
 export class StatisticUtil {
