@@ -1,26 +1,35 @@
-小学校1年生向け足し算練習 web アプリです。
+小学校1年生～向け足し算練習 web アプリです。
 
 [小１からのさんすうゲーム](https://kaku3.github.io/e1-math-plus-10/frontend/dist/)
 
-## モード
+## さんすう
 
 ### けいさん
 - 1年生
-  - たして１０
-  - ヒトケタス
-  - ひきざん２０
+  - [たして１０](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-plus-10)
+    たして10になるすうじをこたえる
+  - [ヒトケタス](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-plus-single)
+    ひとけたのすうじを足してこたえにする
+  - [ひきざん２０](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-minus-20)
+    20までのすうじのひきざん
 - 2年生
-  - かけざん９９
+  - [かけざん９９](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-mul-99)
+    かけざん９ｘ９
 - 3年生
-  - かけざん１ｘ
-  - かけざん９ｘ
+  - [かけざん１ｘ](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-mul-1x)
+    １１－１９のすうじのかけざん
+  - [かけざん９ｘ](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-mul-9x)
+    ９１－９９のすうじのかけざん
 
 ### おまけ
-- ピクセル９９
-- めいろ２０
-- JUMP MAN
+- [ピクセル１６](https://kaku3.github.io/e1-math-plus-10/frontend/dist/pixel16)
+  ドット絵らくがき帳
+- [めいろ２０](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-maze-20)
+  20階めいろの塔（'80 GAMES）
+- [JUMP MAN](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-jump-man)
+  シングルタップジャンプゲーム（'80 GAMES）
 
-## けいさんモード追加
+## けいさんモード追加方法（メモ）
 ```
 // add
 components/
