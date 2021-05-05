@@ -9,7 +9,7 @@ description: ９１－９９のかけざん
 
 ポイントは **『100から引く』** ことですが、考え方は中学校３年生で習う因数分解の応用なので少しむずかしいです。
 
-<img src="/e1-math-plus-10/frontend/dist/text-book/e3/mul9x-00.drawio.png" style="max-width: 480px; width: 100%;" />
+<img src="/e1-math-plus-10/frontend/dist/text-book/e3/mul9x-00.drawio.png" style="max-width: 100%;" />
 
 ```
 (100 - x) * (100 - y)

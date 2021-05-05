@@ -7,7 +7,7 @@ description: １０－１９のかけざん
 
 10 - 19 の数字同士のかけざんは、図で考えるとざっくり暗算できるようになります。
 
-<img src="/e1-math-plus-10/frontend/dist/text-book/e3/mul1x-00.drawio.png" style="max-width: 480px; width: 100%;" />
+<img src="/e1-math-plus-10/frontend/dist/text-book/e3/mul1x-00.drawio.png" style="max-width: 100%;" />
 
 おとうさん、おかあさんに実例を見て説明してもらったり、とりあえず覚えて試してみるとよいかもしれません。
 
