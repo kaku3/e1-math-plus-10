@@ -145,6 +145,11 @@ export default Vue.extend({
         case 'mul1xEndress':
           this.$router.replace({ path: `/game-mul-1x/${mode}` })
           break
+        case 'mul9xSprint-10':
+        case 'mul9xSprint-30':
+        case 'mul9xEndress':
+          this.$router.replace({ path: `/game-mul-9x/${mode}` })
+          break
       }
     }
   },
@@ -179,6 +184,12 @@ export default Vue.extend({
           hiscores.push(this.getDailyHiscore('mul1xSprint-10', asc))
           hiscores.push(this.getDailyHiscore('mul1xSprint-30', asc))
           hiscores.push(this.getDailyHiscore('mul1xEndress', desc))
+          break
+
+        case 'mul-9x':
+          hiscores.push(this.getDailyHiscore('mul9xSprint-10', asc))
+          hiscores.push(this.getDailyHiscore('mul9xSprint-30', asc))
+          hiscores.push(this.getDailyHiscore('mul9xEndress', desc))
           break
       }
       return hiscores

@@ -2,7 +2,8 @@ export type GameMode =
   'modeSprint-10' | 'modeSprint-30' | 'modeEndress' | 'modeSingle' |
   'minusSprint-10' | 'minusSprint-30' | 'minusEndress' |
   'mul99Sprint-10' | 'mul99Sprint-30' | 'mul99Endress' |
-  'mul1xSprint-10' | 'mul1xSprint-30' | 'mul1xEndress'
+  'mul1xSprint-10' | 'mul1xSprint-30' | 'mul1xEndress' |
+  'mul9xSprint-10' | 'mul9xSprint-30' | 'mul9xEndress'
 
 export const GAME_MODES:GameMode[] = [
   'modeSprint-10',
@@ -21,7 +22,11 @@ export const GAME_MODES:GameMode[] = [
 
   'mul1xSprint-10',
   'mul1xSprint-30',
-  'mul1xEndress'
+  'mul1xEndress',
+
+  'mul9xSprint-10',
+  'mul9xSprint-30',
+  'mul9xEndress',
 ]
 
 export interface ScoreEntity {

@@ -42,6 +42,12 @@
         <DailySummary game="mul-1x" />
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12" md="6" lg="4">
+        <BannerMul9x />
+        <DailySummary game="mul-9x" />
+      </v-col>
+    </v-row>
 
     <v-row>
       <v-col cols="12">

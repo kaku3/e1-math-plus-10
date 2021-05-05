@@ -83,6 +83,18 @@ export default function nav() {
               }
             }
           },
+          {
+            section: '',
+            icon: 'mdi-playlist-edit',
+            title: 'かけざん９ｘ',
+            to: {
+              name: 'game-mul-9x',
+              params: {
+                mode: 'mul9xSprint',
+                count: 10
+              }
+            }
+          },
         ]
       },
       {

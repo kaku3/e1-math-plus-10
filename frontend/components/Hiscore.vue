@@ -51,7 +51,7 @@ import { getModule } from 'vuex-module-decorators'
 import ScoreStore from '~/store/ScoreStore'
 import { ScoreEntity, NullScoreEntity, GameMode } from '~/models/Score'
 
-import { displayModeName } from '~/utils/filters'
+import { displayModeName, displayModeScore, toGameMode } from '~/utils/filters'
 
 type RankingEntry = {
   no: number
@@ -85,15 +85,7 @@ export default Vue.extend({
       return (this.lastScore.name === o.name && this.lastScore.score === o.score && this.lastScore.createdAt === o.createdAt)
     },
     displayScore(score: number) {
-      if(this.gameMode !== 'modeEndress'
-      && this.gameMode !== 'modeSingle'
-      && this.gameMode !== 'minusEndress'
-      && this.gameMode !== 'mul99Endress'
-      && this.gameMode !== 'mul1xEndress'
-      ) {
-        return score.toFixed(2)
-      }
-      return score
+      return displayModeScore(this.gameMode, score)
     }
   },
   computed: {
@@ -182,16 +174,7 @@ export default Vue.extend({
       return NullScoreEntity(this.displayGameMode)
     },
     displayGameMode(): GameMode {
-      if( this.gameMode == 'modeEndress'
-      ||  this.gameMode == 'modeSingle'
-      ||  this.gameMode == 'minusEndress'
-      ||  this.gameMode == 'mul99Endress'
-      ||  this.gameMode == 'mul1xEndress'
-      ) {
-        return this.gameMode
-      } else {
-        return `${this.gameMode}-${this.questionCount}` as GameMode
-      }
+      return toGameMode(this.gameMode, this.questionCount)
     },
   },
   filters: {
