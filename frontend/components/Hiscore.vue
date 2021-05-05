@@ -138,6 +138,16 @@ export default Vue.extend({
         case 'mul1xEndress':
           es = this.scoreStore.mul1xEndressHiscores
           break
+
+        case 'mul9xSprint-10':
+          es = this.scoreStore.mul9xSprint10Hiscores
+          break
+        case 'mul9xSprint-30':
+          es = this.scoreStore.mul9xSprint30Hiscores
+          break
+        case 'mul9xEndress':
+          es = this.scoreStore.mul9xEndressHiscores
+          break
       }
       if(!es) {
         return []
