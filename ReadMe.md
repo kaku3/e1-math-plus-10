@@ -1,8 +1,10 @@
-小学校1年生～向け足し算練習 web アプリです。
+<img src="https://raw.githubusercontent.com/kaku3/e1-math-plus-10/master/frontend/static/icon-1280x640.png" />
 
 [小１からのさんすうゲーム](https://kaku3.github.io/e1-math-plus-10/frontend/dist/)
 
-## さんすう
+小学校1年生～向け足し算練習 web アプリです。
+
+## コンテンツ
 
 ### けいさん
 - 1年生
@@ -29,7 +31,9 @@
 - [JUMP MAN](https://kaku3.github.io/e1-math-plus-10/frontend/dist/game-jump-man)
   シングルタップジャンプゲーム（'80 GAMES）
 
-## けいさんモード追加方法（メモ）
+## 開発者向け
+
+### けいさんモード追加方法（メモ）
 ```
 // add
 components/
@@ -64,7 +68,8 @@ page/
   index.vue
 ```
 
-## ご注意
+### ご注意
+
 開発用設定は公開していないので、env.production.js をコピーして適宜書き換えてご利用ください。
 ```
 frontend/
