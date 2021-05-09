@@ -9,6 +9,7 @@
       <v-col cols="12">
         <Calendar />
       </v-col>
+      <!-- <BannerGameTower /> -->
     </v-row>
 
     <v-subheader>１ねんせい</v-subheader>
@@ -41,8 +42,6 @@
         <BannerMul1x />
         <DailySummary game="mul-1x" />
       </v-col>
-    </v-row>
-    <v-row>
       <v-col cols="12" md="6" lg="4">
         <BannerMul9x />
         <DailySummary game="mul-9x" />

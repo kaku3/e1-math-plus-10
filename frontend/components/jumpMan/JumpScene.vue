@@ -269,7 +269,7 @@ export default Vue.extend({
 
       let y = 0
       for(let n = 0; y < stage.height(); y += ch + random.nextInt(0, 4) * ch / 4, n++) {
-
+        console.log({ n, y })
         while(true) {
           const step = steps[n % steps.length]  // 足場の個数
 
@@ -317,6 +317,8 @@ export default Vue.extend({
               mapGroup.add(r)
             })
             break
+          } else {
+            console.warn('failed to set')
           }
         }
       }
