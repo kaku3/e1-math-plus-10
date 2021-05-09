@@ -287,7 +287,7 @@ export default Vue.extend({
             const rr = random.nextFloat1()
             let w = 0
             if(rr < 0.6) {
-              w = random.nextInt(3, wMax)
+              w = wMax > 3 ? random.nextInt(3, wMax) : wMax
             }
             if(w > 0) {
               set++
