@@ -318,7 +318,7 @@ export default Vue.extend({
             })
             break
           } else {
-            console.warn('failed to set')
+            console.warn('failed to set', { step, wMax })
           }
         }
       }
