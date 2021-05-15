@@ -8,7 +8,8 @@ import { dailyStarsOf, nextCondition } from '~/utils/star'
 
 import seGetStar from '~/assets/se/get-star.mp3'
 
-const CONDITIONS = [ 1, 4, 10, 20, 40, 60 ]
+import { TowerSaveUtil } from '~/models/TowerSave'
+
 
 export default Vue.extend({
   data() {
@@ -38,6 +39,8 @@ export default Vue.extend({
             const se = new Audio(seGetStar)
             se.play()
           }
+
+          // TowerSaveUtil.addStar()
         } else {
           //@ts-ignore
           this.$refs['jumpCollectionGetScreen'].init(this.gameMode_)

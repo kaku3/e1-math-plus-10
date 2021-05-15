@@ -5,6 +5,7 @@
   background-image: url(~assets/tower/assets.png);
   width: 16px;
   height: 16px;
+  filter: brightness(250%) hue-rotate(240deg);
 
   &.wt0 { background-position: 0 0; }
   &.wt1 { background-position: -16px 0; }
@@ -47,6 +48,8 @@
   background-image: url(~assets/tower/assets.png);
   width: 16px;
   height: 16px;
+
+  filter: brightness(150%);
 
   @for $i from 0 through 17 {
     $x: $i % 6;

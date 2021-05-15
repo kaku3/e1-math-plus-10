@@ -9,7 +9,7 @@
       <v-col cols="12">
         <Calendar />
       </v-col>
-      <!-- <BannerGameTower /> -->
+      <!-- <BannerGameTower class="my-4" /> -->
     </v-row>
 
     <v-subheader>１ねんせい</v-subheader>

@@ -38,18 +38,6 @@
         <div class="bg f ru"></div>
       </div>
       <div class="bg-row">
-        <div class="bg f l"></div>
-        <div class="bg f c0"></div>
-        <div class="bg f c1"></div>
-        <div class="bg f c0"></div>
-        <div class="bg f c1"></div>
-        <div class="bg f c0"></div>
-        <div class="bg f c1"></div>
-        <div class="bg f c0"></div>
-        <div class="bg f c1"></div>
-        <div class="bg f r"></div>
-      </div>
-      <div class="bg-row">
         <div class="bg f ld"></div>
         <div class="bg f d0"></div>
         <div class="bg f d1"></div>
@@ -65,7 +53,7 @@
     </div>
 
     <div class="characters">
-      <v-row>
+      <div>
         <div class="e e9"></div>
         <div class="e e10"></div>
         <div class="e e11"></div>
@@ -75,12 +63,12 @@
         <div class="e e15"></div>
         <div class="e e16"></div>
         <div class="e e17"></div>
-      </v-row>
-      <v-row>
+      </div>
+      <div>
         <div class="e b b0"></div>
         <div class="e b b1"></div>
         <div class="e b b2"></div>
-      </v-row>
+      </div>
     </div>
 
   </div>
@@ -95,7 +83,7 @@
 .background {
   font-size: 0;
   width: 320px;
-  height: 160px;
+  height: 128px;
   transform-origin: 0 0;
   transform: scale(2);
 
@@ -106,8 +94,12 @@
 }
 .characters {
   position: absolute;
-  top: 0;
+  top: 16px;
   left: 0;
+
+  transform-origin: 0 0;
+  transform: scale(2);
+
 }
 </style>
 <script lang="ts">

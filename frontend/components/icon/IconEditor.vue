@@ -3,11 +3,45 @@
     <v-card-actions>
       <v-btn icon><v-icon large @click="onSave">mdi-content-save</v-icon></v-btn>
       <v-spacer></v-spacer>
-      <v-btn-toggle v-model="tool">
-        <v-btn icon><v-icon large>mdi-square-rounded</v-icon></v-btn>
-        <v-btn icon><v-icon large>mdi-square-medium</v-icon></v-btn>
-        <v-btn icon><v-icon large>mdi-border-horizontal</v-icon></v-btn>
-        <v-btn icon><v-icon large>mdi-border-vertical</v-icon></v-btn>
+      <v-btn-toggle v-model="tool" mandatory>
+        <v-menu
+          offset-y
+          :close-on-content-click="false"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon large>mdi-cursor-move</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="moveY(-1)"><v-icon>mdi-arrow-up</v-icon></v-list-item>
+            <v-list-item @click="moveY(1)"><v-icon>mdi-arrow-down</v-icon></v-list-item>
+            <v-list-item @click="moveX(-1)"><v-icon>mdi-arrow-left</v-icon></v-list-item>
+            <v-list-item @click="moveX(1)"><v-icon>mdi-arrow-right</v-icon></v-list-item>
+          </v-list>
+        </v-menu>
+        <v-btn icon><v-icon large>mdi-bucket</v-icon></v-btn>
+        <v-menu
+          offset-y
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon large>mdi-pencil-plus</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="setPenSize(1)">1</v-list-item>
+            <v-list-item @click="setPenSize(2)">2</v-list-item>
+            <v-list-item @click="setPenSize(3)">3</v-list-item>
+            <v-list-item @click="setPenSize(4)">4</v-list-item>
+          </v-list>
+        </v-menu>
         <v-btn icon><v-icon large>mdi-pencil</v-icon></v-btn>
       </v-btn-toggle>
     </v-card-actions>
@@ -159,7 +193,8 @@ export default Vue.extend({
       cs: [] as Object[],
       ca: 0,
       colorEdit: false,
-      tool: 4,
+      tool: 3,
+      penSize: 1,
       saved: false
     }
   },
@@ -190,52 +225,78 @@ export default Vue.extend({
       this.ca = c
     },
     tapPixel(x:number, y:number) {
+      console.log({ x, y })
       switch(this.tool) {
-      case 0:
-        for(let yy = y - 4; yy < y + 4; yy++) {
-          let _y = Math.max(0, yy)
-          _y = Math.min(_y, 15)
-          for(let xx = x - 4; xx < x + 4; xx++) {
-            let _x = Math.max(0, xx)
-            _x = Math.min(_x, 15)
-            this.setPixel(_x, _y)
-          }
-        }
-        break
       case 1:
-        for(let yy = y - 2; yy < y + 2; yy++) {
-          let _y = Math.max(0, yy)
-          _y = Math.min(_y, 15)
-          for(let xx = x - 2; xx < x + 2; xx++) {
-            let _x = Math.max(0, xx)
-            _x = Math.min(_x, 15)
-            this.setPixel(_x, _y)
-          }
-        }
-        break
-      case 2:
-        for(let xx = x - 2; xx < x + 2; xx++) {
-          let _x = Math.max(0, xx)
-          _x = Math.min(_x, 15)
-          this.setPixel(_x, y)
-        }
+        //@ts-ignore
+        this.fill(this.ps[y][x], x,y)
         break
       case 3:
-        for(let yy = y - 2; yy < y + 2; yy++) {
-          let _y = Math.max(0, yy)
-          _y = Math.min(_y, 15)
-          this.setPixel(x, _y)
+        if(this.penSize === 1) {
+          this.setPixel(x, y)
+        } else {
+          this.setPixels(x, y)
         }
-        break
-      case 4:
-        this.setPixel(x, y)
         break
       }
 
       this.cs.splice(this.ca, 1, this.cs[this.ca])
     },
+    setPixels(x:number, y:number) {
+      // const h = Math.floor(this.penSize / 2)
+      // const h2 = this.penSize - h
+      const h = 0
+      const h2 = this.penSize
+
+      for(let yy = Math.max(0, y - h); yy < Math.min(y + h2, 16); yy++) {
+        for(let xx = Math.max(0, x - h); xx < Math.min(x + h2, 16); xx++) {
+          this.setPixel(xx, yy)
+        }
+      }
+    },
+
     setPixel(x:number, y:number) {
       this.ps[y].splice(x, 1, this.ca)
+    },
+    fill(op: number, x: number, y:number) {
+      if(this.ps[y][x] === op) {
+        this.ps[y][x] = this.ca
+        if(y > 0) this.fill(op, x, y - 1)
+        if(y < 15) this.fill(op, x, y + 1)
+        if(x > 0) this.fill(op, x - 1, y)
+        if(x < 15) this.fill(op, x + 1, y)
+      }
+    },
+    moveX(d:number) {
+      const ps:number[][] = Array()
+      if(d < 0) {
+        for(let y = 0; y < 16; y++) {
+          const p = this.ps[y][0]
+          //@ts-ignore
+          ps.push([...this.ps[y].slice(1), p])
+        }
+      } else {
+        for(let y = 0; y < 16; y++) {
+          const p = this.ps[y][15]
+          //@ts-ignore
+          ps.push([p, ...this.ps[y].slice(0, 15) ])
+        }
+      }
+      this.ps = ps
+      console.log(ps)
+    },
+    moveY(d:number) {
+      const ps:number[][] = Array()
+      for(let y = 0; y < 16; y++) {
+        //@ts-ignore
+        ps.push(this.ps[(y - d + 15) % 15])
+      }
+      this.ps = ps
+    },
+    setPenSize(size:number) {
+      this.penSize = size
+      this.tool = 3
+      console.log({ size })
     },
 
     onSave() {
