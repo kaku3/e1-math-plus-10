@@ -1,17 +1,26 @@
 <template>
   <div class="banner-game-tower">
     <div class="game-scene" @click="onTap">
-      <TowerGameScene />
+      <TowerGameScene ref="towerGameScene"
+      />
       <div class="console floor">FLOOR {{ floor }}</div>
       <div class="console star">★ {{ star }}</div>
       <div class="start" v-if="isBanner">Tap to Play</div>
     </div>
     <v-slide-y-reverse-transition>
-      <TowerGameConsole v-if="isGame" :save="save" />
+      <TowerGameConsole v-if="isGame" ref="towerGameConsole"
+        @start="startGame"
+        @buy="buy"
+        @up="up"
+      />
     </v-slide-y-reverse-transition>
   </div>
 </template>
 <style lang="scss" scoped>
+.banner-game-tower {
+  width: 320px;
+}
+
 .game-scene {
   position: relative;
 
@@ -61,8 +70,9 @@ import Vue from 'vue'
 
 import TowerGameScene from '~/components/tower/TowerGameScene.vue'
 import TowerGameConsole from '~/components/tower/TowerGameConsole.vue'
+import { CharacterController } from '~/components/tower/TowerCharacter'
 
-import { TowerSaveUtil } from '~/models/TowerSave'
+import { TowerUtil, TowerSave, TowerCharacter } from '~/models/TowerSave'
 
 
 export default Vue.extend({
@@ -73,28 +83,62 @@ export default Vue.extend({
   data() {
     return {
       mode: 'banner',
-      save: null
+      util: new TowerUtil(),
+      characterControllers: [] as CharacterController[]
     }
   },
   async mounted () {
-    const u = new TowerSaveUtil()
-    await u.loadData()
-
-    //@ts-ignore
-    this.save = await u.save
+    await this.util.loadData()
   },
   methods: {
     onTap() {
       this.mode = this.mode === 'banner' ? 'game' : 'banner'
+      if(this.mode === 'game') {
+        this.$nextTick(() => {
+          this.updateConsole()
+        })
+      }
+    },
+    async startGame() {
+      this.setupCharacterController()
+
+      // ★-1
+      //@ts-ignore
+      this.$refs['towerGameScene'].start(this.util.save, this.characterControllers)
+    },
+
+    async buy(c:TowerCharacter) {
+      await this.util.updateCharacter(c, c.characterPrice)
+      this.setupCharacterController()
+      this.updateConsole()
+    },
+    async up(c:TowerCharacter) {
+      await this.util.updateCharacter(c, c.levelPrice)
+      this.updateConsole()
+    },
+    updateConsole() {
+      //@ts-ignore
+      this.$refs['towerGameConsole'].update(this.util.save, this.characterControllers)
+    },
+
+    setupCharacterController() {
+      const characters = TowerUtil.getCharacters(this.util.save).filter(c => c.status.lv > 0)
+
+      this.characterControllers = characters.map(c => {
+        const controller = this.characterControllers.find(cc => cc.character.id == c.id)
+        return {
+          character: c,
+          creationTime: controller?.creationTime || 0,
+          displayCreationTime: controller?.displayCreationTime || 0
+        }
+      })
     }
   },
   computed: {
-    isBanner(): boolean {
-      return this.mode === 'banner'
+    save(): TowerSave {
+      return this.util?.save
     },
-    isGame(): boolean {
-      return this.mode === 'game'
-    },
+
     floor(): number {
       //@ts-ignore
       return this.save?.floor | 0
@@ -102,7 +146,14 @@ export default Vue.extend({
     star(): number {
       //@ts-ignore
       return this.save?.star | 0
-    }
+    },
+
+    isBanner(): boolean {
+      return this.mode === 'banner'
+    },
+    isGame(): boolean {
+      return this.mode === 'game'
+    },
   }
 })
 </script>

@@ -8,7 +8,7 @@ import { dailyStarsOf, nextCondition } from '~/utils/star'
 
 import seGetStar from '~/assets/se/get-star.mp3'
 
-import { TowerSaveUtil } from '~/models/TowerSave'
+import { TowerUtil } from '~/models/TowerSave'
 
 
 export default Vue.extend({
@@ -40,7 +40,7 @@ export default Vue.extend({
             se.play()
           }
 
-          // TowerSaveUtil.addStar()
+          // TowerUtil.addStar()
         } else {
           //@ts-ignore
           this.$refs['jumpCollectionGetScreen'].init(this.gameMode_)
