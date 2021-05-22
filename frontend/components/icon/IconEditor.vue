@@ -24,7 +24,8 @@
           </v-list>
         </v-menu>
         <v-btn icon><v-icon large>mdi-bucket</v-icon></v-btn>
-        <v-btn icon @click="initLineTool"><v-icon large>mdi-vector-line</v-icon></v-btn>
+        <v-btn icon @click="initRange"><v-icon large>mdi-rectangle</v-icon></v-btn>
+        <v-btn icon @click="initRange"><v-icon large>mdi-vector-line</v-icon></v-btn>
         <v-menu
           offset-y
         >
@@ -198,10 +199,10 @@ export default Vue.extend({
       ps: [] as Object[][],
       cs: [] as Object[],
       ca: 0,
-      linePositions: Array(2) as Position[],
-      currentLinePosition: 0,
+      range: Array(2) as Position[],
+      currentRangePosition: 0,
       colorEdit: false,
-      tool: 4,
+      tool: 5,
       penSize: 1,
       saved: false
     }
@@ -239,23 +240,41 @@ export default Vue.extend({
         //@ts-ignore
         this.fill(this.ps[y][x], x,y)
         break
+
       case 2:
-        this.linePositions[this.currentLinePosition++] = { x, y }
-        this.currentLinePosition %= 2
-        if(this.currentLinePosition == 0) {
-          console.log('test')
+        if(this.updateRange(x, y)) {
+          let { x:x0, y:y0 } = this.range[0]
+          let { x:x1, y:y1 } = this.range[1]
+          if(x0 > x1) {
+            x0 = this.range[1].x
+            x1 = this.range[0].x
+          }
+          if(y0 > y1) {
+            y0 = this.range[1].y
+            y1 = this.range[0].y
+          }
+          for(let yy = y0; yy <= y1; yy++) {
+            for(let xx = x0; xx <= x1; xx++) {
+              this.setPixel(xx, yy)
+            }
+          }
+        }
+        break
+
+      case 3:
+        if(this.updateRange(x, y)) {
           this.bresenham(
-            this.linePositions[0].x,
-            this.linePositions[0].y,
-            this.linePositions[1].x,
-            this.linePositions[1].y,
+            this.range[0].x,
+            this.range[0].y,
+            this.range[1].x,
+            this.range[1].y,
             (x: number, y: number) => {
               this.setPixel(x, y)
             }
           )
         }
         break
-      case 4:
+      case 5:
         if(this.penSize === 1) {
           this.setPixel(x, y)
         } else {
@@ -319,11 +338,16 @@ export default Vue.extend({
     },
     setPenSize(size:number) {
       this.penSize = size
-      this.tool = 4
+      this.tool = 5
       console.log({ size })
     },
-    initLineTool() {
-      this.currentLinePosition = 0
+    initRange() {
+      this.currentRangePosition = 0
+    },
+    updateRange(x:number, y:number):boolean {
+      this.range[this.currentRangePosition++] = { x, y }
+      this.currentRangePosition %= 2
+      return this.currentRangePosition == 0
     },
 
     bresenham(x0:number, y0:number, x1:number, y1:number, cb:any) {
