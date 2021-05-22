@@ -292,6 +292,32 @@ export class TowerEnemyUtil {
     this.enemies = this.initEnemies(floor)
   }
   initEnemies(floor:number):TowerEnemy[] {
+    const floorEnemies = [
+      { floor: 1, e: TOWER_ENEMIES.E0 },
+      { floor: 2, e: TOWER_ENEMIES.E1 },
+      { floor: 5, e: TOWER_ENEMIES.E2 },
+      { floor: 10, e: TOWER_ENEMIES.E3 },
+      { floor: 20, e: TOWER_ENEMIES.E4 },
+      { floor: 40, e: TOWER_ENEMIES.E5 },
+      { floor: 100, e: TOWER_ENEMIES.E6 },
+      { floor: 200, e: TOWER_ENEMIES.E7 },
+      { floor: 300, e: TOWER_ENEMIES.E8 },
+      { floor: 400, e: TOWER_ENEMIES.E9 },
+      { floor: 500, e: TOWER_ENEMIES.E10 },
+      { floor: 600, e: TOWER_ENEMIES.E11 },
+      { floor: 700, e: TOWER_ENEMIES.E12 },
+      { floor: 800, e: TOWER_ENEMIES.E13 },
+      { floor: 900, e: TOWER_ENEMIES.E14 },
+      { floor: 1000, e: TOWER_ENEMIES.E15 },
+      { floor: 2000, e: TOWER_ENEMIES.E16 },
+      { floor: 5000, e: TOWER_ENEMIES.E17 },
+    ]
+    const floorBosses = [
+      { floor: 10, e: TOWER_ENEMIES.E18 },
+      { floor: 50, e: TOWER_ENEMIES.E19 },
+      { floor: 100, e: TOWER_ENEMIES.E20 },
+    ]
+
     return []
   }
 }
