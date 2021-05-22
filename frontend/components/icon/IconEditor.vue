@@ -289,7 +289,7 @@ export default Vue.extend({
       const ps:number[][] = Array()
       for(let y = 0; y < 16; y++) {
         //@ts-ignore
-        ps.push(this.ps[(y - d + 15) % 15])
+        ps.push(this.ps[(y - d + 16) % 16])
       }
       this.ps = ps
     },
