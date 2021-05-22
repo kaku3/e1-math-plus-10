@@ -24,6 +24,7 @@
           </v-list>
         </v-menu>
         <v-btn icon><v-icon large>mdi-bucket</v-icon></v-btn>
+        <v-btn icon @click="initLineTool"><v-icon large>mdi-vector-line</v-icon></v-btn>
         <v-menu
           offset-y
         >
@@ -143,6 +144,11 @@
 <script lang="ts">
 import Vue from 'vue'
 
+type Position = {
+  x: number
+  y: number
+}
+
 export default Vue.extend({
   props: {
     icon: {
@@ -192,8 +198,10 @@ export default Vue.extend({
       ps: [] as Object[][],
       cs: [] as Object[],
       ca: 0,
+      linePositions: Array(2) as Position[],
+      currentLinePosition: 0,
       colorEdit: false,
-      tool: 3,
+      tool: 4,
       penSize: 1,
       saved: false
     }
@@ -231,7 +239,23 @@ export default Vue.extend({
         //@ts-ignore
         this.fill(this.ps[y][x], x,y)
         break
-      case 3:
+      case 2:
+        this.linePositions[this.currentLinePosition++] = { x, y }
+        this.currentLinePosition %= 2
+        if(this.currentLinePosition == 0) {
+          console.log('test')
+          this.bresenham(
+            this.linePositions[0].x,
+            this.linePositions[0].y,
+            this.linePositions[1].x,
+            this.linePositions[1].y,
+            (x: number, y: number) => {
+              this.setPixel(x, y)
+            }
+          )
+        }
+        break
+      case 4:
         if(this.penSize === 1) {
           this.setPixel(x, y)
         } else {
@@ -295,8 +319,27 @@ export default Vue.extend({
     },
     setPenSize(size:number) {
       this.penSize = size
-      this.tool = 3
+      this.tool = 4
       console.log({ size })
+    },
+    initLineTool() {
+      this.currentLinePosition = 0
+    },
+
+    bresenham(x0:number, y0:number, x1:number, y1:number, cb:any) {
+      const dx = Math.abs(x1 - x0);
+      const dy = Math.abs(y1 - y0);
+      const sx = (x0 < x1) ? 1 : -1;
+      const sy = (y0 < y1) ? 1 : -1;
+      let err = dx - dy;
+
+      while (true) {
+        cb(x0, y0);
+        if ((x0 == x1) && (y0 == y1)) {break}
+        const e2 = err << 1;
+        if (e2 > -dy) {err -= dy; x0  += sx}
+        if (e2 <  dx) {err += dx; y0  += sy}
+      }
     },
 
     onSave() {
